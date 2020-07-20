@@ -1,31 +1,31 @@
-import * as React from 'react';
+import React from 'react'
 import { SafeAreaView, StyleSheet, ScrollView, View, Image, StatusBar, Dimensions, Button } from 'react-native';
-import { IconButton } from 'react-native-paper';
 
-const App: () => React$Node = () => {
-
-  return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView>
-            <View style={styles.body}>
-              <View style={styles.topBar}>
-                <IconButton  icon='home'/>
-                <Image source={ require('../assets/sangria_logo.png')} style={styles.logo}/>
-                <IconButton icon="account"/>
-              </View>
-                <View>
+class Home extends React.Component {
+  
+  render(){
+    return (
+      <>
+        <StatusBar barStyle="dark-content" />
+        <SafeAreaView>
+          <ScrollView>
+              <View style={styles.body}>
+                <View style={styles.topBar}>
+                  <Image source={ require('../assets/sangria_logo.png')} style={styles.logo}/>
+                </View>
+                  <View>
                     <ScrollView horizontal={true}>
                       {/* map out InstaCards */}
                     </ScrollView>
-                </View>
-            </View>
-        </ScrollView>
-      </SafeAreaView>
-    </>
-  );
-};
+                  </View>
+              </View>
+          </ScrollView>
+        </SafeAreaView>
+      </>
+    );
+  };
+
+  }
 
 const screen = Dimensions.get('window')
 
@@ -44,4 +44,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default App;
+export default Home;
