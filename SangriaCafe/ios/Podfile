@@ -8,6 +8,8 @@ target 'SangriaCafe' do
 
   use_react_native!(:path => config["reactNativePath"])
 
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   target 'SangriaCafeTests' do
     inherit! :complete
     # Pods for testing
@@ -21,6 +23,11 @@ target 'SangriaCafe' do
   post_install do |installer|
     flipper_post_install(installer)
   end
+
+  pod 'FBSDKCoreKit'  
+  pod 'FBSDKLoginKit'
+  pod 'FBSDKShareKit'
+  pod 'FBSDKPlacesKit'
 end
 
 target 'SangriaCafe-tvOS' do
