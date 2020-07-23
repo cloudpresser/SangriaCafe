@@ -10,15 +10,20 @@ export default class Home extends React.Component {
           <View style={styles.topContainer}>
             <Image source={require('../assets/sangria_logo.png')} style={styles.logo}/>
           </View>
+
           <View style={styles.userBar}>
-          <View style={styles.userIcon}>
             <Text style={{fontSize:20}}>PardiHardi</Text>
+            <View style={styles.toroSection}>
+              <Text style={{fontSize:20}}>750 </Text>
+              <Image source={require('../assets/toro.png')} style={styles.toro}/>
+            </View>
           </View>
-          <View style={styles.userIcon}>
-            <Text style={{fontSize:20}}>750 </Text>
-            <Image source={require('../assets/toro.png')} style={styles.toro}/>
+
+          <View style={styles.storeHours}>
+            <Text>LUNCH 11AM - 4PM | DINNER 4PM - 11PM</Text>
+            <Text>Bar: 11AM - 2AM | HH: 3PM-7PM</Text>
           </View>
-          </View>
+
         </SafeAreaView>
       </>
     )}
@@ -29,7 +34,8 @@ const screen = Dimensions.get('window')
 const styles = StyleSheet.create({
     topContainer: {
       alignItems: 'center',
-      paddingTop: 2,
+      marginTop: 1,
+      marginBottom: 10
     },
     logo: {
         height: screen.width / 4,
@@ -40,15 +46,24 @@ const styles = StyleSheet.create({
       width: 28
     },
     userBar: {
+      backgroundColor: 'tomato',
       flexDirection: 'row',
-      justifyContent: 'space-between',
+      justifyContent: 'space-around',
+      alignItems: 'center',
+      margin: 5,
+      padding: 5,
+      borderRadius: 10
     },
-    userIcon: {
-      flexDirection: 'row',
-      padding: 10
+    toroSection: {
+      justifyContent: 'center', 
+      alignItems: 'center', 
+      flexDirection: 'row'
     },
     frontImage: {
       height: screen.height / 3,
       width: screen.width
+    },
+    storeHours: {
+      alignItems: 'center'
     }
 })
