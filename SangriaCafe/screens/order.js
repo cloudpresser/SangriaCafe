@@ -9,7 +9,7 @@ const Order = () => {
             <Image source={require('../assets/sangria_logo.png')} style={styles.logo}/>
         </View>
 
-        <ScrollView alwaysBounceVertical={true} showsVerticalScrollIndicator={false} contentInset={{top: 0, left: 0, bottom: 80, right: 0}} >
+        <ScrollView alwaysBounceVertical={true} showsVerticalScrollIndicator={false} contentInset={{top: 0, left: 0, bottom: 90, right: 0}} >
             <View style={styles.card}>
                 <Text style={{fontWeight: 'bold', fontSize: 20}}>APERITIVOS</Text>
                 <View style={styles.cardContent}>

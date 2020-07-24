@@ -1,6 +1,6 @@
 import React from 'react'
 import { SafeAreaView, StyleSheet, View, Image, Dimensions, Text } from 'react-native'
-
+import Card from '../components/instaCard'
 export default class Home extends React.Component {
 
   render(){
@@ -17,6 +17,10 @@ export default class Home extends React.Component {
               <Text style={{fontSize:20}}>750 </Text>
               <Image source={require('../assets/toro.png')} style={styles.toro}/>
             </View>
+          </View>
+
+          <View>
+            <Card />
           </View>
 
           <View style={styles.storeHours}>
@@ -50,7 +54,7 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       justifyContent: 'space-around',
       alignItems: 'center',
-      margin: 5,
+      margin: 10,
       padding: 5,
       borderRadius: 10
     },
