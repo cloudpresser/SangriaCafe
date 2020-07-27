@@ -79,7 +79,6 @@ const styles = StyleSheet.create({
     },
     map: {
       alignItems: 'center',
-      backgroundColor: 'tomato',
       padding: 10
     }
 })

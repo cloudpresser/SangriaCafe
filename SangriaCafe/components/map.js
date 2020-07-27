@@ -1,62 +1,97 @@
-import React, { useEffect, useState }from 'react'
+import React, { useEffect, useState } from 'react'
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
-import { StyleSheet, View, TextInput, ScrollView, Image, Linking } from 'react-native';
+import Geolocation from 'react-native-geolocation-service';
+import { StyleSheet, Linking, Dimensions, Text, View } from 'react-native';
 
 const Map = () => {
 
-    const [userCoord, setCoords] = useState([])
+    const [coords, setCoords] = useState([])
 
     useEffect( () => {
         findCoordinates()
-    }, [ userCoord ] )
+    }, [] )
 
     const getDirections = () => {
         Linking.openURL(`https://www.google.com/maps/search/?api=1&query=2085+Bartow+Ave+Bronx+NY`)
     }
 
-    findCoordinates = () => {
-        navigator.geolocation.getCurrentPosition(
+    findCoordinates = async () => {
+        await Geolocation.getCurrentPosition(
             position => {
-                setCoords( [
-                    parseFloat(JSON.stringify(position.coords.latitude)),
-                    parseFloat(JSON.stringify(position.coords.longitude))
-                ] )
+                setCoords([
+                    {
+                        latitude : parseFloat(JSON.stringify(position.coords.latitude)),
+                        longitude : parseFloat(JSON.stringify(position.coords.longitude))
+                    },
+                    {
+                        latitude : 40.869730, 
+                        longitude : -73.827740
+                    }
+
+                ])
             },
-                error => Alert.alert(error.message),   
+                error => alert(error.message),   
                 { enableHighAccuracy: false, timeout: 20000, maximumAge: 10000 } 
         )
     }
 
-    const coordinates = [
-        {latitude : 40.869730, longitude : -73.827740},
-        {latitude : userCoord[0], longitude : userCoord[1]}
-    ]
-
     const directionsFetch = () => {
-        fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${userCoord[0]}+${userCoord[1]}&destination=2085+Bartow+Ave+Bronx+NY&key=AIzaSyCWrz16D7gqe7fJNtT8iqs4sa3JdAcU5xA`)
+        fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${coords[0]}&destination=2085+Bartow+Ave+Bronx+NY&key=AIzaSyCWrz16D7gqe7fJNtT8iqs4sa3JdAcU5xA`)
             .then(resp => resp.json())
             .then(data => console.log(data))
     }
 
+    const { width, height } = Dimensions.get('window')
+    const ASPECT_RATIO = width / height
+    const LATITUDE_DELTA = 0.008
+    const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
+    let mapRef = null
+    let distance = null
+    let duration = null
+
     return (
-        <MapView initialRegion={{latitude : 40.869730, longitude : -73.827740, latitudeDelta: 0.006, longitudeDelta: 0.001 }} style={styles.mapStyle}>
-            <MapView.Marker coordinate={coordinates[0]}/>
-            <MapView.Marker coordinate={coordinates[1]}/>
-            <MapViewDirections
-                origin={coordinates[1]}
-                destination={coordinates[0]}
-                apikey={'AIzaSyCWrz16D7gqe7fJNtT8iqs4sa3JdAcU5xA'}
-            />
+        <>
+        <MapView 
+            initialRegion={{latitude : 40.869730, longitude : -73.827740, latitudeDelta: LATITUDE_DELTA, longitudeDelta: LONGITUDE_DELTA }} 
+            style={styles.mapStyle}
+            ref={(ref) => { mapRef = ref }}
+            onLayout = {() => mapRef.fitToCoordinates(coords, { edgePadding: { top: 50, right: 50, bottom: 50, left: 50 }, animated: true })}
+        >
+            <MapView.Marker coordinate={coords[0]} title={'You'}/>
+            <MapView.Marker coordinate={coords[1]} title={'Sangria Cafe'}/>
+
+                <MapViewDirections
+                    origin={coords[0]}
+                    destination={coords[1]}
+                    apikey={'AIzaSyCWrz16D7gqe7fJNtT8iqs4sa3JdAcU5xA'}
+                    mode={'DRIVING'}
+                    strokeWidth={4}
+                    strokeColor='blue'
+
+                    onReady={ result => {
+                        distance = result.distance
+                        duration = result.duration
+                      }}
+                />
         </MapView>
+        <View>
+            <Text>{distance} kms</Text>
+            <Text>{duration} mins</Text>
+        </View>
+        </>
     ) 
 }
 
 const styles = StyleSheet.create({
     mapStyle: {
-        width: 330,
+        borderRadius: 10,
+        width: 350,
         height: 300,
-        borderRadius: 25
+        flex: 1,
+        elevation: 10,
+        shadowOffset: {width: 20, height: 25},
+        shadowColor: 'black'
     }
 })
 

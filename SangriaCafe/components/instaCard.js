@@ -1,4 +1,4 @@
-import React, { useEffect, useState }from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, View, Text, Image, ScrollView } from 'react-native';
 // import Menu from '../components/menu'
 
