@@ -1,6 +1,6 @@
 import React, { useEffect, useState }from 'react'
-import { StyleSheet, View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
-
+import { StyleSheet, View, Text, Image, ScrollView } from 'react-native';
+import Menu from '../components/menu'
 
 export default Card = () => {
 
@@ -11,7 +11,7 @@ export default Card = () => {
     }, [] )
 
     const fetchFeed = async () => {
-        await fetch('https://graph.instagram.com/me/media?fields=id,caption,children,media_url&access_token=IGQVJXNVRIbDltaGU3ZAldSVHdnQ1lKcFBENDhxQ0N0RUg1LXZAQb1hPMEwzWkp3V0hrYjdXeGxkQUtKVEd2WGwwV3MxbXBoOFB1WXNEbVFqdzJrQzhtSUlXWXZAMS0hLQW9DU1FWLWRIMXlVa010SncxTwZDZD')
+        await fetch('https://graph.instagram.com/me/media?fields=username,id,caption,media_url&access_token=IGQVJXNVRIbDltaGU3ZAldSVHdnQ1lKcFBENDhxQ0N0RUg1LXZAQb1hPMEwzWkp3V0hrYjdXeGxkQUtKVEd2WGwwV3MxbXBoOFB1WXNEbVFqdzJrQzhtSUlXWXZAMS0hLQW9DU1FWLWRIMXlVa010SncxTwZDZD')
             .then(resp => resp.json())
             .then( data => setPosts(data.data) )
     }
@@ -22,14 +22,18 @@ export default Card = () => {
             {posts.map( post => {
                 return (
                     <View key={post.id} style={styles.cardContent}>
-                        <ScrollView showsVerticalScrollIndicator={false}>
-                        <View style={{margin: 10}}>
+                        <View style={styles.userNameBar}>
+                            <Image source={require('../assets/sangria_logo.png')} style={{height: 20, width: 20, borderRadius: 15, margin: 5}}/>
+                            <Text>sangriacafe</Text>
+                        </View>
+                        <View>
                             <Image source={{uri: post.media_url}} style={styles.picture} />
                         </View>
+                            <ScrollView showsVerticalScrollIndicator={false}>
                         <View style={{margin: 8}}>
                             <Text>{post.caption}</Text>
                         </View>
-                        </ScrollView>
+                            </ScrollView>
                     </View>
                 )
             })}
@@ -41,22 +45,25 @@ export default Card = () => {
 
 const styles = StyleSheet.create({
     cardContent: {
-        alignItems: 'center',
         borderRadius: 10,
         width: 330,
         height: 400,
         flex: 1,
         margin: 10,
-        padding: 5,
         elevation: 10,
         shadowOffset: {width: 20, height: 25},
         shadowColor: 'black',
         backgroundColor: 'white'
     },
     picture: {
-        width: 300,
-        height: 275,
+        width: 330,
+        height: 285,
         resizeMode: 'stretch',
-        borderRadius: 5
     },
+    userNameBar : {
+        justifyContent: 'flex-start',
+        flexDirection: 'row', 
+        alignItems: 'center', 
+        margin: 5
+    }
 })

@@ -1,6 +1,7 @@
 import React from 'react'
 import { SafeAreaView, StyleSheet, View, Image, Dimensions, Text } from 'react-native'
 import Card from '../components/instaCard'
+
 export default class Home extends React.Component {
 
   render(){
@@ -50,9 +51,8 @@ const styles = StyleSheet.create({
       width: 28
     },
     userBar: {
-      backgroundColor: 'tomato',
       flexDirection: 'row',
-      justifyContent: 'space-around',
+      justifyContent: 'space-between',
       alignItems: 'center',
       margin: 10,
       padding: 5,

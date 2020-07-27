@@ -1,7 +1,9 @@
 import React from 'react'
 import { SafeAreaView, StyleSheet, View, Image, Dimensions, Text, ScrollView, TouchableOpacity } from 'react-native'
+import Menu from '../components/menu'
 
 const Order = () => {
+
     return (
         <>
         <SafeAreaView>
