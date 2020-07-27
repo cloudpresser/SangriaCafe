@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     cardContent: {
         borderRadius: 10,
         width: 330,
-        height: 420,
+        height: 450,
         flex: 1,
         margin: 10,
         elevation: 10,

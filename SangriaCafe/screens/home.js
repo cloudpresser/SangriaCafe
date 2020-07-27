@@ -2,6 +2,7 @@ import React from 'react'
 import { SafeAreaView, StyleSheet, View, Image, Dimensions, Text, ScrollView } from 'react-native'
 import Card from '../components/instaCard'
 import Map from '../components/map'
+import ProfileCard from '../components/profileCard'
 
 export default class Home extends React.Component {
 
@@ -13,15 +14,11 @@ export default class Home extends React.Component {
             <Image source={require('../assets/sangria_logo.png')} style={styles.logo}/>
           </View>
 
-          <View style={styles.userBar}>
-            <Text style={{fontSize:20}}>PardiHardi</Text>
-            <View style={styles.toroSection}>
-              <Text style={{fontSize:20}}>750 </Text>
-              <Image source={require('../assets/toro.png')} style={styles.toro}/>
-            </View>
+        <ScrollView alwaysBounceVertical={true} showsVerticalScrollIndicator={false} contentInset={{top: 0, left: 0, bottom: 180, right: 0}}>
+          <View>
+            <ProfileCard />
           </View>
 
-        <ScrollView alwaysBounceVertical={true} showsVerticalScrollIndicator={false} contentInset={{top: 0, left: 0, bottom: 180, right: 0}}>
           <View>
             <Card />
           </View>

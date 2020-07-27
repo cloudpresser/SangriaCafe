@@ -76,8 +76,8 @@ const Map = () => {
                 />
         </MapView>
         <View>
-            <Text>{distance} kms</Text>
-            <Text>{duration} mins</Text>
+            {/* <Text>{distance} kms</Text>
+            <Text>{duration} mins</Text> */}
         </View>
         </>
     ) 
