@@ -1,6 +1,6 @@
 import React, { useEffect, useState }from 'react'
 import { StyleSheet, View, Text, Image, ScrollView } from 'react-native';
-import Menu from '../components/menu'
+// import Menu from '../components/menu'
 
 export default Card = () => {
 
@@ -28,12 +28,13 @@ export default Card = () => {
                         </View>
                         <View>
                             <Image source={{uri: post.media_url}} style={styles.picture} />
+                            <Image source={require('../assets/grambottom.png')} style={{height: 22, width: 330}} />
                         </View>
-                            <ScrollView showsVerticalScrollIndicator={false}>
-                        <View style={{margin: 8}}>
-                            <Text>{post.caption}</Text>
-                        </View>
-                            </ScrollView>
+                        <ScrollView showsVerticalScrollIndicator={false}>
+                            <View style={{margin: 8}}>
+                                <Text>{post.caption}</Text>
+                            </View>
+                        </ScrollView>
                     </View>
                 )
             })}
@@ -47,7 +48,7 @@ const styles = StyleSheet.create({
     cardContent: {
         borderRadius: 10,
         width: 330,
-        height: 400,
+        height: 420,
         flex: 1,
         margin: 10,
         elevation: 10,
@@ -57,7 +58,7 @@ const styles = StyleSheet.create({
     },
     picture: {
         width: 330,
-        height: 285,
+        height: 300,
         resizeMode: 'stretch',
     },
     userNameBar : {

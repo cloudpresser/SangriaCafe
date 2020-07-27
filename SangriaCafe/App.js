@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from './screens/home'
 import Order from './screens/order'
+import Cart from './screens/cart'
 
 function HomeScreen() {
   return (
@@ -19,9 +20,7 @@ function OrderScreen() {
 
 function CartScreen() {
   return(
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Cart!</Text>
-    </View>
+    <Cart />
   )
 }
 
