@@ -11,8 +11,8 @@ export default ProfileCard = () => {
                 </View>
                 <View>
                     <View style={styles.detailSection}>
-                        <Text style={{fontSize:20}}>Matador</Text>
-                        <Text>Toros Redeemed: 425</Text>
+                        <Text style={{fontSize:20}}>Matadores</Text>
+                        <Text>Toros Redeemed: 10800</Text>
                         <Text>Last Order: Yesterday</Text>
                     </View>
                     <View style={styles.toroSection}>

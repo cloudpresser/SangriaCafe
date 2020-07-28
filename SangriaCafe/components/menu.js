@@ -1,5 +1,5 @@
-const Menu = [
-    {   meal : 'APERITIVOS', 
+const Menu = {
+    'APERITIVOS' : {
         items : [
         {   name : 'CHICHARRON DE POLLO',
             details : {
@@ -82,7 +82,7 @@ const Menu = [
             }
         }]
     },
-    {   meal : 'PLATOS FUERTOS',
+    'PLATOS FUERTOS' : {
         items : [
         {   name : 'COSTILLA DE RES',
             details : {
@@ -168,13 +168,13 @@ const Menu = [
             details : {
                 description : 'sweet plantain - gaucho fries - tostones - yucca fries - mixed vegetables - yucca mash - congris rice - rice & beans',
                 price : 5,
-                toros : 3
-,
-image : ''            }
+                toros : 3,
+                image : ''            
+            }
         }
         ]
     },
-    {   meal : 'ADASO',
+    'ADASO' : {
         items : [
         {   name : 'CHURRASCO',
             details : {
@@ -194,7 +194,7 @@ image : ''            }
         }
         ]
     },
-    {   meal : 'PAELLA & ARROCES',
+    'PAELLA & ARROCES' : {
         items : [
         {   name : 'PAELLA SANGRIA',
             details : {
@@ -222,7 +222,7 @@ image : ''            }
         }
         ]
     },
-    {   meal : 'SANDWICHES',
+    'SANDWICHES' : {
         items : [
         {   name : 'POLO',
             details : {
@@ -250,7 +250,7 @@ image : ''            }
         }
         ]
     },
-    {   meal : 'ENSALADAS',
+    'ENSALADAS' : {
         items : [
         {   name : 'CHOPPED',
             details : {
@@ -286,6 +286,6 @@ image : ''            }
         }
         ]
     }
-]
+}
 
 export default Menu

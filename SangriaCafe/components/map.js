@@ -67,7 +67,7 @@ const Map = () => {
                     apikey={'AIzaSyCWrz16D7gqe7fJNtT8iqs4sa3JdAcU5xA'}
                     mode={'DRIVING'}
                     strokeWidth={4}
-                    strokeColor='blue'
+                    strokeColor='cornflowerblue'
 
                     onReady={ result => {
                         distance = result.distance
@@ -86,7 +86,7 @@ const Map = () => {
 const styles = StyleSheet.create({
     mapStyle: {
         borderRadius: 10,
-        width: 350,
+        width: '100%',
         height: 300,
         flex: 1,
         elevation: 10,

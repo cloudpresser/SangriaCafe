@@ -14,7 +14,7 @@ export default class Home extends React.Component {
             <Image source={require('../assets/sangria_logo.png')} style={styles.logo}/>
           </View>
 
-        <ScrollView alwaysBounceVertical={true} showsVerticalScrollIndicator={false} contentInset={{top: 0, left: 0, bottom: 180, right: 0}}>
+        <ScrollView alwaysBounceVertical={true} showsVerticalScrollIndicator={false} contentInset={{top: 0, left: 0, bottom: 110, right: 0}}>
           <View>
             <ProfileCard />
           </View>
@@ -28,8 +28,8 @@ export default class Home extends React.Component {
           </View>
 
           <View style={styles.storeHours}>
-            <Text>LUNCH 11AM - 4PM | DINNER 4PM - 11PM</Text>
-            <Text>Bar: 11AM - 2AM | HH: 3PM-7PM</Text>
+            <Text>LUNCH 12PM - 4PM | DINNER 4PM - 11PM</Text>
+            <Text>Bar: 12PM - 2AM | HH: 3PM-7PM</Text>
           </View>
         </ScrollView>
         </SafeAreaView>
