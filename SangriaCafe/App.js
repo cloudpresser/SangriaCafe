@@ -6,6 +6,8 @@ import Home from './screens/home'
 import Order from './screens/order'
 import Cart from './screens/cart'
 
+const itemCart = {}
+
 function HomeScreen() {
   return (
     <Home />
@@ -14,13 +16,13 @@ function HomeScreen() {
 
 function OrderScreen() {
   return (
-    <Order />
+    <Order itemCart={itemCart}/>
   );
 }
 
 function CartScreen() {
   return(
-    <Cart />
+    <Cart itemCart={itemCart}/>
   )
 }
 
