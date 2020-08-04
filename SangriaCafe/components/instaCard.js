@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, View, Text, Image, ScrollView } from 'react-native';
-// import Menu from '../components/menu'
 
 export default Card = () => {
 
@@ -19,7 +18,7 @@ export default Card = () => {
     return (
         <>
         <ScrollView showsHorizontalScrollIndicator={false} centerContent={true} horizontal={true} contentInset={{top: 0, left: 0, bottom: 90, right: 0}}>
-            {posts.map( post => {
+            {posts && posts.map( post => {
                 return (
                     <View key={post.id} style={styles.cardContent}>
                         <View style={styles.userNameBar}>

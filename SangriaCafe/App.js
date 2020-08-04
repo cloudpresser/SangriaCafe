@@ -6,7 +6,7 @@ import Home from './screens/home'
 import Order from './screens/order'
 import Cart from './screens/cart'
 
-const itemCart = {}
+const itemCart = []
 
 function HomeScreen() {
   return (

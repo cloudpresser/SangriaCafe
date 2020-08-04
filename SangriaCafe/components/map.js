@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import Geolocation from 'react-native-geolocation-service';
-import { StyleSheet, Linking, Dimensions, Text, View } from 'react-native';
+import { StyleSheet, Linking, Dimensions, View, Text } from 'react-native';
 
 const Map = () => {
 
@@ -47,8 +47,6 @@ const Map = () => {
     const LATITUDE_DELTA = 0.008
     const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
     let mapRef = null
-    let distance = null
-    let duration = null
 
     return (
         <>
@@ -58,27 +56,22 @@ const Map = () => {
             ref={(ref) => { mapRef = ref }}
             onLayout = {() => mapRef.fitToCoordinates(coords, { edgePadding: { top: 50, right: 50, bottom: 50, left: 50 }, animated: true })}
         >
-            <MapView.Marker coordinate={coords[0]} title={'You'}/>
-            <MapView.Marker coordinate={coords[1]} title={'Sangria Cafe'}/>
+            <MapView.Marker coordinate={coords && coords[0]} title={'You'}/>
+            <MapView.Marker coordinate={coords && coords[1]} title={'Sangria Cafe'}/>
 
                 <MapViewDirections
                     origin={coords[0]}
                     destination={coords[1]}
                     apikey={'AIzaSyCWrz16D7gqe7fJNtT8iqs4sa3JdAcU5xA'}
                     mode={'DRIVING'}
-                    strokeWidth={4}
+                    strokeWidth={5}
                     strokeColor='cornflowerblue'
 
                     onReady={ result => {
-                        distance = result.distance
-                        duration = result.duration
+                        console.log(result.distance + 'kms', result.duration + 'mins')
                       }}
                 />
         </MapView>
-        <View>
-            {/* <Text>{distance} kms</Text>
-            <Text>{duration} mins</Text> */}
-        </View>
         </>
     ) 
 }

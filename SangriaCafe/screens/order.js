@@ -1,44 +1,24 @@
 import React, { useState } from 'react'
 import { Button, Modal, SafeAreaView, StyleSheet, View, Image, Dimensions, Text, ScrollView, TouchableOpacity, TextInput } from 'react-native'
 import Menu from '../components/menu'
+import ModalCard from '../components/modalCard'
 
 const Order = props => {
     const [modalVisible, setModalVisible] = useState(false)
-    const [value, onChangeText] = useState('0');
+    const [foodSelected, selectFood] = useState({})
 
-    const handleItemSelect = item => {
-        setModalVisible(true)
+    const handleItemSelect = food => {
+        return (
+            selectFood(food),
+            <ModalCard setModalVisible={setModalVisible()} food={foodSelected}/>
+        )
     }
 
     return (
         <>
         <SafeAreaView>
         <Modal animationType="slide" transparent={false} visible={modalVisible}>
-            <View>
-                <View style={styles.modalView}>
-                <View style={styles.modalMenuItems}>
-                    <View>
-                        <Image source={require('../assets/toro_front.jpg')} style={styles.modalMenuItemImage} />
-                    </View>
-                    <View style={styles.modalDescription}>
-                        <Text style={{color: 'white', fontWeight: 'bold', fontSize: 15}}>Cheese</Text>
-                        <Text style={{color: 'white'}}>SOME NUTS AND STUFF</Text>
-                    </View>
-                    <View style={styles.modalToroContainer}>
-                        <Image source={require('../assets/toro.png')} style={{height: 35, width: 35}} />
-                        <Text style={{fontSize:16}}>200</Text>
-                    </View>
-                </View>
-                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                        <Text>How Many?  </Text>
-                        <TextInput keyboardType='number-pad' value={value} onChangeText={onChangeText} style={{width: 25, alignSelf: 'center'}}/>
-                        <Button title='Add to Cart' onPress={() => console.log('food')}/>
-                    </View>
-                    <TouchableOpacity onPress={() => {setModalVisible(false)}}>
-                        <Image source={{uri: 'https://www.freeiconspng.com/thumbs/close-button-png/black-circle-close-button-png-5.png'}} style={{height: 15, width: 15, alignSelf: 'flex-end'}}/>
-                    </TouchableOpacity>
-                </View>
-            </View>
+            <ModalCard setModalVisible={setModalVisible} food={foodSelected}/>
         </Modal>
 
         <View style={styles.topContainer}>
@@ -286,7 +266,7 @@ const styles = StyleSheet.create({
         margin: 15
     },
     modalToroContainer: {
-        
+        alignSelf: 'flex-end'
     }
 })
 
