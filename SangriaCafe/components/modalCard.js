@@ -11,8 +11,6 @@ export default ModalCard = props => {
         props.setModalVisible(false)
     }
 
-    console.log(props.itemCart)
-
     return (
         <View>
             <View style={styles.modalView}>
