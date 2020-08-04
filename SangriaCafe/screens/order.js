@@ -1,16 +1,17 @@
 import React, { useState } from 'react'
-import { Button, Modal, SafeAreaView, StyleSheet, View, Image, Dimensions, Text, ScrollView, TouchableOpacity, TextInput } from 'react-native'
+import { Modal, SafeAreaView, StyleSheet, View, Image, Dimensions, Text, ScrollView, TouchableOpacity, TextInput } from 'react-native'
 import Menu from '../components/menu'
 import ModalCard from '../components/modalCard'
 
 const Order = props => {
+    const [itemCart, addToCart] = useState([])
     const [modalVisible, setModalVisible] = useState(false)
     const [foodSelected, selectFood] = useState({})
 
     const handleItemSelect = food => {
         return (
             selectFood(food),
-            <ModalCard setModalVisible={setModalVisible()} food={foodSelected}/>
+            <ModalCard setModalVisible={setModalVisible()} food={foodSelected} itemCart={itemCart} addToCart={addToCart}/>
         )
     }
 
@@ -18,7 +19,7 @@ const Order = props => {
         <>
         <SafeAreaView>
         <Modal animationType="slide" transparent={false} visible={modalVisible}>
-            <ModalCard setModalVisible={setModalVisible} food={foodSelected}/>
+            <ModalCard setModalVisible={setModalVisible} food={foodSelected} itemCart={itemCart} addToCart={addToCart}/>
         </Modal>
 
         <View style={styles.topContainer}>
@@ -33,7 +34,7 @@ const Order = props => {
 
             {Menu[0].appetizers.items.map( food => {
                 return (
-                <TouchableOpacity onPress={() => {handleItemSelect(food)}}>
+                <TouchableOpacity onPress={() => {handleItemSelect(food)}} key={food.name}>
                     <View style={styles.menuItems}>
                         <View style={styles.menuItemImageContainer}>
                             <Image source={{uri : food.details.image}} style={styles.menuItemImage} />
@@ -59,7 +60,7 @@ const Order = props => {
 
             {Menu[1].mainCourses.items.map( food => {
                 return (
-                <TouchableOpacity onPress={() => {handleItemSelect(food)}}>
+                <TouchableOpacity onPress={() => {handleItemSelect(food)}} key={food.name}>
                     <View style={styles.menuItems}>
                         <View style={styles.menuItemImageContainer}>
                             <Image source={{uri : food.details.image}} style={styles.menuItemImage} />
@@ -85,7 +86,7 @@ const Order = props => {
 
             {Menu[2].steaks.items.map( food => {
                 return (
-                <TouchableOpacity onPress={() => {handleItemSelect(food)}}>
+                <TouchableOpacity onPress={() => {handleItemSelect(food)}} key={food.name}>
                     <View style={styles.menuItems}>
                         <View style={styles.menuItemImageContainer}>
                             <Image source={{uri : food.details.image}} style={styles.menuItemImage} />
@@ -111,7 +112,7 @@ const Order = props => {
 
             {Menu[3].rices.items.map( food => {
                 return (
-                <TouchableOpacity onPress={() => {handleItemSelect(food)}}>
+                <TouchableOpacity onPress={() => {handleItemSelect(food)}} key={food.name}>
                     <View style={styles.menuItems}>
                         <View style={styles.menuItemImageContainer}>
                             <Image source={{uri : food.details.image}} style={styles.menuItemImage} />
@@ -137,7 +138,7 @@ const Order = props => {
 
             {Menu[4].sandwiches.items.map( food => {
                 return (
-                <TouchableOpacity onPress={() => {handleItemSelect(food)}}>
+                <TouchableOpacity onPress={() => {handleItemSelect(food)}} key={food.name}>
                     <View style={styles.menuItems}>
                         <View style={styles.menuItemImageContainer}>
                             <Image source={{uri : food.details.image}} style={styles.menuItemImage} />
@@ -163,7 +164,7 @@ const Order = props => {
 
             {Menu[5].salads.items.map( food => {
                 return (
-                <TouchableOpacity onPress={() => {handleItemSelect(food)}}>
+                <TouchableOpacity onPress={() => {handleItemSelect(food)}} key={food.name}>
                     <View style={styles.menuItems}>
                         <View style={styles.menuItemImageContainer}>
                             <Image source={{uri : food.details.image}} style={styles.menuItemImage} />

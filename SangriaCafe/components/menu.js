@@ -167,14 +167,6 @@ const Menu =
                     'toros' : 11,
                     'image' : 'https://themom100.com/wp-content/uploads/2018/02/fall-apart-roasted-pork-shoulder-319.jpg' 
                 }
-            },
-            {   'name' : 'COMPANERO',
-                'details' : {
-                    'description' : 'sweet plantain - gaucho fries - tostones - yucca fries - mixed vegetables - yucca mash - congris rice - rice & beans',
-                    'price' : 5,
-                    'toros' : 3,
-                    'image' : 'https://lh3.googleusercontent.com/8G-RQ22j8ULauqvNT4kzNVAsPggfpF-zsIpHnInwu9Pk2sNrgRY8TfFs45UDP0zFqP98Lc-yNyi1giJlGqsQ1sE=w1200-h900-c-rj-v1-e365'            
-                }
             }]
         }},
 
@@ -292,6 +284,40 @@ const Menu =
                     'image' : 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/chickpea-mediterranean-salad-horizontal-jpg-1524665573.jpg'  
                 }
             }]
+        }},
+
+        { 'sides' : {
+            'name' : 'COMPANEROS',
+            'items' : [
+            {   'name' : 'SWEET PLANTAIN',
+                'image' : '',
+                'price' : 5
+            },
+            {   'name' : 'GAUCHO FRIES',
+                'image' : '',
+                'price' : 5
+            },
+            {   'name' : 'TOSTONES',
+                'image' : '',
+                'price' : 5
+            },
+            {   'name' : 'YUCCA FRIES',
+                'image' : '',
+                'price' : 5
+            },
+            {   'name' : 'MIXED VEGETABLES',
+                'image' : '',
+                'price' : 5
+            },
+            {   'name' : 'CONGRIS RICE',
+                'image' : '',
+                'price' : 5
+            },
+            {   'name' : 'RICE & BEANS',
+                'image' : '',
+                'price' : 5
+            }
+            ]
         }}
     ]
 

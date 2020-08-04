@@ -3,8 +3,15 @@ import { Button, View, Image, Text, TouchableOpacity, TextInput, StyleSheet } fr
 
 export default ModalCard = props => {
 
-    const [value, onChangeText] = useState('0')
-    const [input, onChangeInst] = useState('Special Instructions')
+    const [qnt, onChangeQnt] = useState('1')
+    const [inst, onChangeInst] = useState('')
+
+    const throwinthebag = food => {
+        props.addToCart(({ item : food, quantity : qnt, instruction : inst }))
+        props.setModalVisible(false)
+    }
+
+    console.log(props.itemCart)
 
     return (
         <View>
@@ -23,11 +30,11 @@ export default ModalCard = props => {
                     <Text style={{fontSize:16}}>{props.food.details.toros}</Text>
                 </View>
             </View>
-                    <TextInput value={input} onChangeText={onChangeInst} borderColor='gray' borderWidth={1} style={{height: 50, width: 300, padding: 10}}/>
+                    <TextInput value={inst} placeholder={'Special Instructions'} onChangeText={onChangeInst} borderColor='gray' borderWidth={1} style={{height: 50, width: 300, padding: 10}}/>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                     <Text style={{fontSize: 17}}>How Many?  </Text>
-                    <TextInput keyboardType='number-pad' value={value} onChangeText={onChangeText} borderColor='gray' borderWidth={1} style={{width: 50, padding: 5}}/>
-                    <Button title='Add to Cart' onPress={() => null}/>
+                    <TextInput keyboardType='number-pad' placeholder={'1'} value={qnt} onChangeText={onChangeQnt} borderColor='gray' borderWidth={1} style={{width: 50, padding: 5}}/>
+                    <Button title='Add to Cart' onPress={() => throwinthebag(props.food)}/>
                 </View>
                 <TouchableOpacity onPress={() => props.setModalVisible(false)}>
                     <Image source={{uri: 'https://www.freeiconspng.com/thumbs/close-button-png/black-circle-close-button-png-5.png'}} style={{margin: 20, height: 20, width: 20, alignItems: 'center'}}/>

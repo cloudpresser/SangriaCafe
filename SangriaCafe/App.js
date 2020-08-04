@@ -5,8 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from './screens/home'
 import Order from './screens/order'
 import Cart from './screens/cart'
-
-const itemCart = []
+import Settings from './screens/settings'
 
 function HomeScreen() {
   return (
@@ -16,21 +15,19 @@ function HomeScreen() {
 
 function OrderScreen() {
   return (
-    <Order itemCart={itemCart}/>
+    <Order />
   );
 }
 
 function CartScreen() {
   return(
-    <Cart itemCart={itemCart}/>
+    <Cart />
   )
 }
 
 function ProfileScreen() {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Settings!</Text>
-    </View>
+    <Settings />
   );
 }
 
