@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Button, View, Image, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-native'
+import Cart from '../screens/cart'
 
 export default ModalCard = props => {
 
@@ -7,8 +8,10 @@ export default ModalCard = props => {
     const [inst, onChangeInst] = useState('')
 
     const throwinthebag = food => {
-        props.addToCart(({ item : food, quantity : qnt, instruction : inst }))
+        let cartItem = { item: food, quantity: qnt, instruction: inst}
+        props.foodCart.push(cartItem)
         props.setModalVisible(false)
+        return <Cart foodCart={props.foodCart}/>
     }
 
     return (

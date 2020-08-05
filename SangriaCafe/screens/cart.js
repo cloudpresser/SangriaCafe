@@ -3,20 +3,20 @@ import { SafeAreaView, StyleSheet, View, Image, Dimensions, Text, Button, Toucha
 
 const Cart = props => {
 
-    const [foodCart, addToCart] = useState([])
+    // const [foodCart, addToCart] = useState(props)
     const [tip, addTip] = useState(0)
     
     useEffect( () => {
-        addToCart(
-            [
-                {item : { "details" : { "description": "crispy chicken bites, orange sour mojo, cilantro sauce", "image": "https://i.pinimg.com/originals/0f/19/48/0f194853758de9a5afd126b0fab05e54.jpg", "price": 11, "toros": 55}, "name": "CHICHARRON DE POLLO" },quantity: '1',instruction: ''},
-                {"instruction": "medium rare", "item": {"details": { "description": "plantain fritters, shrimp, calamari, scallops, guacamole, olive oil vinaigrette", "image": "https://i.pinimg.com/originals/ab/63/39/ab6339d2060cf7b3a108c25cfcec65f1.jpg", "price": 12, "toros": 60}, "name": "MONTADITOS DE MARISCOS"}, "quantity": "1"},
-                {"instruction": "", "item": {"details": {"description": "haas avocado, onions, tomatoes, cilantro, tortilla chips", "image": "https://natashaskitchen.com/wp-content/uploads/2020/05/Guacamole-Recipe-5.jpg", "price": 14, "toros": 70}, "name": "GUACAMOLE"}, "quantity": "1"},
-                {"instruction": "", "item": {"details": {"description": "roasted pork, black forest ham, swiss cheese, dill pickles, mustard", "image": "https://food.fnr.sndimg.com/content/dam/images/food/fullset/2012/3/3/0/MN0610H_Cubano_s4x3.jpg.rend.hgtvcom.826.620.suffix/1371606019926.jpeg", "price": 12, "toros": 60}, "name": "CUBANO"}, "quantity": "1"},
-                {"instruction": "", "item": {"details": {"description": "Sun-dried tomato hummus chickpea, olives, cucumber, fresh parsley, grape tomatoes, red onions, lemon vinaigrette", "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/chickpea-mediterranean-salad-horizontal-jpg-1524665573.jpg", "price": 10, "toros": 50}, "name": "MEDITERRANEA VEGAN"}, "quantity": "1"},
-                {"instruction": "Double fry", "item": {"details": {"description": "serrano ham & manchego cheese croquettes, chipotle aioli sauce", "image": "https://media1.s-nbcnews.com/i/newscms/2015_18/520311/croquetas-today-150501-tease-_d46b559002833fa38381b418b8f5e23d.jpg", "price": 9, "toros": 45}, "name": "CROQUETAS"}, "quantity": "2"}
-            ]
-        )
+        // addToCart(
+        //     [
+        //         {item : { "details" : { "description": "crispy chicken bites, orange sour mojo, cilantro sauce", "image": "https://i.pinimg.com/originals/0f/19/48/0f194853758de9a5afd126b0fab05e54.jpg", "price": 11, "toros": 55}, "name": "CHICHARRON DE POLLO" },quantity: '1',instruction: ''},
+        //         {"instruction": "medium rare", "item": {"details": { "description": "plantain fritters, shrimp, calamari, scallops, guacamole, olive oil vinaigrette", "image": "https://i.pinimg.com/originals/ab/63/39/ab6339d2060cf7b3a108c25cfcec65f1.jpg", "price": 12, "toros": 60}, "name": "MONTADITOS DE MARISCOS"}, "quantity": "1"},
+        //         {"instruction": "", "item": {"details": {"description": "haas avocado, onions, tomatoes, cilantro, tortilla chips", "image": "https://natashaskitchen.com/wp-content/uploads/2020/05/Guacamole-Recipe-5.jpg", "price": 14, "toros": 70}, "name": "GUACAMOLE"}, "quantity": "1"},
+        //         {"instruction": "", "item": {"details": {"description": "roasted pork, black forest ham, swiss cheese, dill pickles, mustard", "image": "https://food.fnr.sndimg.com/content/dam/images/food/fullset/2012/3/3/0/MN0610H_Cubano_s4x3.jpg.rend.hgtvcom.826.620.suffix/1371606019926.jpeg", "price": 12, "toros": 60}, "name": "CUBANO"}, "quantity": "1"},
+        //         {"instruction": "", "item": {"details": {"description": "Sun-dried tomato hummus chickpea, olives, cucumber, fresh parsley, grape tomatoes, red onions, lemon vinaigrette", "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/chickpea-mediterranean-salad-horizontal-jpg-1524665573.jpg", "price": 10, "toros": 50}, "name": "MEDITERRANEA VEGAN"}, "quantity": "1"},
+        //         {"instruction": "Double fry", "item": {"details": {"description": "serrano ham & manchego cheese croquettes, chipotle aioli sauce", "image": "https://media1.s-nbcnews.com/i/newscms/2015_18/520311/croquetas-today-150501-tease-_d46b559002833fa38381b418b8f5e23d.jpg", "price": 9, "toros": 45}, "name": "CROQUETAS"}, "quantity": "2"}
+        //     ]
+        // )
     }, [] )
 
     const subtotal = () => (foodCart.reduce((total, food) => total += parseInt(food.item.details.price * food.quantity), 0))
@@ -29,7 +29,7 @@ const Cart = props => {
         addTip((total() * select))
     }
 
-    return foodCart.length > 0 ? 
+    return props.foodCart.length > 0 ? 
             <>
                 <SafeAreaView>
                     <View style={styles.topContainer}>
@@ -41,7 +41,7 @@ const Cart = props => {
                         <Text>ASAP (40 - 50 mins)</Text>
                     </View>
 
-                    <ScrollView  alwaysBounceVertical={true} showsVerticalScrollIndicator={false} contentInset={{bottom: 80}} >
+                    <ScrollView  alwaysBounceVertical={true} showsVerticalScrollIndicator={false} contentInset={{bottom: 100}} >
 
                     {foodCart.map( food => {
                         return (

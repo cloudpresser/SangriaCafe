@@ -4,22 +4,24 @@ import Menu from '../components/menu'
 import ModalCard from '../components/modalCard'
 
 const Order = props => {
-    const [itemCart, addToCart] = useState([])
+
     const [modalVisible, setModalVisible] = useState(false)
     const [foodSelected, selectFood] = useState({})
 
     const handleItemSelect = food => {
         return (
             selectFood(food),
-            <ModalCard setModalVisible={setModalVisible()} food={foodSelected} itemCart={itemCart} addToCart={addToCart}/>
+            <ModalCard setModalVisible={setModalVisible(true)} food={foodSelected} foodCart={props.foodCart}/>
         )
     }
+
+    console.log(props.foodCart)
 
     return (
         <>
         <SafeAreaView>
         <Modal animationType="slide" transparent={false} visible={modalVisible}>
-            <ModalCard setModalVisible={setModalVisible} food={foodSelected} itemCart={itemCart} addToCart={addToCart}/>
+            <ModalCard setModalVisible={setModalVisible} food={foodSelected} foodCart={props.foodCart}/>
         </Modal>
 
         <View style={styles.topContainer}>

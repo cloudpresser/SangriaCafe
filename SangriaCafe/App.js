@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, Text, Image } from 'react-native'
-import { NavigationContainer } from '@react-navigation/native';
+import { Image } from 'react-native'
+import { NavigationContainer, useNavigationState } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from './screens/home'
 import Order from './screens/order'
@@ -10,25 +10,26 @@ import Settings from './screens/settings'
 function HomeScreen() {
   return (
     <Home />
-  );
+  )
 }
 
-function OrderScreen() {
+function OrderScreen(){
+  foodCart = useNavigationState(foodCart => foodCart.params = [])
   return (
-    <Order />
-  );
+    <Order foodCart={foodCart}/>
+  )
 }
 
 function CartScreen() {
   return(
-    <Cart />
+    <Cart foodCart={foodCart}/>
   )
 }
 
 function ProfileScreen() {
   return (
     <Settings />
-  );
+  )
 }
 
 const Tab = createBottomTabNavigator();
@@ -57,9 +58,9 @@ const App = () => {
           inactiveTintColor: 'gray',
         }}
       >
-        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Home" component={HomeScreen}/>
         <Tab.Screen name="Order" component={OrderScreen} />
-        <Tab.Screen name="Cart" component={CartScreen} />
+        <Tab.Screen name="Cart" component={CartScreen} options={{tabBarBadge: 6}}/>
         <Tab.Screen name="Profile" component={ProfileScreen} />
       </Tab.Navigator>
     </NavigationContainer>
