@@ -16,8 +16,8 @@ const Map = () => {
         Linking.openURL(`https://www.google.com/maps/search/?api=1&query=2085+Bartow+Ave+Bronx+NY`)
     }
 
-    findCoordinates = async () => {
-        await Geolocation.getCurrentPosition(
+    findCoordinates = () => {
+        Geolocation.getCurrentPosition(
             position => {
                 setCoords([
                     {
@@ -48,7 +48,7 @@ const Map = () => {
     const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
     let mapRef = null
 
-    return (
+    return coords.length > 0 ? (
         <>
         <MapView 
             initialRegion={{latitude : 40.869730, longitude : -73.827740, latitudeDelta: LATITUDE_DELTA, longitudeDelta: LONGITUDE_DELTA }} 
@@ -74,6 +74,12 @@ const Map = () => {
         </MapView>
         </>
     ) 
+    :
+    (
+        <View>
+            <Text>Waiting</Text>
+        </View>
+    )
 }
 
 const styles = StyleSheet.create({

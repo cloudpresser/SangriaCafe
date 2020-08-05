@@ -15,8 +15,6 @@ const Order = props => {
         )
     }
 
-    console.log(props.foodCart)
-
     return (
         <>
         <SafeAreaView>
