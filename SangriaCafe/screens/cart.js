@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
-import { SafeAreaView, StyleSheet, View, Image, Dimensions, Text, Button, TouchableOpacity, ScrollView } from 'react-native'
+import React, { useState } from 'react'
+import { SafeAreaView, StyleSheet, View, Image, Dimensions, Text, Button, TouchableOpacity, ScrollView, useFocusEffect } from 'react-native'
 
 const Cart = props => {
-
+    
     const [tip, addTip] = useState(0)
 
     const subtotal = () => (props.foodCart.reduce((total, food) => total += parseInt(food.item.details.price * food.quantity), 0))

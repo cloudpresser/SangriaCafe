@@ -30,7 +30,7 @@ export default Card = () => {
                             <Image source={require('../assets/grambottom.png')} style={{height: 22, width: 330}} />
                         </View>
                         <ScrollView showsVerticalScrollIndicator={false}>
-                            <View style={{margin: 8}}>
+                            <View style={{margin: 10}}>
                                 <Text>{post.caption}</Text>
                             </View>
                         </ScrollView>

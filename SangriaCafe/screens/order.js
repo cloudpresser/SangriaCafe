@@ -11,7 +11,7 @@ const Order = props => {
     const handleItemSelect = food => {
         return (
             selectFood(food),
-            <ModalCard setModalVisible={setModalVisible(true)} food={foodSelected} foodCart={props.foodCart}/>
+            <ModalCard setModalVisible={setModalVisible(true)} food={foodSelected} addToCart={props.addToCart}/>
         )
     }
 
@@ -19,7 +19,7 @@ const Order = props => {
         <>
         <SafeAreaView>
         <Modal animationType="slide" transparent={false} visible={modalVisible}>
-            <ModalCard setModalVisible={setModalVisible} food={foodSelected} foodCart={props.foodCart}/>
+            <ModalCard setModalVisible={setModalVisible} food={foodSelected} addToCart={props.addToCart}/>
         </Modal>
 
         <View style={styles.topContainer}>

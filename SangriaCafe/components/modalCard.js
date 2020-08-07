@@ -8,7 +8,7 @@ export default ModalCard = props => {
 
     const throwinthebag = food => {
         let cartItem = { item: food, quantity: qnt, instruction: inst}
-        props.foodCart.push(cartItem)
+        props.addToCart(cartItem)
         props.setModalVisible(false)
     }
 

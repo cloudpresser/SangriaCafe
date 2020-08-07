@@ -13,6 +13,10 @@ export default class App extends React.Component {
     foodCart: []
   }
 
+  stateHandler = item => {
+    this.setState({ foodCart : [...this.state.foodCart, item] })
+  }
+
   HomeScreen = () => {
     return (
       <Home />
@@ -20,16 +24,14 @@ export default class App extends React.Component {
   }
   
   OrderScreen = () => {
-
-  console.log(this.state.foodCart)
     return (
-      <Order foodCart={this.state.foodCart}/>
+      <Order addToCart={this.stateHandler} />
     )
   }
   
   CartScreen = () => {
     return(
-      <Cart foodCart={this.state.foodCart}/>
+      <Cart foodCart={this.state.foodCart} />
     )
   }
   
@@ -67,7 +69,7 @@ export default class App extends React.Component {
         >
           <Tab.Screen name="Home" component={this.HomeScreen}/>
           <Tab.Screen name="Order" component={this.OrderScreen} />
-          <Tab.Screen name="Cart" component={this.CartScreen} options={{tabBarBadge: this.state.foodCart.length > 0 ? foodCart.length : null}}/>
+          <Tab.Screen name="Cart" component={this.CartScreen} options={{tabBarBadge: this.state.foodCart.length > 0 ? this.state.foodCart.length : null}}/>
           <Tab.Screen name="Profile" component={this.ProfileScreen} />
         </Tab.Navigator>
       </NavigationContainer>
