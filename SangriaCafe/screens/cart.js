@@ -9,7 +9,7 @@ const Cart = props => {
     const deliveryFee = () => (subtotal() < 50) ? 1.99 : 0
     const salesTax = () => subtotal() * 0.08875
     const total = () => subtotal() + deliveryFee() + salesTax()
-    const toroTotal = () => (props.foodCart.reduce((total, food) => total += parseInt(food.item.details.toros), 0))
+    const toroTotal = () => (props.foodCart.reduce((total, food) => total += parseInt(food.item.details.toros * food.quantity), 0))
 
     tipHandler = select => {
         addTip((total() * select))
