@@ -81,7 +81,7 @@ const Order = props => {
             </View>
             
             <View style={styles.card}>
-            <Text style={{fontWeight: 'bold', fontSize: 20}}>PLATOS FUERTES</Text>
+            <Text style={{fontWeight: 'bold', fontSize: 20}}>ADASO</Text>
             <View style={styles.cardContent}>
 
             {Menu[2].steaks.items.map( food => {

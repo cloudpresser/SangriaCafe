@@ -92,7 +92,7 @@ const Menu =
                 'details' : {
                     'description' : 'rioja braised short ribs, creamy yucca mashed, charred green beans',
                     'price' : 24,
-                    'toros' : 12,
+                    'toros' : 120,
                     'image' : 'https://d1uz88p17r663j.cloudfront.net/resized/5b13f8250caab5db91c735c156c6c75d_Costillas_de_Res_St._Louis_1200_600.jpg'        
                 }
             },
@@ -100,7 +100,7 @@ const Menu =
                 'details' : {
                     'description' : 'pan seared salmon, shrimp mashed potatoes, roasted corn salsa',
                     'price' : 22,
-                    'toros' : 11,
+                    'toros' : 110,
                     'image' : 'https://www.cookingclassy.com/wp-content/uploads/2017/02/skillet-seared-salmon-2.jpg'    
                 }
             },
@@ -108,7 +108,7 @@ const Menu =
                 'details' : {
                     'description' : 'pan roasted semi boneless chicken, roasted garlic sauce, rice & beans',
                     'price' : 22,
-                    'toros' : 11,
+                    'toros' : 110,
                     'image' : 'https://www.recipetineats.com/wp-content/uploads/2018/05/Oven-Baked-Chicken-Breast_-with-Garlic-Butter-Kale-Rice.jpg' 
                 }
             },
@@ -148,7 +148,7 @@ const Menu =
                 'details' : {
                     'description' : 'skirt steak strips sautéed with red onions, tomatoes, cilantro served with rice & french fries',
                     'price' : 22,
-                    'toros' : 11,
+                    'toros' : 110,
                     'image' : 'https://www.eatperu.com/wp-content/uploads/2019/06/lomo-saltado-with-rice-and-cilantro-recipe.jpg'            
                 }
             },
@@ -164,7 +164,7 @@ const Menu =
                 'details' : {
                     'description' : 'slow roasted pork, pigeon peas rice, pickled red onions, garlic mojo',
                     'price' : 22,
-                    'toros' : 11,
+                    'toros' : 110,
                     'image' : 'https://themom100.com/wp-content/uploads/2018/02/fall-apart-roasted-pork-shoulder-319.jpg' 
                 }
             }]
@@ -177,7 +177,7 @@ const Menu =
                 'details' : {
                     'description' : 'grilled skirt steak, congress rice, pico de gallo, chimichurri sauce',
                     'price' : 26,
-                    'toros' : 13,
+                    'toros' : 130,
                     'image' : 'https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fcdn-image.foodandwine.com%2Fsites%2Fdefault%2Ffiles%2Fstyles%2Fmedium_2x%2Fpublic%2F201307-xl-churrasco-with-chimichurri.jpg%3Fitok%3D6Hs3wCpv'
                 }
             },
@@ -185,7 +185,7 @@ const Menu =
                 'details' : {
                     'description' : 'soy-brown sugar, marinated flat iron steak, latin style fried rice, asian-honey glaze',
                     'price' : 24,
-                    'toros' : 12,
+                    'toros' : 120,
                     'image' : 'https://i.pinimg.com/originals/42/6d/ec/426dec80328663739c616e38f3f18942.jpg'
                 }
             }]

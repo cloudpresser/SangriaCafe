@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image } from 'react-native'
-import { NavigationContainer, useNavigationState } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer, useNavigation } from '@react-navigation/native'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Home from './screens/home'
 import Order from './screens/order'
 import Cart from './screens/cart'
@@ -30,9 +30,9 @@ export default class App extends React.Component {
   }
   
   CartScreen = () => {
-    return(
-      <Cart foodCart={this.state.foodCart} />
-    )
+      return(
+        <Cart foodCart={this.state.foodCart}/>
+      )
   }
   
   ProfileScreen = () => {
@@ -42,7 +42,7 @@ export default class App extends React.Component {
   }
   
   
-  render(){
+  render(){ 
     Tab = createBottomTabNavigator()
     return (
       <NavigationContainer>
@@ -69,7 +69,7 @@ export default class App extends React.Component {
         >
           <Tab.Screen name="Home" component={this.HomeScreen}/>
           <Tab.Screen name="Order" component={this.OrderScreen} />
-          <Tab.Screen name="Cart" component={this.CartScreen} options={{tabBarBadge: this.state.foodCart.length > 0 ? this.state.foodCart.length : null}}/>
+          <Tab.Screen name="Cart" component={() => this.CartScreen()} options={{tabBarBadge: this.state.foodCart.length > 0 ? this.state.foodCart.length : null}}/>
           <Tab.Screen name="Profile" component={this.ProfileScreen} />
         </Tab.Navigator>
       </NavigationContainer>

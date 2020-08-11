@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
-import { SafeAreaView, StyleSheet, View, Image, Dimensions, Text, Button, TouchableOpacity, ScrollView, useFocusEffect } from 'react-native'
+import { SafeAreaView, StyleSheet, View, Image, Dimensions, Text, Button, TouchableOpacity, ScrollView } from 'react-native'
 
 const Cart = props => {
-    
+
     const [tip, addTip] = useState(0)
 
     const subtotal = () => (props.foodCart.reduce((total, food) => total += parseInt(food.item.details.price * food.quantity), 0))
     const deliveryFee = () => (subtotal() < 50) ? 1.99 : 0
     const salesTax = () => subtotal() * 0.08875
     const total = () => subtotal() + deliveryFee() + salesTax()
-    const toroTotal = () => (props.foodCart.reduce((total, item) => total += parseInt(item.toros), 0))
+    const toroTotal = () => (props.foodCart.reduce((total, food) => total += parseInt(food.item.details.toros), 0))
 
     tipHandler = select => {
         addTip((total() * select))
@@ -68,7 +68,14 @@ const Cart = props => {
                     </View>
 
                     <View style={styles.tipCheckout}>
+                    <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', margin: 5}}>
                         <Text>Add Tip for Driver</Text>
+                        <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+                            <Text>+ </Text>
+                            <Image source={require('../assets/toro.png')} style={{height: 20, width: 20}} />
+                            <Text> {toroTotal()}</Text>
+                        </View>
+                    </View>
                         <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
                             <Button title={'Cash'} onPress={() => tipHandler(0)} />
                             <Button title={'15%'} onPress={() => tipHandler(0.15)} />
