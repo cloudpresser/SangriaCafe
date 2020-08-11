@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import { Button, View, Image, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-native'
+import { Button, View, Image, Text, TouchableOpacity, TextInput, StyleSheet, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Dimensions, SafeAreaView } from 'react-native'
 
 export default ModalCard = props => {
 
-    const [qnt, onChangeQnt] = useState('1')
+    const [qnt, onChangeQnt] = useState('')
     const [inst, onChangeInst] = useState('')
 
     const throwinthebag = food => {
@@ -14,7 +14,10 @@ export default ModalCard = props => {
 
     return (
         <View>
+        <SafeAreaView>
+        <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"}>
             <View style={styles.modalView}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.modalMenuItems}>
                 <View>
                     <Image source={{uri : props.food.details.image}} style={styles.modalMenuItemImage} />
@@ -29,25 +32,35 @@ export default ModalCard = props => {
                     <Text style={{fontSize:16}}>{props.food.details.toros}</Text>
                 </View>
             </View>
-                    <TextInput value={inst} placeholder={'Special Instructions'} onChangeText={onChangeInst} borderColor='gray' borderWidth={1} style={{height: 50, width: 300, padding: 10}}/>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <Text style={{fontSize: 17}}>How Many?  </Text>
-                    <TextInput keyboardType='number-pad' placeholder={'1'} value={qnt} onChangeText={onChangeQnt} borderColor='gray' borderWidth={1} style={{width: 50, padding: 5}}/>
-                    <Button title='Add to Cart' onPress={() => throwinthebag(props.food)}/>
+        </TouchableWithoutFeedback>
+                    
+                <View style={styles.inputs}>
+                    <TextInput keyboardType='numeric' placeholder={'1'} value={qnt} onChangeText={onChangeQnt} borderColor='grey' borderWidth={0.25} style={{width: 30, height: 50, padding: 10}} />
+                    <TextInput value={inst} placeholder={'Special Instructions'} onChangeText={onChangeInst} borderColor='grey' borderWidth={0.25} style={{width: screen.width / 1.5, height: 50, padding: 10}} />
                 </View>
-                <TouchableOpacity onPress={() => props.setModalVisible(false)}>
-                    <Image source={{uri: 'https://www.freeiconspng.com/thumbs/close-button-png/black-circle-close-button-png-5.png'}} style={{margin: 20, height: 20, width: 20, alignItems: 'center'}}/>
-                </TouchableOpacity>
+                <View style={styles.buttons}>
+                    <TouchableOpacity onPress={() => throwinthebag(props.food)}>
+                        <Image source={require('../assets/add.png')} style={{margin: 25, height: 35, width: 35}}/>
+                    </TouchableOpacity>
+                    
+                    <TouchableOpacity onPress={() => props.setModalVisible(false)}>
+                        <Image source={require('../assets/close.png')} style={{margin: 25, height: 35, width: 35}}/>
+                    </TouchableOpacity>
+                </View>
             </View>
+        </KeyboardAvoidingView>
+        </SafeAreaView>
         </View>
     )
 }
 
+const screen = Dimensions.get('window')
 const styles = StyleSheet.create({
     modalView: {
+        height: screen.height / 0.75,
+        width: screen.width,
         backgroundColor: "white",
-        padding: 20,
-        margin: 50,
+        padding: 5,
         alignItems: "center",
         shadowColor: "#000",
         shadowOffset: {
@@ -58,22 +71,29 @@ const styles = StyleSheet.create({
     modalMenuItems: {
         alignItems: 'center',
         backgroundColor: 'tomato',
-        margin: 50,
-        padding: 20,
-        borderRadius: 5
+        margin: 5,
+        borderRadius: 5,
+        height: screen.height / 1.55,
+        width: screen.width / 1.25
     },
     modalDescription: {
-        width: 300,
-        margin: 15
+        width: screen.width / 1.5,
     },
     modalMenuItemImage: {
-        height: 250,
-        width: 300,
+        height: screen.height / 2.75,
+        width: screen.width / 1.5,
         borderRadius: 5,
         margin: 15
     },
+    inputs: {
+        flexDirection: 'row'
+    },
+    buttons: {
+        flexDirection: 'row'
+    },
     modalToroContainer: {
         alignSelf: 'flex-end',
-        alignItems: 'center'
+        alignItems: 'center',
+        margin: 10
     }
 })

@@ -27,7 +27,7 @@ const Cart = props => {
                         <Text>ASAP (40 - 50 mins)</Text>
                     </View>
 
-                    <ScrollView  alwaysBounceVertical={true} showsVerticalScrollIndicator={false} contentInset={{bottom: 100}} >
+                    <ScrollView  alwaysBounceVertical={true} showsVerticalScrollIndicator={false} contentInset={{bottom: 130}} >
 
                     {props.foodCart.map( food => {
                         return (
@@ -138,7 +138,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'white'
     },
     empty: {
-        marginTop: 50,
         justifyContent: 'center',
         alignItems: 'center'
     },
