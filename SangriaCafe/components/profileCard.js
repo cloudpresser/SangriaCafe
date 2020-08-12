@@ -1,12 +1,14 @@
 import React from 'react'
-import { StyleSheet, View, Text, Image, Dimensions } from 'react-native'
+import { StyleSheet, View, Text, Image, Dimensions, TouchableOpacity } from 'react-native'
 
 export default ProfileCard = () => {
     return (
         <View style={styles.userBar}>
             <View style={{flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
                 <View style={styles.userInfo}>
+                <TouchableOpacity onPress={() => console.log('upload image')}>
                     <Image source={require('../assets/toro_front.jpg')} style={{height: 70, width: 70, borderRadius: 35}}/>
+                </TouchableOpacity>
                     <Text style={{fontSize:20}}>PardiHardi</Text>
                 </View>
                 <View>

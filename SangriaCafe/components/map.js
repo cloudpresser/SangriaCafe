@@ -77,7 +77,7 @@ const Map = () => {
     :
     (
         <View>
-            <Text>Waiting</Text>
+            <Text>ALLOW LOCATION SERVICES TO GET DIRECTIONS</Text>
         </View>
     )
 }
