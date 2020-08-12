@@ -1,6 +1,6 @@
 import React from 'react';
-import { Image } from 'react-native'
-import { NavigationContainer, useNavigation } from '@react-navigation/native'
+import { Image, StatusBar } from 'react-native'
+import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Home from './screens/home'
 import Order from './screens/order'
@@ -19,7 +19,7 @@ export default class App extends React.Component {
 
   HomeScreen = () => {
     return (
-      <Home />
+        <Home />
     )
   }
   
@@ -46,6 +46,7 @@ export default class App extends React.Component {
     Tab = createBottomTabNavigator()
     return (
       <NavigationContainer>
+        <StatusBar barStyle='dark-content'/>
         <Tab.Navigator
           screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
@@ -59,7 +60,7 @@ export default class App extends React.Component {
               } else if (route.name === 'Cart') {
                 iconName = focused ? 'https://image.flaticon.com/icons/png/512/126/126083.png' : 'https://image.flaticon.com/icons/png/512/126/126083.png'
               }
-            return <Image source={{uri:iconName}} size={size} color={color} style={{height: 25, width: 25}}/>
+            return <Image source={{uri:iconName}} size={size} color={color} style={{height: 30, width: 30}}/>
           },
           })}
           tabBarOptions={{

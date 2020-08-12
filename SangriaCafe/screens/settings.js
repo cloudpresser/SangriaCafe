@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { SafeAreaView, StyleSheet, View, Image, Dimensions, Text, ScrollView } from 'react-native'
 import ProfileCard from '../components/profileCard'
 import DatePicker from 'react-native-datepicker'
@@ -18,26 +18,26 @@ const Settings = props => {
             <View style={styles.topContainer}>
                     <Image source={require('../assets/sangria_logo.png')} style={styles.logo}/>
             </View>
-        <ScrollView>
+        <ScrollView alwaysBounceVertical={true} showsVerticalScrollIndicator={false} contentInset={{bottom: 100}}>
             <View>
                 <ProfileCard />
             </View>
 
             <View style={styles.container}>
                 <Text style={styles.text}>Email</Text>
-                <TextInput placeholder='customer@yahoo.com' autoCompleteType='email'/>
+                <TextInput placeholder='customer@yahoo.com' autoCompleteType='email' onChangeText={changeEmail} value={email}/>
                 <Text style={styles.text}>Name</Text>
-                <TextInput placeholder='PardiHardi' autoCompleteType='name'/>
+                <TextInput placeholder='PardiHardi' autoCompleteType='name' onChangeText={changeName} value={name}/>
                 <Text style={styles.text}>Phone</Text>
-                <TextInput placeholder='404-123-4567' autoCompleteType='tel'/>
+                <TextInput placeholder='404-123-4567' autoCompleteType='tel' onChangeText={changePhone} value={phone}/>
                 <Text style={styles.text}>Address</Text>
-                <TextInput placeholder='123 Harbor Rd. Bronx NY 10458' autoCompleteType='street-address'/>
+                <TextInput placeholder='123 Harbor Rd. Bronx NY 10458' autoCompleteType='street-address' onChangeText={changeAddress} value={address}/>
                 <Text style={styles.text}>Birthday</Text>
                 <DatePicker
                     style={{width: 200}}
                     date={date}
                     mode="date"
-                    placeholder="select date"
+                    placeholder="select birthday"
                     format="DD-MM-YYYY"
                     minDate="01-01-1920"
                     maxDate="01-01-2021"
@@ -45,16 +45,16 @@ const Settings = props => {
                     cancelBtnText="Cancel"
                     customStyles={{
                         dateIcon: {
-                        position: 'absolute',
-                        left: 0,
-                        top: 4,
-                        marginLeft: 0
+                            position: 'absolute',
+                            left: 0,
+                            top: 4,
+                            marginLeft: 0
                         },
                         dateInput: {
-                        marginLeft: 36
+                            marginLeft: 36
                         }
                     }}
-                    onDateChange={(date) => changeDate(date)} />
+                    onDateChange={changeDate} />
             </View>
             <Button style={{margin: 5}}mode="contained" onPress={() => console.log('Pressed')}>
                 Card Info
