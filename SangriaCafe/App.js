@@ -14,8 +14,14 @@ export default class App extends React.Component {
     foodCart: []
   }
 
-  stateHandler = item => {
-    this.setState({ foodCart : [...this.state.foodCart, item] })
+  addItem = item => {
+      this.setState({ foodCart : [...this.state.foodCart, item] })
+  }
+
+  removeItem = item => {
+    itemToRemove = this.state.foodCart.indexOf(item)
+    this.setState({ foodCart : [...this.state.foodCart, this.state.foodCart.splice(itemToRemove, 1)] })
+    console.log(this.state.foodCart)
   }
 
   HomeScreen = () => {
@@ -26,13 +32,13 @@ export default class App extends React.Component {
   
   OrderScreen = () => {
     return (
-      <Order addToCart={this.stateHandler} />
+      <Order addToCart={this.addItem} />
     )
   }
   
   CartScreen = () => {
-      return(
-        <Cart foodCart={this.state.foodCart}/>
+      return (
+        <Cart foodCart={this.state.foodCart} removeFromCart={this.removeItem}/>
       )
   }
   
@@ -51,6 +57,7 @@ export default class App extends React.Component {
   
   render(){ 
     Tab = createBottomTabNavigator()
+    console.log(this.state.foodCart)
     return (
       <NavigationContainer>
         <StatusBar barStyle='dark-content'/>

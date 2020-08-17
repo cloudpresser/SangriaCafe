@@ -43,6 +43,9 @@ const Cart = props => {
                                     <Text>  {food.item.details.toros}</Text>
                                 </View>
                                 <Text>{food.instruction}</Text>
+                                <TouchableOpacity>
+                                <Button title='Remove' style={{alignItems: 'flex-start'}} onPress={food => props.removeFromCart(food)}/>
+                                </TouchableOpacity>
                             </View>
                         </View>
                         )
