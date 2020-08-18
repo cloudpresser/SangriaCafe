@@ -16,7 +16,7 @@ export default class Home extends React.Component {
 
         <ScrollView alwaysBounceVertical={true} showsVerticalScrollIndicator={false} contentInset={{top: 0, left: 0, bottom: 110, right: 0}}>
           <View>
-            <ProfileCard />
+            <ProfileCard user={this.props.user}/>
           </View>
 
           <View>

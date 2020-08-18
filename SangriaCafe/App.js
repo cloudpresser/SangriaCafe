@@ -2,6 +2,7 @@ import React from 'react';
 import { Image, StatusBar } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import firestore from '@react-native-firebase/firestore'
 import Home from './screens/home'
 import Order from './screens/order'
 import Cart from './screens/cart'
@@ -10,8 +11,13 @@ import Settings from './screens/settings'
 export default class App extends React.Component {
 
   state = {
-    foodCart: []
+    foodCart: [],
+    user: ''
   }
+
+  componentDidMount(){
+    this.getUser()
+  } 
 
   addItem = item => {
     foundFood = this.state.foodCart.find(food => food.item.name === item.item.name) 
@@ -22,13 +28,19 @@ export default class App extends React.Component {
   removeItem = item => {
     itemToRemove = this.state.foodCart.find(food => food.item.name === item.item.name) 
     removeThis = this.state.foodCart.indexOf(itemToRemove)
-    this.state.foodCart.splice(removeThis) &&
+    this.state.foodCart.splice(removeThis, 1) &&
     this.setState({ foodCart : this.state.foodCart })
+  }
+
+  getUser = async () => {
+    this.subscriber = firestore().collection("users").doc("LGUWyTrTyT4Fgqhs7AsJ").onSnapshot(doc => {
+        this.setState({ user: doc.data() })
+    }) 
   }
 
   HomeScreen = () => {
     return (
-        <Home />
+        <Home user={this.state.user}/>
     )
   }
   
@@ -46,7 +58,7 @@ export default class App extends React.Component {
   
   ProfileScreen = () => {
     return (
-      <Settings />
+      <Settings user={this.state.user}/>
     )
   }
   

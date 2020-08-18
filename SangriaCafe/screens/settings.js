@@ -12,21 +12,8 @@ const Settings = props => {
     const [address, changeAddress] = useState('')
     const [date, changeDate] = useState('')
 
-    const [ user, setUser ] = useState({})
-
-    useEffect( () => {
-        getUser()
-    })
-
-    getUser = async () => {
-        firestore().collection("users").doc("LGUWyTrTyT4Fgqhs7AsJ").onSnapshot(doc => {
-            setUser( doc.data() )
-        }) 
-    }
-
     return(
         <>
-        {console.log(user)}
         <SafeAreaView>
             <View style={styles.topContainer}>
                     <Image source={require('../assets/sangria_logo.png')} style={styles.logo}/>
@@ -38,11 +25,11 @@ const Settings = props => {
 
             <View style={styles.container}>
                 <Text style={styles.text}>Email</Text>
-                <TextInput placeholder={user.email} autoCompleteType='email' onChangeText={changeEmail} value={email}/>
+                <TextInput placeholder={props.user.email} autoCompleteType='email' onChangeText={changeEmail} value={email}/>
                 <Text style={styles.text}>Name</Text>
-                <TextInput placeholder={user.name} autoCompleteType='name' onChangeText={changeName} value={name}/>
+                <TextInput placeholder={props.user.name} autoCompleteType='name' onChangeText={changeName} value={name}/>
                 <Text style={styles.text}>Phone</Text>
-                <TextInput placeholder={user.phone} autoCompleteType='tel' onChangeText={changePhone} value={phone}/>
+                <TextInput placeholder={props.user.phone} autoCompleteType='tel' onChangeText={changePhone} value={phone}/>
                 <Text style={styles.text}>Address</Text>
                 <TextInput placeholder='123 Harbor Rd. Bronx NY 10458' autoCompleteType='street-address' onChangeText={changeAddress} value={address}/>
                 <Text style={styles.text}>Birthday</Text>
@@ -71,6 +58,9 @@ const Settings = props => {
             </View>
             <Button style={{margin: 5}}mode="contained" onPress={() => console.log('Pressed')}>
                 Card Info
+            </Button>
+            <Button style={{margin: 5}}mode="contained" onPress={() => console.log('Pressed')}>
+                Save
             </Button>
         </ScrollView>
         </SafeAreaView>
