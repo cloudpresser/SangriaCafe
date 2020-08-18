@@ -2,19 +2,17 @@ import React, { useEffect, useState } from 'react'
 import MapView from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import Geolocation from 'react-native-geolocation-service';
-import { StyleSheet, Linking, Dimensions, View, Text } from 'react-native';
+import { StyleSheet, Dimensions, View, Text } from 'react-native';
 
 const Map = () => {
 
     const [coords, setCoords] = useState([])
+    const [distance, getDist] = useState()
+    const [time, getTravelTime] = useState()
 
     useEffect( () => {
         findCoordinates()
     }, [] )
-
-    const getDirections = () => {
-        Linking.openURL(`https://www.google.com/maps/search/?api=1&query=2085+Bartow+Ave+Bronx+NY`)
-    }
 
     findCoordinates = () => {
         Geolocation.getCurrentPosition(
@@ -36,12 +34,6 @@ const Map = () => {
         )
     }
 
-    const directionsFetch = () => {
-        fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${coords[0]}&destination=2085+Bartow+Ave+Bronx+NY&key=AIzaSyCWrz16D7gqe7fJNtT8iqs4sa3JdAcU5xA`)
-            .then(resp => resp.json())
-            .then(data => console.log(data))
-    }
-
     const { width, height } = Dimensions.get('window')
     const ASPECT_RATIO = width / height
     const LATITUDE_DELTA = 0.008
@@ -58,7 +50,8 @@ const Map = () => {
         >
             <MapView.Marker coordinate={coords && coords[0]} title={'You'}/>
             <MapView.Marker coordinate={coords && coords[1]} title={'Sangria Cafe'}/>
-
+            <Text style={{fontWeight: 'bold',fontSize: 18}}>{(parseFloat(distance) * 0.621371).toFixed(2)} miles </Text>
+            <Text style={{fontWeight: 'bold',fontSize: 18}}>{parseFloat(time).toFixed(0)}min drive</Text>
                 <MapViewDirections
                     origin={coords[0]}
                     destination={coords[1]}
@@ -68,7 +61,8 @@ const Map = () => {
                     strokeColor='cornflowerblue'
 
                     onReady={ result => {
-                        console.log(result.distance + 'kms', result.duration + 'mins')
+                        getDist(result.distance)
+                        getTravelTime(result.duration)
                       }}
                 />
         </MapView>

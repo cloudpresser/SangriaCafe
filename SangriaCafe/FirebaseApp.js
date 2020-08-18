@@ -5,9 +5,7 @@ import firestore from '@react-native-firebase/firestore'
 class FirebaseApp extends Component {
 
     state = {
-        user : {
-            name : ''
-        }
+        user : '' 
     }
 
     componentDidMount(){
@@ -17,7 +15,7 @@ class FirebaseApp extends Component {
     getUser = async () => {
         this.subscriber = firestore().collection("users").doc("LGUWyTrTyT4Fgqhs7AsJ").onSnapshot(doc => {
             this.setState({
-                user: { name : doc.data().name }
+                user: doc.data()
             })
         }) 
     }
@@ -27,6 +25,8 @@ class FirebaseApp extends Component {
             <View>
                 <SafeAreaView>
                     <Text> Name : {this.state.user.name} </Text>
+                    <Text> Email : {this.state.user.email} </Text>
+                    <Text> Phone : {this.state.user.phone} </Text>
                 </SafeAreaView>
             </View>
         )

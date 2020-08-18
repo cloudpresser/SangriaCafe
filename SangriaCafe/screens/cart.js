@@ -15,6 +15,10 @@ const Cart = props => {
         addTip((total() * select))
     }
 
+    takeOutTheBag = item => {
+        props.removeFromCart(item)
+    }
+
     return props.foodCart.length > 0 ? 
             <>
                 <SafeAreaView>
@@ -40,11 +44,11 @@ const Cart = props => {
                                 <Text>${(food.item.details.price * food.quantity)}</Text>
                                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                                     <Image source={require('../assets/toro.png')} style={{height: 20, width: 20}} />
-                                    <Text>  {food.item.details.toros}</Text>
+                                    <Text>  {food.item.details.toros * food.quantity}</Text>
                                 </View>
                                 <Text>{food.instruction}</Text>
                                 <TouchableOpacity>
-                                <Button title='Remove' style={{alignItems: 'flex-start'}} onPress={food => props.removeFromCart(food)}/>
+                                <Button title='Remove' style={{alignItems: 'flex-start'}} onPress={() => takeOutTheBag(food)}/>
                                 </TouchableOpacity>
                             </View>
                         </View>

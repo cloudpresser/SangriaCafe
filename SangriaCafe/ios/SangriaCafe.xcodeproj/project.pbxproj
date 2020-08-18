@@ -14,7 +14,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		263ADF1A24CF6C20000DBA40 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 263ADF1924CF6C20000DBA40 /* MapKit.framework */; };
 		264C40E324E44893006001D6 /* Images-2.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 264C40E224E44893006001D6 /* Images-2.xcassets */; };
-		264C40E524E4A00A006001D6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 264C40E424E4A00A006001D6 /* GoogleService-Info.plist */; };
+		268715D124EC322300ABD95D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 268715D024EC322300ABD95D /* GoogleService-Info.plist */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* toro.png in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* toro.png */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -71,7 +71,7 @@
 		1A3C75F9E5DBD82845B87857 /* libPods-SangriaCafe.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SangriaCafe.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		263ADF1924CF6C20000DBA40 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		264C40E224E44893006001D6 /* Images-2.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "Images-2.xcassets"; path = "SangriaCafe/Images-2.xcassets"; sourceTree = "<group>"; };
-		264C40E424E4A00A006001D6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		268715D024EC322300ABD95D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "SangriaCafe/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* SangriaCafe-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SangriaCafe-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* SangriaCafe-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SangriaCafe-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F12058A5F5CDD4E5E864563 /* Pods-SangriaCafe-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SangriaCafe-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-SangriaCafe-tvOSTests/Pods-SangriaCafe-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -152,12 +152,12 @@
 		13B07FAE1A68108700A75B9A /* SangriaCafe */ = {
 			isa = PBXGroup;
 			children = (
+				268715D024EC322300ABD95D /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* toro.png */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				264C40E424E4A00A006001D6 /* GoogleService-Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				264C40E224E44893006001D6 /* Images-2.xcassets */,
@@ -374,7 +374,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				264C40E324E44893006001D6 /* Images-2.xcassets in Resources */,
-				264C40E524E4A00A006001D6 /* GoogleService-Info.plist in Resources */,
+				268715D124EC322300ABD95D /* GoogleService-Info.plist in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* toro.png in Resources */,
 			);

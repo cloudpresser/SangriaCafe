@@ -15,13 +15,15 @@ export default class App extends React.Component {
   }
 
   addItem = item => {
-      this.setState({ foodCart : [...this.state.foodCart, item] })
+    foundFood = this.state.foodCart.find(food => food.item.name === item.item.name) 
+    foundFood === undefined ? this.setState({ foodCart : [...this.state.foodCart, item] })
+      : foundFood.quantity ++
   }
 
   removeItem = item => {
-    itemToRemove = this.state.foodCart.indexOf(item)
-    this.setState({ foodCart : [...this.state.foodCart, this.state.foodCart.splice(itemToRemove, 1)] })
-    console.log(this.state.foodCart)
+    itemToRemove = this.state.foodCart.find(food => food.item.name === item.item.name) 
+    removeThis = this.state.foodCart.indexOf(itemToRemove)
+    this.setState({ foodCart : this.state.foodCart.splice(removeThis, 1) })
   }
 
   HomeScreen = () => {
@@ -47,17 +49,9 @@ export default class App extends React.Component {
       <Settings />
     )
   }
-
-  FireBaseScreen = () => {
-    return (
-      <FireBase />
-    )
-  }
-  
   
   render(){ 
     Tab = createBottomTabNavigator()
-    console.log(this.state.foodCart)
     return (
       <NavigationContainer>
         <StatusBar barStyle='dark-content'/>
@@ -73,8 +67,6 @@ export default class App extends React.Component {
                 iconName = focused ? 'https://img.pngio.com/profile-icon-png-image-free-download-searchpngcom-profile-icon-png-673_673.png' : 'https://img.pngio.com/profile-icon-png-image-free-download-searchpngcom-profile-icon-png-673_673.png'
               } else if (route.name === 'Cart') {
                 iconName = focused ? 'https://image.flaticon.com/icons/png/512/126/126083.png' : 'https://image.flaticon.com/icons/png/512/126/126083.png'
-              } else if (route.name === 'FireBase') {
-                iconName = focused ? 'https://cdn0.iconfinder.com/data/icons/octicons/1024/flame-512.png' : 'https://cdn0.iconfinder.com/data/icons/octicons/1024/flame-512.png'
               }
             return <Image source={{uri:iconName}} size={size} color={color} style={{height: 30, width: 30}}/>
           },
@@ -88,7 +80,6 @@ export default class App extends React.Component {
           <Tab.Screen name="Order" component={this.OrderScreen} />
           <Tab.Screen name="Cart" component={() => this.CartScreen()} options={{tabBarBadge: this.state.foodCart.length > 0 ? this.state.foodCart.length : null}}/>
           <Tab.Screen name="Profile" component={this.ProfileScreen} />
-          <Tab.Screen name="FireBase" component={this.FireBaseScreen} />
         </Tab.Navigator>
       </NavigationContainer>
     )

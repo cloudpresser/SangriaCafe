@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { SafeAreaView, StyleSheet, View, Image, Dimensions, Text, ScrollView } from 'react-native'
 import ProfileCard from '../components/profileCard'
 import DatePicker from 'react-native-datepicker'
@@ -12,8 +12,21 @@ const Settings = props => {
     const [address, changeAddress] = useState('')
     const [date, changeDate] = useState('')
 
+    const [ user, setUser ] = useState({})
+
+    useEffect( () => {
+        getUser()
+    })
+
+    getUser = async () => {
+        firestore().collection("users").doc("LGUWyTrTyT4Fgqhs7AsJ").onSnapshot(doc => {
+            setUser( doc.data() )
+        }) 
+    }
+
     return(
         <>
+        {console.log(user)}
         <SafeAreaView>
             <View style={styles.topContainer}>
                     <Image source={require('../assets/sangria_logo.png')} style={styles.logo}/>
@@ -25,11 +38,11 @@ const Settings = props => {
 
             <View style={styles.container}>
                 <Text style={styles.text}>Email</Text>
-                <TextInput placeholder='customer@yahoo.com' autoCompleteType='email' onChangeText={changeEmail} value={email}/>
+                <TextInput placeholder={user.email} autoCompleteType='email' onChangeText={changeEmail} value={email}/>
                 <Text style={styles.text}>Name</Text>
-                <TextInput placeholder='PardiHardi' autoCompleteType='name' onChangeText={changeName} value={name}/>
+                <TextInput placeholder={user.name} autoCompleteType='name' onChangeText={changeName} value={name}/>
                 <Text style={styles.text}>Phone</Text>
-                <TextInput placeholder='404-123-4567' autoCompleteType='tel' onChangeText={changePhone} value={phone}/>
+                <TextInput placeholder={user.phone} autoCompleteType='tel' onChangeText={changePhone} value={phone}/>
                 <Text style={styles.text}>Address</Text>
                 <TextInput placeholder='123 Harbor Rd. Bronx NY 10458' autoCompleteType='street-address' onChangeText={changeAddress} value={address}/>
                 <Text style={styles.text}>Birthday</Text>
