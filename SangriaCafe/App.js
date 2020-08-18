@@ -16,7 +16,7 @@ export default class App extends React.Component {
   }
 
   componentDidMount(){
-    this.getUser()
+    this.getUser
   } 
 
   addItem = item => {
@@ -34,7 +34,7 @@ export default class App extends React.Component {
 
   getUser = async () => {
     this.subscriber = firestore().collection("users").doc("LGUWyTrTyT4Fgqhs7AsJ").onSnapshot(doc => {
-        this.setState({ user: doc.data() })
+        this.setState({ user: doc })
     }) 
   }
 

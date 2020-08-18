@@ -1,9 +1,9 @@
 import React from 'react'
-import { StyleSheet, View, Text, Image, Dimensions, TouchableOpacity } from 'react-native'
+import { Button, StyleSheet, View, Text, Image, Dimensions, TouchableOpacity } from 'react-native'
 
 export default ProfileCard = props => {
 
-    return (
+    return props.user ? 
         <View style={styles.userBar}>
             <View style={{flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
                 <View style={styles.userInfo}>
@@ -24,7 +24,10 @@ export default ProfileCard = props => {
                 </View>
             </View>
         </View>
-    )
+    :
+        <View style={styles.userBar}>
+            <Button title='Sign In' onPress={() => console.log('pressed')}/>
+        </View>
 }
 
 const screen = Dimensions.get('window')
