@@ -6,7 +6,6 @@ import Home from './screens/home'
 import Order from './screens/order'
 import Cart from './screens/cart'
 import Settings from './screens/settings'
-import FireBase from './FirebaseApp'
 
 export default class App extends React.Component {
 
@@ -17,13 +16,14 @@ export default class App extends React.Component {
   addItem = item => {
     foundFood = this.state.foodCart.find(food => food.item.name === item.item.name) 
     foundFood === undefined ? this.setState({ foodCart : [...this.state.foodCart, item] })
-      : foundFood.quantity ++
+      : foundFood.quantity ++ && this.setState({ foodCart : this.state.foodCart })
   }
 
   removeItem = item => {
     itemToRemove = this.state.foodCart.find(food => food.item.name === item.item.name) 
     removeThis = this.state.foodCart.indexOf(itemToRemove)
-    this.setState({ foodCart : this.state.foodCart.splice(removeThis, 1) })
+    this.state.foodCart.splice(removeThis) &&
+    this.setState({ foodCart : this.state.foodCart })
   }
 
   HomeScreen = () => {
