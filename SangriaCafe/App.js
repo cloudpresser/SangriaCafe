@@ -7,6 +7,7 @@ import Home from './screens/home'
 import Order from './screens/order'
 import Cart from './screens/cart'
 import Settings from './screens/settings'
+import Login from './screens/login';
 
 export default class App extends React.Component {
 
@@ -61,6 +62,12 @@ export default class App extends React.Component {
       <Settings user={this.state.user}/>
     )
   }
+
+  LoginScreen = () => {
+    return (
+      <Login user={this.state.user}/>
+    )
+  }
   
   render(){ 
     Tab = createBottomTabNavigator()
@@ -79,6 +86,8 @@ export default class App extends React.Component {
                 iconName = focused ? 'https://img.pngio.com/profile-icon-png-image-free-download-searchpngcom-profile-icon-png-673_673.png' : 'https://img.pngio.com/profile-icon-png-image-free-download-searchpngcom-profile-icon-png-673_673.png'
               } else if (route.name === 'Cart') {
                 iconName = focused ? 'https://image.flaticon.com/icons/png/512/126/126083.png' : 'https://image.flaticon.com/icons/png/512/126/126083.png'
+              }  else if (route.name === 'Login') {
+                iconName = focused ? 'https://image.flaticon.com/icons/png/512/126/126083.png' : 'https://image.flaticon.com/icons/png/512/126/126083.png'
               }
             return <Image source={{uri:iconName}} size={size} color={color} style={{height: 30, width: 30}}/>
           },
@@ -92,6 +101,7 @@ export default class App extends React.Component {
           <Tab.Screen name="Order" component={this.OrderScreen} />
           <Tab.Screen name="Cart" component={() => this.CartScreen()} options={{tabBarBadge: this.state.foodCart.length > 0 ? this.state.foodCart.length : null}}/>
           <Tab.Screen name="Profile" component={this.ProfileScreen} />
+          <Tab.Screen name="Login" component={this.LoginScreen} />
         </Tab.Navigator>
       </NavigationContainer>
     )
