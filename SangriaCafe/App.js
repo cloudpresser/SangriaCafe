@@ -7,17 +7,17 @@ import Home from './screens/home'
 import Order from './screens/order'
 import Cart from './screens/cart'
 import Settings from './screens/settings'
-import Login from './screens/login';
+import Login from './screens/login'
 
 export default class App extends React.Component {
 
   state = {
     foodCart: [],
-    user: ''
+    user: null
   }
 
   componentDidMount(){
-    this.getUser
+    this.getUser()
   } 
 
   addItem = item => {
@@ -34,14 +34,18 @@ export default class App extends React.Component {
   }
 
   getUser = async () => {
-    this.subscriber = firestore().collection("users").doc("LGUWyTrTyT4Fgqhs7AsJ").onSnapshot(doc => {
-        this.setState({ user: doc })
+    firestore().collection("users").doc("LGUWyTrTyT4Fgqhs7AsJ").onSnapshot(doc => {
+        this.setState({ user: doc.data() })
     }) 
+  }
+
+  setUser = () => {
+    this.setState({ user: this.state.user })
   }
 
   HomeScreen = () => {
     return (
-        <Home user={this.state.user}/>
+        <Home user={this.state.user} />
     )
   }
   
