@@ -34,7 +34,6 @@ const Map = () => {
         )
     }
 
-    const { width, height } = Dimensions.get('window')
     const ASPECT_RATIO = width / height
     const LATITUDE_DELTA = 0.008
     const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
@@ -76,6 +75,7 @@ const Map = () => {
     )
 }
 
+const { width, height } = Dimensions.get('window')
 const styles = StyleSheet.create({
     mapStyle: {
         borderRadius: 10,

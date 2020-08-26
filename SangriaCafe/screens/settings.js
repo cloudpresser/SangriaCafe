@@ -36,7 +36,7 @@ const Settings = props => {
                 <Text style={styles.text}>Name</Text>
                 <TextInput placeholder={props.user.name} autoCompleteType='name' onChangeText={changeName} value={name}/>
                 <Text style={styles.text}>Phone</Text>
-                <TextInput placeholder={(props.user.phone).toString()} autoCompleteType='tel' onChangeText={changePhone} value={phone}/>
+                <TextInput placeholder={props.user.phone} autoCompleteType='tel' onChangeText={changePhone} value={phone}/>
                 <Text style={styles.text}>Address</Text>
                 <TextInput placeholder={props.user.title} autoCompleteType='street-address' onChangeText={changeAddress} value={address}/>
                 <Text style={styles.text}>Birthday</Text>
@@ -44,7 +44,7 @@ const Settings = props => {
                     style={{width: 200}}
                     date={date}
                     mode="date"
-                    placeholder={props.user.birthday.month}
+                    placeholder={props.user.birthday ? props.user.birthday : '01-01-1920'}
                     format="DD-MM-YYYY"
                     minDate="01-01-1920"
                     maxDate="01-01-2021"
@@ -63,13 +63,13 @@ const Settings = props => {
                     }}
                     onDateChange={changeDate} />
             </View>
-            <Button style={{margin: 5}} mode="contained" onPress={() => console.log('Pressed')}>
-                Card Info
+            <Button style={{margin: 50}} mode="contained" onPress={() => console.log('Pressed')}>
+                Card(s)
             </Button>
-            <Button style={{margin: 5}} mode="contained" onPress={() => console.log('Pressed')}>
+            <Button style={{margin: 50}} mode="contained" onPress={() => console.log('Pressed')}>
                 Save
             </Button>
-            <Button style={{margin: 5}} mode="contained" onPress={() => logoff()}>
+            <Button style={{margin: 50}} mode="contained" onPress={() => logoff()}>
                 Logoff
             </Button>
         </ScrollView>

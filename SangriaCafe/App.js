@@ -34,13 +34,9 @@ export default class App extends React.Component {
   }
 
   getUser = async () => {
-    firestore().collection("users").doc("LGUWyTrTyT4Fgqhs7AsJ").onSnapshot(doc => {
+    firestore().collection("users").doc("o7pvJQLqJ0DkGpdZLceF").onSnapshot(doc => {
         this.setState({ user: doc.data() })
-    }) 
-  }
-
-  setUser = () => {
-    this.setState({ user: this.state.user })
+    })
   }
 
   HomeScreen = () => {
@@ -61,15 +57,9 @@ export default class App extends React.Component {
       )
   }
   
-  ProfileScreen = () => {
+  SettingsScreen = () => {
     return (
       <Settings user={this.state.user}/>
-    )
-  }
-
-  LoginScreen = () => {
-    return (
-      <Login user={this.state.user}/>
     )
   }
   
@@ -90,8 +80,6 @@ export default class App extends React.Component {
                 iconName = focused ? 'https://img.pngio.com/profile-icon-png-image-free-download-searchpngcom-profile-icon-png-673_673.png' : 'https://img.pngio.com/profile-icon-png-image-free-download-searchpngcom-profile-icon-png-673_673.png'
               } else if (route.name === 'Cart') {
                 iconName = focused ? 'https://image.flaticon.com/icons/png/512/126/126083.png' : 'https://image.flaticon.com/icons/png/512/126/126083.png'
-              }  else if (route.name === 'Login') {
-                iconName = focused ? 'https://image.flaticon.com/icons/png/512/126/126083.png' : 'https://image.flaticon.com/icons/png/512/126/126083.png'
               }
             return <Image source={{uri:iconName}} size={size} color={color} style={{height: 30, width: 30}}/>
           },
@@ -104,8 +92,7 @@ export default class App extends React.Component {
           <Tab.Screen name="Home" component={this.HomeScreen}/>
           <Tab.Screen name="Order" component={this.OrderScreen} />
           <Tab.Screen name="Cart" component={() => this.CartScreen()} options={{tabBarBadge: this.state.foodCart.length > 0 ? this.state.foodCart.length : null}}/>
-          <Tab.Screen name="Profile" component={this.ProfileScreen} />
-          <Tab.Screen name="Login" component={this.LoginScreen} />
+          <Tab.Screen name="Profile" component={this.SettingsScreen} />
         </Tab.Navigator>
       </NavigationContainer>
     )
