@@ -4,10 +4,11 @@ import { SafeAreaView, StyleSheet, View, Image, Dimensions, Text, Button, Toucha
 const Cart = props => {
 
     const [tip, addTip] = useState(0)
-
+    
+    const taxRate = 0.08875
     const subtotal = () => (props.foodCart.reduce((total, food) => total += parseInt(food.item.details.price * food.quantity), 0))
     const deliveryFee = () => (subtotal() < 50) ? 1.99 : 0
-    const salesTax = () => subtotal() * 0.08875
+    const salesTax = () => subtotal() * taxRate
     const total = () => subtotal() + deliveryFee() + salesTax()
     const toroTotal = () => (props.foodCart.reduce((total, food) => total += parseInt(food.item.details.toros * food.quantity), 0))
 

@@ -37,6 +37,7 @@ const Map = () => {
     const ASPECT_RATIO = width / height
     const LATITUDE_DELTA = 0.008
     const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
+    const kmToMConverter = 0.621371
     let mapRef = null
 
     return coords.length > 0 ? (
@@ -49,7 +50,7 @@ const Map = () => {
         >
             <MapView.Marker coordinate={coords && coords[0]} title={'You'}/>
             <MapView.Marker coordinate={coords && coords[1]} title={'Sangria Cafe'}/>
-            <Text style={{fontWeight: 'bold',fontSize: 18}}>{(parseFloat(distance) * 0.621371).toFixed(2)} miles </Text>
+            <Text style={{fontWeight: 'bold',fontSize: 18}}>{(parseFloat(distance) * kmToMConverter).toFixed(2)} miles </Text>
             <Text style={{fontWeight: 'bold',fontSize: 18}}>{parseFloat(time).toFixed(0)}min drive</Text>
                 <MapViewDirections
                     origin={coords[0]}
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
     mapStyle: {
         borderRadius: 10,
         width: '100%',
-        height: 300,
+        height: 200,
         flex: 1,
         elevation: 10,
         shadowOffset: {width: 20, height: 25},

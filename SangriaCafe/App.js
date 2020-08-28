@@ -7,7 +7,6 @@ import Home from './screens/home'
 import Order from './screens/order'
 import Cart from './screens/cart'
 import Settings from './screens/settings'
-import Login from './screens/login'
 
 export default class App extends React.Component {
 
@@ -17,8 +16,8 @@ export default class App extends React.Component {
   }
 
   componentDidMount(){
-    this.getUser()
-  } 
+    // this.getUser()
+  }
 
   addItem = item => {
     foundFood = this.state.foodCart.find(food => food.item.name === item.item.name) 
@@ -34,8 +33,11 @@ export default class App extends React.Component {
   }
 
   getUser = async () => {
-    firestore().collection("users").doc("o7pvJQLqJ0DkGpdZLceF").onSnapshot(doc => {
-        this.setState({ user: doc.data() })
+    firestore().collection("users").get().then(doc => {
+        console.log(doc.size)
+        doc.forEach(user => {
+          console.log(user.data().email)
+        })
     })
   }
 
@@ -82,12 +84,9 @@ export default class App extends React.Component {
                 iconName = focused ? 'https://image.flaticon.com/icons/png/512/126/126083.png' : 'https://image.flaticon.com/icons/png/512/126/126083.png'
               }
             return <Image source={{uri:iconName}} size={size} color={color} style={{height: 30, width: 30}}/>
-          },
+          }
           })}
-          tabBarOptions={{
-            activeTintColor: 'tomato',
-            inactiveTintColor: 'gray',
-          }}
+          tabBarOptions={{ activeTintColor: 'tomato', inactiveTintColor: 'gray' }}
         >
           <Tab.Screen name="Home" component={this.HomeScreen}/>
           <Tab.Screen name="Order" component={this.OrderScreen} />

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, View, Text, Image, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, Image, ScrollView, Linking, TouchableOpacity } from 'react-native'
 
 export default Card = () => {
 
@@ -12,7 +12,7 @@ export default Card = () => {
     const fetchFeed = async () => {
         await fetch('https://graph.instagram.com/me/media?fields=username,id,caption,media_url&access_token=IGQVJXNVRIbDltaGU3ZAldSVHdnQ1lKcFBENDhxQ0N0RUg1LXZAQb1hPMEwzWkp3V0hrYjdXeGxkQUtKVEd2WGwwV3MxbXBoOFB1WXNEbVFqdzJrQzhtSUlXWXZAMS0hLQW9DU1FWLWRIMXlVa010SncxTwZDZD')
             .then(resp => resp.json())
-            .then( data => setPosts(data.data) )
+            .then(data => setPosts(data.data))
     }
     
     return (
@@ -21,13 +21,15 @@ export default Card = () => {
             {posts && posts.map( post => {
                 return (
                     <View key={post.id} style={styles.cardContent}>
+                        <TouchableOpacity onPress={() => {Linking.openURL('https://www.instagram.com/sangriacafe/')}}>
                         <View style={styles.userNameBar}>
                             <Image source={require('../assets/sangria_logo.png')} style={{height: 20, width: 20, borderRadius: 15, margin: 5}}/>
                             <Text>sangriacafe</Text>
                         </View>
+                        </TouchableOpacity>
                         <View>
                             <Image source={{uri: post.media_url}} style={styles.picture} />
-                            <Image source={require('../assets/grambottom.png')} style={{height: 22, width: 330}} />
+                            <Image source={require('../assets/grambottom.png')} style={{height: 18, width: 300}} />
                         </View>
                         <ScrollView showsVerticalScrollIndicator={false}>
                             <View style={{margin: 10}}>
@@ -46,18 +48,18 @@ export default Card = () => {
 const styles = StyleSheet.create({
     cardContent: {
         borderRadius: 10,
-        width: 330,
-        height: 450,
+        width: 300,
+        height: 380,
         flex: 1,
-        margin: 10,
+        margin: 5,
         elevation: 10,
         shadowOffset: {width: 20, height: 25},
         shadowColor: 'black',
         backgroundColor: 'white'
     },
     picture: {
-        width: 330,
-        height: 300,
+        width: 300,
+        height: 240,
         resizeMode: 'stretch',
     },
     userNameBar : {

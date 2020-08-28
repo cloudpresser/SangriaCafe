@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, View, Image, Text, TouchableOpacity, TextInput, StyleSheet, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Dimensions, SafeAreaView, ScrollView } from 'react-native'
+import { View, Image, Text, TouchableOpacity, TextInput, StyleSheet, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Dimensions, SafeAreaView } from 'react-native'
 
 export default ModalCard = props => {
 
