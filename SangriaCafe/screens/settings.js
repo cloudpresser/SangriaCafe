@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { SafeAreaView, StyleSheet, View, Image, Dimensions, Text } from 'react-native'
+import { SafeAreaView, StyleSheet, View, Image, Dimensions, Text, TouchableOpacity, ScrollView } from 'react-native'
 import DatePicker from 'react-native-datepicker'
 import { TextInput, Button } from 'react-native-paper'
 import auth from '@react-native-firebase/auth'
-import { GoogleSignin } from '@react-native-community/google-signin'
+import database from '@react-native-firebase/database'
+import { GoogleSignin, GoogleSigninButton } from '@react-native-community/google-signin'
 
 const Settings = () => {
 
@@ -24,16 +25,46 @@ const Settings = () => {
         const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
         return subscriber
     }, [])
-
-    GoogleSignin.configure({
-        webClientId:'256081369777-fsgdf80ojpi67pkj2pbv3o1coa7c6h55.apps.googleusercontent.com'
-    })
-
+    
     onAuthStateChanged = (user) => {
         setUser(user)
         if (initializing) setInitializing(false)
-        console.log(user, 'here')
     }
+
+    GoogleSignin.configure({
+        webClientId:'256081369777-fsgdf80ojpi67pkj2pbv3o1coa7c6h55.apps.googleusercontent.com',
+        offlineAccess: true,
+        hostedDomain: 'sangriacafe.firebaseapp.com',
+        databaseURL: 'https://sangriacafe.firebaseio.com',
+        projectId: 'sangriacafe',
+        storageBucket: 'sangriacafe.appspot.com',
+        forceCodeForRefreshToken: true
+    })
+
+    onGoogleButtonPress = async () => {
+        const { idToken } = await GoogleSignin.signIn()
+        const googleCredential = auth.GoogleAuthProvider.credential(idToken)
+        return auth().signInWithCredential(googleCredential)
+    }
+
+    signIn = async () => {
+        try {
+          await GoogleSignin.hasPlayServices();
+          const userInfo = await GoogleSignin.signIn();
+          this.setState({ userInfo });
+        } catch (error) {
+          if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+            // user cancelled the login flow
+          } else if (error.code === statusCodes.IN_PROGRESS) {
+            // operation (e.g. sign in) is in progress already
+          } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+            // play services not available or outdated
+          } else {
+            // some other error happened
+          }
+        }
+      }
+
 
     openAuthOptions = () => { 
         toggleLogin(false)
@@ -86,7 +117,19 @@ const Settings = () => {
             if (error.code === 'auth/wrong-password') {
                 alert('Incorrect Account Information Try Again')
             }
+            if (error.code === 'auth/weak-password') {
+                alert('Missing or Weak Password')
+            }
         })
+    }
+
+    updateProfile = () => {
+        auth().currentUser.updateProfile({
+            displayName: name,
+            email: email,
+            phoneNumber: phone
+        })
+        console.log(auth().currentUser)
     }
 
     onGoogleButtonPress = async () => {
@@ -96,25 +139,12 @@ const Settings = () => {
     }
 
     postNewUser = () => {
-        fetch('https://identitytoolkit.googleapis.com/v1/accounts:signupNewUser?key=AIzaSyCWrz16D7gqe7fJNtT8iqs4sa3JdAcU5xA', {
-            method: 'POST',
-            contentType: 'application/json',
-            body: JSON.stringify({
-                'user': user,
-                'email': email,
-                'password': password,
-                'returnSecureToken': true
-            })
-        }).then(resp => resp.text()).then(newUser => console.log(newUser, 'HERE'))
+
     }
 
     logoff = () => { auth().signOut() }
 
-    onAuthStateChanged = (user) => {
-        setUser(user)
-        if (initializing) setInitializing(false)
-        console.log(user, 'here')
-    }
+    if (initializing) return null
 
     return(
         <>
@@ -122,21 +152,22 @@ const Settings = () => {
             <View style={styles.topContainer}>
                 <Image source={require('../assets/sangria_logo.png')} style={styles.logo}/>
             </View>
+        <ScrollView>
 
         { user ?
             <View>
-                <View style={styles.userBar}>
+                <View style={styles.loggedInUserBar}>
                     <View style={{flexDirection: 'row', justifyContent:'space-around', alignItems: 'center'}}>
                         <View style={styles.userInfo}>
                         <TouchableOpacity onPress={() => console.log('upload image')}>
                             <Image source={{uri : user.image}} style={{height: 70, width: 70, borderRadius: 35}}/>
                         </TouchableOpacity>
-                            <Text style={{fontSize:20}}>{user.name}</Text>
+                            <Text style={{fontSize:20}}>{user.displayName}</Text>
                         </View>
                         <View>
                             <View style={styles.detailSection}>
                                 <Text style={{fontSize:20}}>{user.title}</Text>
-                                <Text>Toros Redeemed: {user.toros_spent}</Text>
+                                <Text>{user.toros ? user.toros : 0}</Text>
                             </View>
                             <View style={styles.toroSection}>
                                 <Text style={{fontSize:20}}>{user.toros} </Text>
@@ -145,22 +176,16 @@ const Settings = () => {
                         </View>
                     </View>
                 </View>
-                <View style={{justifyContent: 'center', flexDirection: 'row', margin: 20}}>
-                    <Button style={{margin: 10, width: screen.width / 4}} color='tomato' mode="contained" onPress={() => console.log('Pressed')}>Card</Button>
-                    <Button style={{margin: 10, width: screen.width / 4}} color='tomato' mode="contained" onPress={() => console.log('Pressed')}>Update</Button>
-                    <Button style={{margin: 10, width: screen.width / 4}} color='tomato' mode="contained" onPress={() => logoff()}>Logoff</Button> 
-                </View>
-
                 { updateVisible ? 
                     <View style={styles.container}>
                         <Text style={styles.text}>Email</Text>
                         <TextInput placeholder={user.email} autoCompleteType='email' onChangeText={changeEmail} value={email}/>
                         <Text style={styles.text}>Name</Text>
-                        <TextInput placeholder={user.name} autoCompleteType='name' onChangeText={changeName} value={name}/>
+                        <TextInput placeholder={user.displayName} autoCompleteType='name' onChangeText={changeName} value={name}/>
                         <Text style={styles.text}>Phone</Text>
-                        <TextInput placeholder={user.phone} autoCompleteType='tel' onChangeText={changePhone} value={phone}/>
+                        <TextInput placeholder={user.phoneNumber} onChangeText={changePhone} value={phone}/>
                         <Text style={styles.text}>Address</Text>
-                        <TextInput placeholder={user.title} autoCompleteType='street-address' onChangeText={changeAddress} value={address}/>
+                        <TextInput placeholder={user.address} autoCompleteType='street-address' onChangeText={changeAddress} value={address}/>
                         <Text style={styles.text}>Birthday</Text>
                         <DatePicker
                             style={{width: 200}}
@@ -184,11 +209,17 @@ const Settings = () => {
                                 }
                             }}
                             onDateChange={changeDate} />
-                        </View>: null }
+                        <Button mode='contained' color='tomato' style={{margin:10}} onPress={() => updateProfile(email, password)}>Update</Button>
+                    </View>: null }
+                <View style={{justifyContent: 'center', flexDirection: 'row'}}>
+                    <Button style={{margin: 5, width: screen.width / 4}} color='tomato' mode="contained" onPress={() => console.log('Pressed')}>Card</Button>
+                    <Button style={{margin: 5, width: screen.width / 4}} color='tomato' mode="contained" onPress={updateVisible ? () => toggleUpdate(false):() => toggleUpdate(true)}>Info</Button>
+                    <Button style={{margin: 5, width: screen.width / 4}} color='tomato' mode="contained" onPress={() => logoff()}>Logoff</Button> 
+                </View>
             </View>
                 : 
             <View style={styles.userBar}>
-                <Button onPress={() => openAuthOptions()}> Sign In </Button>
+                <Button onPress={() => openAuthOptions()}> {loginIsVisible || registerIsVisible ? 'Back':'Sign In'} </Button>
                 { authOptionsVisible ? 
                     <View>
                         <Button onPress={() => chooseLogin()}> Already have an account? </Button>
@@ -197,9 +228,10 @@ const Settings = () => {
                 { loginIsVisible ? 
                     <View style={styles.container}>
                         <TextInput placeholder={'email'} autoCompleteType='email' onChangeText={changeEmail} value={email}/>
-                        <TextInput placeholder={'password'} onChangeText={changePassword} value={password}/>
+                        <TextInput placeholder={'password'} secureTextEntry={true} onChangeText={changePassword} value={password}/>
                         <Button style={{marginTop: 5}} onPress={() => loginUser(email, password)}>Login</Button>
-                        <Button style={{marginTop: 5}} onPress={() => onGoogleButtonPress()}>Google Sign In</Button>
+                        <GoogleSigninButton style={{ width: 192, height: 48, alignSelf
+                    : 'center' }} size={GoogleSigninButton.Size.Wide} color={GoogleSigninButton.Color.Dark} onPress={() => signIn()} />
                     </View> : null }
                 
                 { registerIsVisible ? 
@@ -237,9 +269,12 @@ const Settings = () => {
                                 }
                             }}
                             onDateChange={changeDate} />
+                            <Button mode='contained' color='tomato' style={{margin: 10}} onPress={() => createUser(email, password)}>Create New Account</Button>
+                            <GoogleSigninButton style={{ width: 192, height: 48, alignSelf: 'center' }} size={GoogleSigninButton.Size.Wide} color={GoogleSigninButton.Color.Dark} onPress={() => signIn()} />
                     </View>  : null }
                 </View> 
         }
+        </ScrollView>
         </SafeAreaView>
         </>
     )
@@ -256,6 +291,15 @@ const styles = StyleSheet.create({
         height: screen.width / 4,
         width: screen.width / 1.7,
     },
+    toroSection: {
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        flexDirection: 'row'
+    },
+    toro: {
+        height: 28,
+        width: 28
+    },
     container: {
         margin: 10
     },
@@ -264,9 +308,13 @@ const styles = StyleSheet.create({
         margin: 5
     },
     userBar: {
-        marginTop: 20,
-        padding: 5,
-        backgroundColor: 'white'
+        height: screen.height / 1.3,
+        padding: 10,
+        backgroundColor: 'white',
+        justifyContent: 'center'
+    },
+    loggedInUserBar: {
+        margin: 20,      
     },
     userInfo: {
         alignItems: 'center'

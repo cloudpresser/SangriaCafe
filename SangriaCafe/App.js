@@ -2,7 +2,7 @@ import React from 'react';
 import { Image, StatusBar } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import firestore from '@react-native-firebase/firestore'
+import auth from '@react-native-firebase/auth'
 import Home from './screens/home'
 import Order from './screens/order'
 import Cart from './screens/cart'
@@ -16,7 +16,7 @@ export default class App extends React.Component {
   }
 
   componentDidMount(){
-    // this.getUser()
+    this.setState({ user: auth().currentUser })
   }
 
   addItem = item => {
@@ -30,15 +30,6 @@ export default class App extends React.Component {
     removeThis = this.state.foodCart.indexOf(itemToRemove)
     this.state.foodCart.splice(removeThis, 1) &&
     this.setState({ foodCart : this.state.foodCart })
-  }
-
-  getUser = async () => {
-    firestore().collection("users").get().then(doc => {
-        console.log(doc.size)
-        doc.forEach(user => {
-          console.log(user.data().email)
-        })
-    })
   }
 
   HomeScreen = () => {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Modal, SafeAreaView, StyleSheet, View, Image, Dimensions, Text, ScrollView, TouchableOpacity, TextInput } from 'react-native'
+import { Modal, SafeAreaView, StyleSheet, View, Image, Dimensions, Text, ScrollView, TouchableOpacity } from 'react-native'
 import Menu from '../components/menu'
 import ModalCard from '../components/modalCard'
 
