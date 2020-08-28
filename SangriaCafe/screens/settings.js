@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { SafeAreaView, StyleSheet, View, Image, Dimensions, Text, ScrollView } from 'react-native'
-import ProfileCard from '../components/profileCard'
+import { SafeAreaView, StyleSheet, View, Image, Dimensions, Text } from 'react-native'
 import DatePicker from 'react-native-datepicker'
 import { TextInput, Button } from 'react-native-paper'
 import auth from '@react-native-firebase/auth'
@@ -12,6 +11,7 @@ const Settings = () => {
     const [authOptionsVisible, toggleOptions] = useState(false)
     const [loginIsVisible, toggleLogin] = useState(false)
     const [registerIsVisible, toggleRegister] = useState(false)
+    const [updateVisible, toggleUpdate] = useState(false)
     const [user, setUser] = useState({})
     const [email, changeEmail] = useState('')
     const [password, changePassword] = useState()
@@ -124,44 +124,67 @@ const Settings = () => {
             </View>
 
         { user ?
-            <View style={styles.container}>
-                <Text style={styles.text}>Email</Text>
-                <TextInput placeholder={user.email} autoCompleteType='email' onChangeText={changeEmail} value={email}/>
-                <Text style={styles.text}>Name</Text>
-                <TextInput placeholder={user.name} autoCompleteType='name' onChangeText={changeName} value={name}/>
-                <Text style={styles.text}>Phone</Text>
-                <TextInput placeholder={user.phone} autoCompleteType='tel' onChangeText={changePhone} value={phone}/>
-                <Text style={styles.text}>Address</Text>
-                <TextInput placeholder={user.title} autoCompleteType='street-address' onChangeText={changeAddress} value={address}/>
-                <Text style={styles.text}>Birthday</Text>
-                <DatePicker
-                    style={{width: 200}}
-                    date={date}
-                    mode="date"
-                    placeholder={user.birthday ? user.birthday : '01-01-1920'}
-                    format="DD-MM-YYYY"
-                    minDate="01-01-1920"
-                    maxDate="01-01-2021"
-                    confirmBtnText="Confirm"
-                    cancelBtnText="Cancel"
-                    customStyles={{
-                        dateIcon: {
-                            position: 'absolute',
-                            left: 0,
-                            top: 4,
-                            marginLeft: 0
-                        },
-                        dateInput: {
-                            marginLeft: 36
-                        }
-                    }}
-                    onDateChange={changeDate} />
-            
+            <View>
+                <View style={styles.userBar}>
+                    <View style={{flexDirection: 'row', justifyContent:'space-around', alignItems: 'center'}}>
+                        <View style={styles.userInfo}>
+                        <TouchableOpacity onPress={() => console.log('upload image')}>
+                            <Image source={{uri : user.image}} style={{height: 70, width: 70, borderRadius: 35}}/>
+                        </TouchableOpacity>
+                            <Text style={{fontSize:20}}>{user.name}</Text>
+                        </View>
+                        <View>
+                            <View style={styles.detailSection}>
+                                <Text style={{fontSize:20}}>{user.title}</Text>
+                                <Text>Toros Redeemed: {user.toros_spent}</Text>
+                            </View>
+                            <View style={styles.toroSection}>
+                                <Text style={{fontSize:20}}>{user.toros} </Text>
+                                <Image source={require('../assets/toro.png')} style={styles.toro}/>
+                            </View>
+                        </View>
+                    </View>
+                </View>
                 <View style={{justifyContent: 'center', flexDirection: 'row', margin: 20}}>
                     <Button style={{margin: 10, width: screen.width / 4}} color='tomato' mode="contained" onPress={() => console.log('Pressed')}>Card</Button>
                     <Button style={{margin: 10, width: screen.width / 4}} color='tomato' mode="contained" onPress={() => console.log('Pressed')}>Update</Button>
                     <Button style={{margin: 10, width: screen.width / 4}} color='tomato' mode="contained" onPress={() => logoff()}>Logoff</Button> 
                 </View>
+
+                { updateVisible ? 
+                    <View style={styles.container}>
+                        <Text style={styles.text}>Email</Text>
+                        <TextInput placeholder={user.email} autoCompleteType='email' onChangeText={changeEmail} value={email}/>
+                        <Text style={styles.text}>Name</Text>
+                        <TextInput placeholder={user.name} autoCompleteType='name' onChangeText={changeName} value={name}/>
+                        <Text style={styles.text}>Phone</Text>
+                        <TextInput placeholder={user.phone} autoCompleteType='tel' onChangeText={changePhone} value={phone}/>
+                        <Text style={styles.text}>Address</Text>
+                        <TextInput placeholder={user.title} autoCompleteType='street-address' onChangeText={changeAddress} value={address}/>
+                        <Text style={styles.text}>Birthday</Text>
+                        <DatePicker
+                            style={{width: 200}}
+                            date={date}
+                            mode="date"
+                            placeholder={user.birthday ? user.birthday : '01-01-1920'}
+                            format="DD-MM-YYYY"
+                            minDate="01-01-1920"
+                            maxDate="01-01-2021"
+                            confirmBtnText="Confirm"
+                            cancelBtnText="Cancel"
+                            customStyles={{
+                                dateIcon: {
+                                    position: 'absolute',
+                                    left: 0,
+                                    top: 4,
+                                    marginLeft: 0
+                                },
+                                dateInput: {
+                                    marginLeft: 36
+                                }
+                            }}
+                            onDateChange={changeDate} />
+                        </View>: null }
             </View>
                 : 
             <View style={styles.userBar}>
