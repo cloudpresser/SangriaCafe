@@ -1,8 +1,6 @@
 import React from 'react'
 import App from './App'
 import firebase from '@react-native-firebase/app'
-import auth from '@react-native-firebase/auth'
-import database from '@react-native-firebase/database'
 
 const firebaseConfig = {
     apiKey: 'AIzaSyCWrz16D7gqe7fJNtT8iqs4sa3JdAcU5xA',
@@ -16,10 +14,14 @@ const firebaseConfig = {
     forceCodeForRefreshToken: true
 }
 
+const instaToken = 'IGQVJXNVRIbDltaGU3ZAldSVHdnQ1lKcFBENDhxQ0N0RUg1LXZAQb1hPMEwzWkp3V0hrYjdXeGxkQUtKVEd2WGwwV3MxbXBoOFB1WXNEbVFqdzJrQzhtSUlXWXZAMS0hLQW9DU1FWLWRIMXlVa010SncxTwZDZD'
+
+const mapApi = 'AIzaSyCWrz16D7gqe7fJNtT8iqs4sa3JdAcU5xA'
+
 firebase.initializeApp(firebaseConfig)
 
 
-export {firebase, auth, database}
+export {firebaseConfig, instaToken, mapApi}
 
 const Setup = () => {
     return <App/>

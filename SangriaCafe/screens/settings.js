@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { SafeAreaView, StyleSheet, View, Image, Dimensions, Text, TouchableOpacity, ScrollView } from 'react-native'
+import { firebaseConfig } from '../Setup'
 import DatePicker from '@react-native-community/datetimepicker'
 import { TextInput, Button } from 'react-native-paper'
 import auth from '@react-native-firebase/auth'
@@ -32,7 +33,7 @@ const Settings = () => {
     }
 
     GoogleSignin.configure({
-        webClientId:'256081369777-fsgdf80ojpi67pkj2pbv3o1coa7c6h55.apps.googleusercontent.com'
+        webClientId: firebaseConfig.webClientId
     })
 
     onGoogleButtonPress = async () => {

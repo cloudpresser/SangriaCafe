@@ -3,6 +3,7 @@ import MapView from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import Geolocation from 'react-native-geolocation-service';
 import { StyleSheet, Dimensions, View, Text } from 'react-native';
+import { mapApi} from '../Setup'
 
 const Map = () => {
 
@@ -57,7 +58,7 @@ const Map = () => {
                 <MapViewDirections
                     origin={coords[0]}
                     destination={coords[1]}
-                    apikey={'AIzaSyCWrz16D7gqe7fJNtT8iqs4sa3JdAcU5xA'}
+                    apikey={mapApi}
                     mode={'DRIVING'}
                     strokeWidth={5}
                     strokeColor='cornflowerblue'

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, View, Text, Image, ScrollView, Linking, TouchableOpacity } from 'react-native'
+import {instaToken} from '../Setup'
 
 export default Card = () => {
 
@@ -10,7 +11,7 @@ export default Card = () => {
     }, [] )
 
     const fetchFeed = async () => {
-        await fetch('https://graph.instagram.com/me/media?fields=username,id,caption,media_url&access_token=IGQVJXNVRIbDltaGU3ZAldSVHdnQ1lKcFBENDhxQ0N0RUg1LXZAQb1hPMEwzWkp3V0hrYjdXeGxkQUtKVEd2WGwwV3MxbXBoOFB1WXNEbVFqdzJrQzhtSUlXWXZAMS0hLQW9DU1FWLWRIMXlVa010SncxTwZDZD')
+        await fetch(`https://graph.instagram.com/me/media?fields=username,id,caption,media_url&access_token=${instaToken}`)
             .then(resp => resp.json())
             .then(data => setPosts(data.data))
     }
