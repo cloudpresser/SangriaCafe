@@ -18,12 +18,10 @@ const instaToken = 'IGQVJXNVRIbDltaGU3ZAldSVHdnQ1lKcFBENDhxQ0N0RUg1LXZAQb1hPMEwz
 
 const mapApi = 'AIzaSyCWrz16D7gqe7fJNtT8iqs4sa3JdAcU5xA'
 
-firebase.initializeApp(firebaseConfig)
-
-
 export {firebaseConfig, instaToken, mapApi}
 
 const Setup = () => {
+    {firebase.initializeApp(firebaseConfig)}
     return <App/>
 }
 

@@ -3,8 +3,8 @@ import { SafeAreaView, StyleSheet, View, Image, Dimensions, Text, TouchableOpaci
 import { firebaseConfig } from '../Setup'
 import DatePicker from '@react-native-community/datetimepicker'
 import { TextInput, Button } from 'react-native-paper'
+import firestore from '@react-native-firebase/firestore'
 import auth from '@react-native-firebase/auth'
-import database from '@react-native-firebase/database'
 import { GoogleSignin, GoogleSigninButton } from '@react-native-community/google-signin'
 
 const Settings = () => {
@@ -29,6 +29,7 @@ const Settings = () => {
     
     onAuthStateChanged = (user) => {
         setUser(user)
+        console.log(user)
         if (initializing) setInitializing(false)
     }
 
@@ -46,7 +47,7 @@ const Settings = () => {
         try {
           await GoogleSignin.hasPlayServices();
           const userInfo = await GoogleSignin.signIn();
-        setUser({ userInfo });
+            setUser({ userInfo })
         } catch (error) {
           if (error.code === statusCodes.SIGN_IN_CANCELLED) {
             console.log(error)
@@ -118,16 +119,22 @@ const Settings = () => {
     }
 
     postNewUser = () => {
-
+        firestore().collection('users').add({
+            'email': email,
+            'name': name,
+            'phoneNumber': phone,
+            'birthday': date,
+            'toros': 0,
+            'toros_spent': 0,
+            'title': 'mozo de espada'
+        })
+        auth().currentUser.updateProfile({
+            displayName: name
+        })
     }
 
     updateProfile = () => {
-        auth().currentUser.updateProfile({
-            displayName: name,
-            email: email,
-            phoneNumber: phone
-        })
-        console.log(auth().currentUser)
+        console.log('update user')
     }
 
     onGoogleButtonPress = async () => {
@@ -149,7 +156,7 @@ const Settings = () => {
             <View style={styles.topContainer}>
                 <Image source={require('../assets/sangria_logo.png')} style={styles.logo}/>
             </View>
-        <ScrollView alwaysBounceVertical={true} showsVerticalScrollIndicator={false} contentInset={{top: 0, left: 0, bottom: 75, right: 0}} >
+        <ScrollView alwaysBounceVertical={true} showsVerticalScrollIndicator={false} contentInset={{top: 0, left: 0, bottom: 85, right: 0}} >
 
         { user ?
             <View>

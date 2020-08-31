@@ -261,9 +261,6 @@ PODS:
     - FirebaseAnalytics (= 6.7.2)
   - Firebase/CoreOnly (6.30.0):
     - FirebaseCore (= 6.10.0)
-  - Firebase/Database (6.30.0):
-    - Firebase/CoreOnly
-    - FirebaseDatabase (~> 6.5.0)
   - Firebase/Firestore (6.30.0):
     - Firebase/CoreOnly
     - FirebaseFirestore (~> 1.16.4)
@@ -290,9 +287,6 @@ PODS:
     - GoogleUtilities/Environment (~> 6.7)
     - GoogleUtilities/Logger (~> 6.7)
     - nanopb (~> 1.30905.0)
-  - FirebaseDatabase (6.5.0):
-    - FirebaseCore (~> 6.10)
-    - leveldb-library (~> 1.22)
   - FirebaseFirestore (1.16.4):
     - abseil/algorithm (= 0.20200225.0)
     - abseil/base (= 0.20200225.0)
@@ -682,10 +676,6 @@ PODS:
     - Firebase/Auth (~> 6.30.0)
     - React
     - RNFBApp
-  - RNFBDatabase (7.5.4):
-    - Firebase/Database (~> 6.30.0)
-    - React
-    - RNFBApp
   - RNFBFirestore (7.7.0):
     - Firebase/Firestore (~> 6.30.0)
     - React
@@ -760,7 +750,6 @@ DEPENDENCIES:
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
-  - "RNFBDatabase (from `../node_modules/@react-native-firebase/database`)"
   - "RNFBFirestore (from `../node_modules/@react-native-firebase/firestore`)"
   - "RNGoogleSignin (from `../node_modules/@react-native-community/google-signin`)"
   - RNScreens (from `../node_modules/react-native-screens`)
@@ -784,7 +773,6 @@ SPEC REPOS:
     - FirebaseAuth
     - FirebaseCore
     - FirebaseCoreDiagnostics
-    - FirebaseDatabase
     - FirebaseFirestore
     - FirebaseInstallations
     - Flipper
@@ -873,8 +861,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBAuth:
     :path: "../node_modules/@react-native-firebase/auth"
-  RNFBDatabase:
-    :path: "../node_modules/@react-native-firebase/database"
   RNFBFirestore:
     :path: "../node_modules/@react-native-firebase/firestore"
   RNGoogleSignin:
@@ -905,7 +891,6 @@ SPEC CHECKSUMS:
   FirebaseAuth: 300433de340c1b058dbb8aec224a3f1bcfda5184
   FirebaseCore: 9a41e2de78fef10f63cee30ab10e2945266bc1fc
   FirebaseCoreDiagnostics: 7535fe695737f8c5b350584292a70b7f8ff0357b
-  FirebaseDatabase: d85b47213273708e48c972012b39105f76229588
   FirebaseFirestore: ff82cd15f8ed3b417c307eb729e3e2e68aad0bdd
   FirebaseInstallations: 45f9d44d3a8d6f780fa337ee8987dad87210fcbc
   Flipper: 33585e2d9810fe5528346be33bcf71b37bb7ae13
@@ -956,7 +941,6 @@ SPEC CHECKSUMS:
   RNDateTimePicker: 843eca1c684369861c7dccccb6632f3c104c009c
   RNFBApp: e4321cad5dd23b43b3b4f0ca060300b9f85cb7a4
   RNFBAuth: 8fd5ea881020a13deae2ca3e9810e30d15ce42ac
-  RNFBDatabase: 0adc1845baee88e58ea886888763725343d41db5
   RNFBFirestore: c413090ba61ce5c887d4660a5400bb37480b1606
   RNGoogleSignin: ccf71ee4b6cfd324fd788a41e457e2043838c0d9
   RNScreens: b748efec66e095134c7166ca333b628cd7e6f3e2

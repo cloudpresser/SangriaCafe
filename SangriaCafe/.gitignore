@@ -57,6 +57,3 @@ buck-out/
 
 # CocoaPods
 /ios/Pods/
-
-# config file
-Setup.js
