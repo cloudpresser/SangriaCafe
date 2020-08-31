@@ -11,12 +11,13 @@ const firebaseConfig = {
     databaseURL: 'https://sangriacafe.firebaseio.com',
     projectId: 'sangriacafe',
     storageBucket: 'sangriacafe.appspot.com',
-    appId: '1:256081369777:ios:2df817ec6b031c17ea2090'
+    appId: '1:256081369777:ios:2df817ec6b031c17ea2090',
+    offlineAccess: true,
+    forceCodeForRefreshToken: true
 }
 
-if (!firebase.app.length) {
-    firebase.initializeApp(firebaseConfig)
-}
+firebase.initializeApp(firebaseConfig)
+
 
 export {firebase, auth, database}
 

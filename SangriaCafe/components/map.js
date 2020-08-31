@@ -14,7 +14,7 @@ const Map = () => {
         findCoordinates()
     }, [] )
 
-    findCoordinates = () => {
+    findCoordinates = async () => {
         Geolocation.getCurrentPosition(
             position => {
                 setCoords([
@@ -35,6 +35,8 @@ const Map = () => {
     }
 
     const ASPECT_RATIO = width / height
+    const SangriaLat = 40.869730
+    const SangriaLong = -73.827740
     const LATITUDE_DELTA = 0.008
     const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
     const kmToMConverter = 0.621371
@@ -43,7 +45,7 @@ const Map = () => {
     return coords.length > 0 ? (
         <>
         <MapView 
-            initialRegion={{latitude : 40.869730, longitude : -73.827740, latitudeDelta: LATITUDE_DELTA, longitudeDelta: LONGITUDE_DELTA }} 
+            initialRegion={{latitude : SangriaLat, longitude : SangriaLong, latitudeDelta: LATITUDE_DELTA, longitudeDelta: LONGITUDE_DELTA }} 
             style={styles.mapStyle}
             ref={(ref) => { mapRef = ref }}
             onLayout = {() => mapRef.fitToCoordinates(coords, { edgePadding: { top: 50, right: 50, bottom: 50, left: 50 }, animated: true })}
@@ -79,8 +81,8 @@ const Map = () => {
 const { width, height } = Dimensions.get('window')
 const styles = StyleSheet.create({
     mapStyle: {
-        borderRadius: 10,
-        width: '100%',
+        padding: 8,
+        width: width,
         height: 200,
         flex: 1,
         elevation: 10,

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { SafeAreaView, StyleSheet, View, Image, Dimensions, Text, TouchableOpacity, ScrollView } from 'react-native'
-import DatePicker from 'react-native-datepicker'
+import DatePicker from '@react-native-community/datetimepicker'
 import { TextInput, Button } from 'react-native-paper'
 import auth from '@react-native-firebase/auth'
 import database from '@react-native-firebase/database'
@@ -19,7 +19,7 @@ const Settings = () => {
     const [name, changeName] = useState('')
     const [phone, changePhone] = useState('')
     const [address, changeAddress] = useState('')
-    const [date, changeDate] = useState('')
+    const [date, changeDate] = useState(new Date())
 
     useEffect(() => {
         const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
@@ -32,13 +32,7 @@ const Settings = () => {
     }
 
     GoogleSignin.configure({
-        webClientId:'256081369777-fsgdf80ojpi67pkj2pbv3o1coa7c6h55.apps.googleusercontent.com',
-        offlineAccess: true,
-        hostedDomain: 'sangriacafe.firebaseapp.com',
-        databaseURL: 'https://sangriacafe.firebaseio.com',
-        projectId: 'sangriacafe',
-        storageBucket: 'sangriacafe.appspot.com',
-        forceCodeForRefreshToken: true
+        webClientId:'256081369777-fsgdf80ojpi67pkj2pbv3o1coa7c6h55.apps.googleusercontent.com'
     })
 
     onGoogleButtonPress = async () => {
@@ -51,20 +45,19 @@ const Settings = () => {
         try {
           await GoogleSignin.hasPlayServices();
           const userInfo = await GoogleSignin.signIn();
-          this.setState({ userInfo });
+        setUser({ userInfo });
         } catch (error) {
           if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-            // user cancelled the login flow
+            console.log(error)
           } else if (error.code === statusCodes.IN_PROGRESS) {
-            // operation (e.g. sign in) is in progress already
+            console.log(error)
           } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-            // play services not available or outdated
+            alert(error)
           } else {
-            // some other error happened
+            console.log(error)
           }
         }
       }
-
 
     openAuthOptions = () => { 
         toggleLogin(false)
@@ -120,7 +113,11 @@ const Settings = () => {
             if (error.code === 'auth/weak-password') {
                 alert('Missing or Weak Password')
             }
-        })
+        }).then(postNewUser())
+    }
+
+    postNewUser = () => {
+
     }
 
     updateProfile = () => {
@@ -138,11 +135,10 @@ const Settings = () => {
         return auth().signInWithCredential(googleCredential)
     }
 
-    postNewUser = () => {
-
+    logoff = () => { 
+        setUser({})
+        auth().signOut() 
     }
-
-    logoff = () => { auth().signOut() }
 
     if (initializing) return null
 
@@ -152,7 +148,7 @@ const Settings = () => {
             <View style={styles.topContainer}>
                 <Image source={require('../assets/sangria_logo.png')} style={styles.logo}/>
             </View>
-        <ScrollView>
+        <ScrollView alwaysBounceVertical={true} showsVerticalScrollIndicator={false} contentInset={{top: 0, left: 0, bottom: 75, right: 0}} >
 
         { user ?
             <View>
@@ -167,7 +163,7 @@ const Settings = () => {
                         <View>
                             <View style={styles.detailSection}>
                                 <Text style={{fontSize:20}}>{user.title}</Text>
-                                <Text>{user.toros ? user.toros : 0}</Text>
+                                <Text>{user.toros ? user.toros : null}</Text>
                             </View>
                             <View style={styles.toroSection}>
                                 <Text style={{fontSize:20}}>{user.toros} </Text>
@@ -187,28 +183,7 @@ const Settings = () => {
                         <Text style={styles.text}>Address</Text>
                         <TextInput placeholder={user.address} autoCompleteType='street-address' onChangeText={changeAddress} value={address}/>
                         <Text style={styles.text}>Birthday</Text>
-                        <DatePicker
-                            style={{width: 200}}
-                            date={date}
-                            mode="date"
-                            placeholder={user.birthday ? user.birthday : '01-01-1920'}
-                            format="DD-MM-YYYY"
-                            minDate="01-01-1920"
-                            maxDate="01-01-2021"
-                            confirmBtnText="Confirm"
-                            cancelBtnText="Cancel"
-                            customStyles={{
-                                dateIcon: {
-                                    position: 'absolute',
-                                    left: 0,
-                                    top: 4,
-                                    marginLeft: 0
-                                },
-                                dateInput: {
-                                    marginLeft: 36
-                                }
-                            }}
-                            onDateChange={changeDate} />
+                        <DatePicker style={{height: 120}} value={date} onChange={changeDate} />
                         <Button mode='contained' color='tomato' style={{margin:10}} onPress={() => updateProfile(email, password)}>Update</Button>
                     </View>: null }
                 <View style={{justifyContent: 'center', flexDirection: 'row'}}>
@@ -247,28 +222,7 @@ const Settings = () => {
                         <Text style={styles.text}>Address</Text>
                         <TextInput placeholder={'address'} autoCompleteType='street-address' onChangeText={changeAddress} value={address}/>
                         <Text style={styles.text}>Birthday</Text>
-                        <DatePicker
-                            style={{width: 200}}
-                            date={date}
-                            mode="date"
-                            placeholder={'your birthday'}
-                            format="DD-MM-YYYY"
-                            minDate="01-01-1920"
-                            maxDate="01-01-2021"
-                            confirmBtnText="Confirm"
-                            cancelBtnText="Cancel"
-                            customStyles={{
-                                dateIcon: {
-                                    position: 'absolute',
-                                    left: 0,
-                                    top: 4,
-                                    marginLeft: 0
-                                },
-                                dateInput: {
-                                    marginLeft: 36
-                                }
-                            }}
-                            onDateChange={changeDate} />
+                        <DatePicker style={{height: 120}} value={date} onChange={changeDate} />
                             <Button mode='contained' color='tomato' style={{margin: 10}} onPress={() => createUser(email, password)}>Create New Account</Button>
                             <GoogleSigninButton style={{ width: 192, height: 48, alignSelf: 'center' }} size={GoogleSigninButton.Size.Wide} color={GoogleSigninButton.Color.Dark} onPress={() => signIn()} />
                     </View>  : null }
