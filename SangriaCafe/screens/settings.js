@@ -156,7 +156,7 @@ const Settings = () => {
             <View style={styles.topContainer}>
                 <Image source={require('../assets/sangria_logo.png')} style={styles.logo}/>
             </View>
-        <ScrollView alwaysBounceVertical={true} showsVerticalScrollIndicator={false} contentInset={{top: 0, left: 0, bottom: 85, right: 0}} >
+        <ScrollView alwaysBounceVertical={true} showsVerticalScrollIndicator={false} contentInset={{top: 10, left: 0, bottom: 85, right: 0}} >
 
         { user ?
             <View>
