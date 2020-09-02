@@ -18,7 +18,7 @@ export default Card = () => {
     
     return (
         <>
-        <ScrollView showsHorizontalScrollIndicator={false} centerContent={true} horizontal={true} contentInset={{top: 0, left: 0, bottom: 90, right: 0}}>
+        <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false} centerContent={true} horizontal={true} contentInset={{top: 0, left: 0, bottom: 90, right: 0}}>
             {posts && posts.map( post => {
                 return (
                     <View key={post.id} style={styles.cardContent}>
