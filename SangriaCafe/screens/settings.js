@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { SafeAreaView, StyleSheet, View, Image, Dimensions, Text, TouchableOpacity, ScrollView } from 'react-native'
 import { firebaseConfig } from '../Setup'
-import DatePicker from '@react-native-community/datetimepicker'
+import DateTimePicker from '@react-native-community/datetimepicker'
 import { TextInput, Button } from 'react-native-paper'
 import firestore from '@react-native-firebase/firestore'
 import auth from '@react-native-firebase/auth'
@@ -21,7 +21,7 @@ const Settings = () => {
     const [name, changeName] = useState('')
     const [phone, changePhone] = useState('')
     const [address, changeAddress] = useState('')
-    const [date, changeDate] = useState()
+    const [date, changeDate] = useState(new Date())
 
     useEffect(() => {
         const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
@@ -120,15 +120,16 @@ const Settings = () => {
     }
 
     addNewUserToCloud = () => {
-        firestore().collection('users').add({
-            'email': email,
-            'name': name,
-            'phoneNumber': phone,
-            'birthday': date,
-            'toros': 0,
-            'toros_spent': 0,
-            'title': 'mozo de espada'
-        })
+        console.log(date)
+        // firestore().collection('users').add({
+        //     'email': email,
+        //     'name': name,
+        //     'phoneNumber': phone,
+        //     'birthday': date,
+        //     'toros': 0,
+        //     'toros_spent': 0,
+        //     'title': 'mozo de espada'
+        // })
     }
 
     updateUser = () => {
@@ -199,7 +200,7 @@ const Settings = () => {
                         <Text style={styles.text}>Address</Text>
                         <TextInput placeholder={userCloud.address} autoCompleteType='street-address' onChangeText={changeAddress} value={address}/>
                         <Text style={styles.text}>Birthday</Text>
-                        <DatePicker style={{height: 120}} value={date} onChange={changeDate} />
+                        <DateTimePicker style={{height: 120}} value={date} onChange={changeDate} mode='date'/>
                         <Button mode='contained' color='tomato' style={{margin:10}} onPress={() => updateUser()}>Update</Button>
                     </View>: null }
                 <View style={{justifyContent: 'center', flexDirection: 'row'}}>
@@ -237,7 +238,7 @@ const Settings = () => {
                         <Text style={styles.text}>Address</Text>
                         <TextInput placeholder={'address'} autoCompleteType='street-address' onChangeText={changeAddress} value={address}/>
                         <Text style={styles.text}>Birthday</Text>
-                        <DatePicker style={{height: 120}} value={date} onChange={changeDate} />
+                        <DateTimePicker style={{height: 120}} value={date} onChange={changeDate} mode='date'/>
                         <Button mode='contained' color='tomato' style={{margin: 10}} onPress={() => createUser(email, password)}>Create New Account</Button>
                         <GoogleSigninButton style={{ width: 192, height: 48, alignSelf: 'center' }} size={GoogleSigninButton.Size.Wide} color={GoogleSigninButton.Color.Dark} onPress={() => signIn()} />
                     </View>  : null }

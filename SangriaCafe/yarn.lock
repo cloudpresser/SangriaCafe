@@ -1160,17 +1160,12 @@
     opencollective-postinstall "^2.0.1"
     superstruct "^0.6.2"
 
-"@react-native-firebase/auth@^8.3.3":
-  version "8.3.3"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/auth/-/auth-8.3.3.tgz#a9c0778dbee0c8251a8cb406951bed5bd02aa9e4"
-  integrity sha512-EM73Q8VDh3n9rbdv9Z8nAoe9d+JfNvbU4iXlEBpmH7FZhCkDKQR9Q9isa4Q8vzhVCmyJTQbgi0sMCJIXbOFTug==
+"@react-native-firebase/auth@^9.2.0":
+  version "9.2.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/auth/-/auth-9.2.0.tgz#08d02c818e11c80433a2e3589c63d00049244562"
+  integrity sha512-kMA/PpUF4qvoIcpaa+TzcEn13Yosw7L5woVH1atB4vPH2LyjPencO7rT02A/TCjFG7R/hLS3iagCyy0rBRBoCg==
 
-"@react-native-firebase/database@^7.5.1":
-  version "7.5.4"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/database/-/database-7.5.4.tgz#35bea4241f4b83d138802522725cd53732c0564b"
-  integrity sha512-D0wTA1FoNLHHqTWvwd683L2eKl4RPjXkQWxnQQxY10qx8rb5oH4bDurvwNHFUEvvY+KTm8Nwv/hU5AqKkcFMoA==
-
-"@react-native-firebase/firestore@^7.6.1":
+"@react-native-firebase/firestore@^7.7.0":
   version "7.7.0"
   resolved "https://registry.yarnpkg.com/@react-native-firebase/firestore/-/firestore-7.7.0.tgz#7102901990c0da22131a522b4ffc565dbea14c3b"
   integrity sha512-H+Q+Z62u0R6ZztyLg2LuIbxU/YUL4W8fZsy3WsbaUegPUAsCZH+GCCucQ0OiaNwFiM6b/SiblQsBVPWOEIaVRA==
@@ -5077,11 +5072,6 @@ mkdirp@^0.5.1:
   dependencies:
     minimist "^1.2.5"
 
-moment@^2.22.0:
-  version "2.27.0"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.27.0.tgz#8bff4e3e26a236220dfe3e36de756b6ebaa0105d"
-  integrity sha512-al0MUK7cpIcglMv3YF13qSgdAIqxHTO7brRtaz3DlSULbqfazqkc5kEjNrLDOM7fsjshoFIihnU8snrP7zUvhQ==
-
 ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
@@ -5729,13 +5719,6 @@ react-is@^16.12.0, react-is@^16.13.0, react-is@^16.7.0, react-is@^16.8.1, react-
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
-
-react-native-datepicker@^1.7.2:
-  version "1.7.2"
-  resolved "https://registry.yarnpkg.com/react-native-datepicker/-/react-native-datepicker-1.7.2.tgz#58d0822591a0ac9b32aba082650222a0ee29669d"
-  integrity sha1-WNCCJZGgrJsyq6CCZQIioO4pZp0=
-  dependencies:
-    moment "^2.22.0"
 
 react-native-geolocation-service@^5.0.0:
   version "5.0.0"
