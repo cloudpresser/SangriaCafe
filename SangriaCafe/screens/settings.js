@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { SafeAreaView, StyleSheet, View, Image, Dimensions, Text, TouchableOpacity, ScrollView } from 'react-native'
+import { SafeAreaView, StyleSheet, View, Image, Dimensions, Text, TouchableOpacity } from 'react-native'
 import { firebaseConfig } from '../Setup'
-import DateTimePicker from '@react-native-community/datetimepicker'
 import { TextInput, Button } from 'react-native-paper'
 import firestore from '@react-native-firebase/firestore'
 import auth from '@react-native-firebase/auth'
-import { GoogleSignin, GoogleSigninButton } from '@react-native-community/google-signin'
+import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-community/google-signin'
 
 const Settings = () => {
 
@@ -21,16 +20,25 @@ const Settings = () => {
     const [name, changeName] = useState('')
     const [phone, changePhone] = useState('')
     const [address, changeAddress] = useState('')
-    const [date, changeDate] = useState(new Date())
 
     useEffect(() => {
         const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
         return subscriber
     }, [])
     
-    onAuthStateChanged = (user) => {
+    onAuthStateChanged = async (user) => {
         setUser(user)
-        if (!userCloud) getUser()
+        if (user) { 
+            const cloudUser = await firestore()
+            .collection("users")
+            .where('email', '==', user.email)
+            .get()
+            console.log('currentUser', user)
+            console.log('CLOUD USER QUERY', cloudUser)
+            console.log('AUTH USER', userAuth)
+            console.log('CLOUD USER', userCloud._docs[0]._data)
+            setCloudUser(cloudUser._docs[0]._data)
+        }
         if (initializing) setInitializing(false)
     }
 
@@ -120,34 +128,23 @@ const Settings = () => {
     }
 
     addNewUserToCloud = () => {
-        console.log(date)
-        // firestore().collection('users').add({
-        //     'email': email,
-        //     'name': name,
-        //     'phoneNumber': phone,
-        //     'birthday': date,
-        //     'toros': 0,
-        //     'toros_spent': 0,
-        //     'title': 'mozo de espada'
-        // })
-    }
-
-    updateUser = () => {
-        firestore().collection('users').doc(`hYh1FOnOpv38Dkec6cCV`).update({
+        firestore().collection('users').add({
             'email': email,
             'name': name,
             'phoneNumber': phone,
-            'birthday': date,
             'toros': 0,
-            'toros_spent': 0,
-            'title': 'mozo de espada'
+            'toros_spent': 0
         })
-        console.log(userCloud)
     }
 
-    getUser = () => {
-        firestore().collection('users').where('email', '==', email).get().onSnapshot( user => {
-            setCloudUser(user.data())
+    updateUser = async () => {
+        await firestore()
+        .collection('users')
+        .where('name', '==', [userAuth.displayName])
+        .update({
+            'email': email,
+            'name': name,
+            'phoneNumber': phone,
         })
     }
 
@@ -165,7 +162,6 @@ const Settings = () => {
             <View style={styles.topContainer}>
                 <Image source={require('../assets/sangria_logo.png')} style={styles.logo}/>
             </View>
-        <ScrollView alwaysBounceVertical={true} showsVerticalScrollIndicator={false} contentInset={{top: 20, left: 0, bottom: 110, right: 0}} >
 
         { userAuth ?
             <View>
@@ -173,17 +169,17 @@ const Settings = () => {
                     <View style={{flexDirection: 'row', justifyContent:'space-around', alignItems: 'center'}}>
                         <View style={styles.userInfo}>
                         <TouchableOpacity onPress={() => console.log('upload image')}>
-                            <Image source={{uri : userCloud.image}} style={{height: 70, width: 70, borderRadius: 35}}/>
+                            <Image source={{uri : 'https://www.meme-arsenal.com/memes/2f4dac5a8fc9ac9e24d7ceb1cf24e334.jpg'}} style={{height: 70, width: 70, borderRadius: 35}}/>
                         </TouchableOpacity>
-                            <Text style={{fontSize:20}}>{userCloud.displayName}</Text>
+                            <Text style={{fontSize:20}}>{'name'}</Text>
                         </View>
                         <View>
                             <View style={styles.detailSection}>
-                                <Text style={{fontSize:20}}>{userCloud.title}</Text>
-                                <Text>{userCloud.toros ? userCloud.toros : null}</Text>
+                                <Text style={{fontSize:20}}>{'title'}</Text>
+                                <Text>{'toros'}</Text>
                             </View>
                             <View style={styles.toroSection}>
-                                <Text style={{fontSize:20}}>{userCloud.toros} </Text>
+                                <Text style={{fontSize:20}}>{'toros_spent'} </Text>
                                 <Image source={require('../assets/toro.png')} style={styles.toro}/>
                             </View>
                         </View>
@@ -199,10 +195,8 @@ const Settings = () => {
                         <TextInput placeholder={userCloud.phoneNumber} onChangeText={changePhone} value={phone}/>
                         <Text style={styles.text}>Address</Text>
                         <TextInput placeholder={userCloud.address} autoCompleteType='street-address' onChangeText={changeAddress} value={address}/>
-                        <Text style={styles.text}>Birthday</Text>
-                        <DateTimePicker style={{height: 120}} value={date} onChange={changeDate} mode='date'/>
                         <Button mode='contained' color='tomato' style={{margin:10}} onPress={() => updateUser()}>Update</Button>
-                    </View>: null }
+                    </View> : null }
                 <View style={{justifyContent: 'center', flexDirection: 'row'}}>
                     <Button style={{margin: 5, width: screen.width / 4}} color='tomato' mode="contained" onPress={() => console.log('Pressed')}>Card</Button>
                     <Button style={{margin: 5, width: screen.width / 4}} color='tomato' mode="contained" onPress={updateVisible ? () => toggleUpdate(false):() => toggleUpdate(true)}>Info</Button>
@@ -238,13 +232,11 @@ const Settings = () => {
                         <Text style={styles.text}>Address</Text>
                         <TextInput placeholder={'address'} autoCompleteType='street-address' onChangeText={changeAddress} value={address}/>
                         <Text style={styles.text}>Birthday</Text>
-                        <DateTimePicker style={{height: 120}} value={date} onChange={changeDate} mode='date'/>
                         <Button mode='contained' color='tomato' style={{margin: 10}} onPress={() => createUser(email, password)}>Create New Account</Button>
                         <GoogleSigninButton style={{ width: 192, height: 48, alignSelf: 'center' }} size={GoogleSigninButton.Size.Wide} color={GoogleSigninButton.Color.Dark} onPress={() => signIn()} />
                     </View>  : null }
             </View> 
         }
-        </ScrollView>
         </SafeAreaView>
         </>
     )
@@ -263,8 +255,7 @@ const styles = StyleSheet.create({
     },
     toroSection: {
         justifyContent: 'flex-end',
-        alignItems: 'center',
-        flexDirection: 'row'
+        alignItems: 'center'
     },
     toro: {
         height: 28,
@@ -278,12 +269,10 @@ const styles = StyleSheet.create({
         margin: 5
     },
     userBar: {
-        flex: 1,
         padding: 10,
         justifyContent: 'center'
     },
     loggedInUserBar: {
-        flex: 1,
         margin: 20,      
     },
     userInfo: {
