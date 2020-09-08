@@ -142,6 +142,7 @@ const Settings = () => {
             'email': email,
             'name': name,
             'phoneNumber': phone,
+            'address': address
         })
     }
 
@@ -177,15 +178,21 @@ const Settings = () => {
             },
         }
 
-        ImagePicker.showImagePicker(imagePickerOptions, (response) => {
-            console.log('Response = ', response)
+        ImagePicker.showImagePicker(imagePickerOptions, async (response) => {
             if (response.didCancel) {
                 console.log('User cancelled image picker')
             } else if (response.error) {
                 console.log('ImagePicker Error: ', response.error)
             } else {
-                const source = response.data
-                setImageSource( source )
+                const source = decodeURI(response.uri)
+                const reference = storage().ref(source)
+                const pathToFile = source
+                await reference.putFile(pathToFile)
+                const url = await storage()
+                .ref(source)
+                .getDownloadURL()
+                setImageSource( url )
+                updateImage()
             }
         })
     }
