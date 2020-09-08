@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { SafeAreaView, StyleSheet, View, Image, Dimensions, Text, TouchableOpacity } from 'react-native'
+import ImagePicker from 'react-native-image-picker'
 import { firebaseConfig } from '../Setup'
 import { TextInput, Button } from 'react-native-paper'
 import firestore from '@react-native-firebase/firestore'
@@ -15,11 +16,13 @@ const Settings = () => {
     const [updateVisible, toggleUpdate] = useState(false)
     const [userAuth, setUser] = useState({})
     const [userCloud, setCloudUser] = useState({})
+    const [userCloudRefId, setCloudID] = useState()
     const [email, changeEmail] = useState('')
     const [password, changePassword] = useState()
     const [name, changeName] = useState('')
     const [phone, changePhone] = useState('')
     const [address, changeAddress] = useState('')
+    const [imageSource, setImageSource] = useState()
 
     useEffect(() => {
         const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
@@ -30,14 +33,15 @@ const Settings = () => {
         setUser(user)
         if (user) { 
             const cloudUser = await firestore()
-            .collection("users")
-            .where('email', '==', user.email)
-            .get()
-            console.log('currentUser', user)
-            console.log('CLOUD USER QUERY', cloudUser)
-            console.log('AUTH USER', userAuth)
-            console.log('CLOUD USER', userCloud._docs[0]._data)
+                .collection("users")
+                .where('email', '==', user.email)
+                .get()
             setCloudUser(cloudUser._docs[0]._data)
+            setCloudID(cloudUser._docs[0]._ref._documentPath._parts[1])
+            changeEmail(cloudUser._docs[0]._data.email)
+            changeName(cloudUser._docs[0]._data.name)
+            changePhone(cloudUser._docs[0]._data.phoneNumber)
+            changeAddress(cloudUser._docs[0]._data.address)
         }
         if (initializing) setInitializing(false)
     }
@@ -69,24 +73,6 @@ const Settings = () => {
             }
         }
       }
-
-    openAuthOptions = () => { 
-        toggleLogin(false)
-        toggleRegister(false)
-        toggleOptions(true) 
-    }
-
-    chooseLogin = () => {
-        toggleOptions(false)
-        toggleRegister(false)
-        toggleLogin(true)
-    }
-    
-    chooseSignIn = () => {
-        toggleOptions(false)
-        toggleLogin(false)
-        toggleRegister(true)
-    }
 
     loginUser = (email, password) => {
         auth().signInWithEmailAndPassword(email, password)
@@ -132,15 +118,17 @@ const Settings = () => {
             'email': email,
             'name': name,
             'phoneNumber': phone,
+            'address': address,
             'toros': 0,
-            'toros_spent': 0
+            'toros_spent': 0,
+            'image': 'https://www.pikpng.com/pngl/m/16-168770_user-iconset-no-profile-picture-icon-circle-clipart.png'
         })
     }
 
     updateUser = async () => {
         await firestore()
         .collection('users')
-        .where('name', '==', [userAuth.displayName])
+        .doc(userCloudRefId)
         .update({
             'email': email,
             'name': name,
@@ -154,7 +142,70 @@ const Settings = () => {
         auth().signOut() 
     }
 
-    if (initializing) return null
+    openAuthOptions = () => { 
+        toggleLogin(false)
+        toggleRegister(false)
+        toggleOptions(true) 
+    }
+
+    chooseLogin = () => {
+        toggleOptions(false)
+        toggleRegister(false)
+        toggleLogin(true)
+    }
+    
+    chooseSignIn = () => {
+        toggleOptions(false)
+        toggleLogin(false)
+        toggleRegister(true)
+    }
+    const getImage = () => {
+        const image = {
+            uri: response.uri,
+            type: 'image/jpeg',
+            name: 'myImage' + '-' + Date.now() + '.jpg'
+        }
+
+        const imagePickerOptions = {
+            title: 'Select Avatar',
+            storageOptions: {
+              skipBackup: true,
+              path: 'images',
+            },
+        }
+
+        const imgBody = new FormData()
+
+        const url = `http://your-api.com/image-upload`
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'multipart/form-data',
+        },
+        body: imgBody
+        }).then(res => res.json()).then(results => {
+            const source = { uri: res.imageUrl, isStatic: true }
+            const images = this.state.images
+            images[index] = source
+            this.setState({ images })
+        }).catch(error => {
+            console.error(error)
+        })
+
+        ImagePicker.showImagePicker(imagePickerOptions, (response) => {
+            console.log('Response = ', response)
+            if (response.didCancel) {
+                console.log('User cancelled image picker')
+            } else if (response.error) {
+                console.log('ImagePicker Error: ', response.error)
+            } else {
+                const source = response.data
+                setImageSource( source )
+            }
+        })
+    }
 
     return(
         <>
@@ -167,28 +218,27 @@ const Settings = () => {
             <View>
                 <View style={styles.loggedInUserBar}>
                     <View style={{flexDirection: 'row', justifyContent:'space-around', alignItems: 'center'}}>
-                        <View style={styles.userInfo}>
-                        <TouchableOpacity onPress={() => console.log('upload image')}>
-                            <Image source={{uri : 'https://www.meme-arsenal.com/memes/2f4dac5a8fc9ac9e24d7ceb1cf24e334.jpg'}} style={{height: 70, width: 70, borderRadius: 35}}/>
-                        </TouchableOpacity>
-                            <Text style={{fontSize:20}}>{'name'}</Text>
-                        </View>
                         <View>
                             <View style={styles.detailSection}>
-                                <Text style={{fontSize:20}}>{'title'}</Text>
-                                <Text>{'toros'}</Text>
+                            <Text style={{fontSize:20}}>{userCloud.name}</Text>
+                                <Text>{userCloud.toros == 0 ?'Welcome to Sangria Cafe App' : userCloud.toros }</Text>
                             </View>
                             <View style={styles.toroSection}>
-                                <Text style={{fontSize:20}}>{'toros_spent'} </Text>
                                 <Image source={require('../assets/toro.png')} style={styles.toro}/>
+                                <Text style={{fontSize:20}}>  {userCloud.toros_spent}</Text>
                             </View>
+                        </View>
+                        <View style={styles.userInfo}>
+                        <TouchableOpacity onPress={() => getImage()}>
+                            <Image source={{uri : userCloud.image}} style={{height: 90, width: 90, borderRadius: 45}}/>
+                        </TouchableOpacity>
                         </View>
                     </View>
                 </View>
                 { updateVisible ? 
                     <View style={styles.container}>
                         <Text style={styles.text}>Email</Text>
-                        <TextInput placeholder={userAuth.email} autoCompleteType='email' onChangeText={changeEmail} value={email}/>
+                        <TextInput placeholder={userAuth.email} autoCompleteType='email' autoCapitalize='none' onChangeText={changeEmail} value={email}/>
                         <Text style={styles.text}>Name</Text>
                         <TextInput placeholder={userAuth.displayName} autoCompleteType='name' onChangeText={changeName} value={name}/>
                         <Text style={styles.text}>Phone</Text>
@@ -199,7 +249,7 @@ const Settings = () => {
                     </View> : null }
                 <View style={{justifyContent: 'center', flexDirection: 'row'}}>
                     <Button style={{margin: 5, width: screen.width / 4}} color='tomato' mode="contained" onPress={() => console.log('Pressed')}>Card</Button>
-                    <Button style={{margin: 5, width: screen.width / 4}} color='tomato' mode="contained" onPress={updateVisible ? () => toggleUpdate(false):() => toggleUpdate(true)}>Info</Button>
+                    <Button style={{margin: 5, width: screen.width / 4}} color='tomato' mode="contained" onPress={updateVisible ? () => toggleUpdate(false):() => toggleUpdate(true)}>{updateVisible ? 'Close' : 'Info'}</Button>
                     <Button style={{margin: 5, width: screen.width / 4}} color='tomato' mode="contained" onPress={() => logoff()}>Logoff</Button> 
                 </View>
             </View>
@@ -222,7 +272,7 @@ const Settings = () => {
                 { registerIsVisible ? 
                     <View style={styles.container}>
                         <Text style={styles.text}>Email</Text>
-                        <TextInput placeholder={'email'} autoCompleteType='email' onChangeText={changeEmail} value={email}/>
+                        <TextInput placeholder={'email'} autoCompleteType='email' onChangeText={changeEmail} autoCapitalize='none' value={email}/>
                         <Text style={styles.text}>Password</Text>
                         <TextInput placeholder={'password'} secureTextEntry={true} onChangeText={changePassword} value={password}/>
                         <Text style={styles.text}>Name</Text>
@@ -231,7 +281,6 @@ const Settings = () => {
                         <TextInput placeholder={'phone number'} autoCompleteType='tel' onChangeText={changePhone} value={phone}/>
                         <Text style={styles.text}>Address</Text>
                         <TextInput placeholder={'address'} autoCompleteType='street-address' onChangeText={changeAddress} value={address}/>
-                        <Text style={styles.text}>Birthday</Text>
                         <Button mode='contained' color='tomato' style={{margin: 10}} onPress={() => createUser(email, password)}>Create New Account</Button>
                         <GoogleSigninButton style={{ width: 192, height: 48, alignSelf: 'center' }} size={GoogleSigninButton.Size.Wide} color={GoogleSigninButton.Color.Dark} onPress={() => signIn()} />
                     </View>  : null }
@@ -254,8 +303,8 @@ const styles = StyleSheet.create({
         width: screen.width / 1.7,
     },
     toroSection: {
-        justifyContent: 'flex-end',
-        alignItems: 'center'
+        alignItems: 'center',
+        flexDirection: 'row'
     },
     toro: {
         height: 28,
@@ -279,7 +328,6 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     detailSection: {
-        alignItems: 'flex-end',
         padding: 5
     },
     textInput: {
