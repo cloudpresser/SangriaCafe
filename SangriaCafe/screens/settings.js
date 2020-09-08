@@ -132,6 +132,8 @@ const Settings = () => {
         .collection('users')
         .doc(userCloudRefId)
         .update({ 'image': imageSource })
+
+        onAuthStateChanged(userAuth)
     }
 
     updateUser = async () => {
@@ -144,6 +146,7 @@ const Settings = () => {
             'phoneNumber': phone,
             'address': address
         })
+        onAuthStateChanged(userAuth)
     }
 
     logoff = () => { 
