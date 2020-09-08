@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { SafeAreaView, StyleSheet, View, Image, Dimensions, Text, TouchableOpacity } from 'react-native'
 import ImagePicker from 'react-native-image-picker'
+import { utils } from '@react-native-firebase/app'
+import storage from '@react-native-firebase/storage'
 import { firebaseConfig } from '../Setup'
 import { TextInput, Button } from 'react-native-paper'
 import firestore from '@react-native-firebase/firestore'
@@ -125,6 +127,13 @@ const Settings = () => {
         })
     }
 
+    updateImage = async () => {
+        await firestore()
+        .collection('users')
+        .doc(userCloudRefId)
+        .update({ 'image': imageSource })
+    }
+
     updateUser = async () => {
         await firestore()
         .collection('users')
@@ -160,12 +169,6 @@ const Settings = () => {
         toggleRegister(true)
     }
     const getImage = () => {
-        const image = {
-            uri: response.uri,
-            type: 'image/jpeg',
-            name: 'myImage' + '-' + Date.now() + '.jpg'
-        }
-
         const imagePickerOptions = {
             title: 'Select Avatar',
             storageOptions: {
@@ -173,26 +176,6 @@ const Settings = () => {
               path: 'images',
             },
         }
-
-        const imgBody = new FormData()
-
-        const url = `http://your-api.com/image-upload`
-
-        fetch(url, {
-            method: 'POST',
-            headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'multipart/form-data',
-        },
-        body: imgBody
-        }).then(res => res.json()).then(results => {
-            const source = { uri: res.imageUrl, isStatic: true }
-            const images = this.state.images
-            images[index] = source
-            this.setState({ images })
-        }).catch(error => {
-            console.error(error)
-        })
 
         ImagePicker.showImagePicker(imagePickerOptions, (response) => {
             console.log('Response = ', response)
@@ -235,6 +218,7 @@ const Settings = () => {
                         </View>
                     </View>
                 </View>
+
                 { updateVisible ? 
                     <View style={styles.container}>
                         <Text style={styles.text}>Email</Text>
@@ -247,6 +231,7 @@ const Settings = () => {
                         <TextInput placeholder={userCloud.address} autoCompleteType='street-address' onChangeText={changeAddress} value={address}/>
                         <Button mode='contained' color='tomato' style={{margin:10}} onPress={() => updateUser()}>Update</Button>
                     </View> : null }
+
                 <View style={{justifyContent: 'center', flexDirection: 'row'}}>
                     <Button style={{margin: 5, width: screen.width / 4}} color='tomato' mode="contained" onPress={() => console.log('Pressed')}>Card</Button>
                     <Button style={{margin: 5, width: screen.width / 4}} color='tomato' mode="contained" onPress={updateVisible ? () => toggleUpdate(false):() => toggleUpdate(true)}>{updateVisible ? 'Close' : 'Info'}</Button>
@@ -256,11 +241,13 @@ const Settings = () => {
                 : 
             <View style={styles.userBar}>
                 <Button onPress={() => openAuthOptions()} mode='contained' color='tomato'> {loginIsVisible || registerIsVisible ? 'Back':'Sign In'} </Button>
+
                 { authOptionsVisible ? 
                     <View>
                         <Button onPress={() => chooseLogin()} color='tomato'> Already have an account? </Button>
                         <Button onPress={() => chooseSignIn()} color='tomato'> New account </Button>
                     </View> : null }
+
                 { loginIsVisible ? 
                     <View style={styles.container}>
                         <TextInput placeholder={'email'} autoCompleteType='email' onChangeText={changeEmail} value={email}/>
