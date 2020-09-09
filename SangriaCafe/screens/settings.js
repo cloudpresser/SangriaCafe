@@ -62,27 +62,23 @@ const Settings = () => {
         try {
             await GoogleSignin.hasPlayServices()
             const userInfo = await GoogleSignin.signIn()
-            setUser( userInfo.user )
-            try {
-                await createUser(userInfo.user.email, 'password123')
-                firestore().collection('users').add({
+            const cloudUser = firestore().collection('users')
+                .where('email', '==', userInfo.user.email)
+                .get()
+            
+            cloudUser === undefined ? 
+                await auth().createUserWithEmailAndPassword(userInfo.user.email, 'password123').then(
+                    firestore().collection('users').add({
                     'email': userInfo.user.email,
                     'name': userInfo.user.name,
                     'phoneNumber': '',
                     'address': '',
                     'toros': 0,
                     'toros_spent': 0,
-                    'image': userInfo.user.photo
-                })
-            } catch (error) {
-                if (error.code === 'auth/email-already-in-use') {
-                    await loginUser(userInfo.user.email, 'password123')
-                } else {
-                    console.log(error)
-                }
-            }
+                    'image': userInfo.user.photo })
+                ) : loginUser(userInfo.user.email, 'password123')
             onAuthStateChanged(userInfo.user)
-            alert( 'Your Password is: password123' )
+            
         } catch (error) {
             if (error.code === statusCodes.SIGN_IN_CANCELLED) {
                 console.log(error)
