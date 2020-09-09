@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { SafeAreaView, StyleSheet, View, Image, Dimensions, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView } from 'react-native'
+import { SafeAreaView, StyleSheet, View, Image, Dimensions, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView, Alert } from 'react-native'
 import ImagePicker from 'react-native-image-picker'
 import storage from '@react-native-firebase/storage'
 import { firebaseConfig } from '../Setup'
@@ -62,7 +62,27 @@ const Settings = () => {
         try {
             await GoogleSignin.hasPlayServices()
             const userInfo = await GoogleSignin.signIn()
-            setUser({ userInfo })
+            setUser( userInfo.user )
+            try {
+                await createUser(userInfo.user.email, 'password123')
+                firestore().collection('users').add({
+                    'email': userInfo.user.email,
+                    'name': userInfo.user.name,
+                    'phoneNumber': '',
+                    'address': '',
+                    'toros': 0,
+                    'toros_spent': 0,
+                    'image': userInfo.user.photo
+                })
+            } catch (error) {
+                if (error.code === 'auth/email-already-in-use') {
+                    await loginUser(userInfo.user.email, 'password123')
+                } else {
+                    console.log(error)
+                }
+            }
+            onAuthStateChanged(userInfo.user)
+            alert( 'Your Password is: password123' )
         } catch (error) {
             if (error.code === statusCodes.SIGN_IN_CANCELLED) {
                 console.log(error)
@@ -77,7 +97,8 @@ const Settings = () => {
       }
 
     loginUser = (email, password) => {
-        auth().signInWithEmailAndPassword(email, password)
+        let lowerEmail = email.toLowerCase()
+        auth().signInWithEmailAndPassword(lowerEmail, password)
         .catch(error => {
             if (error.code === 'auth/email-already-in-use') {
                 alert('That email address is already in use!')
@@ -95,6 +116,7 @@ const Settings = () => {
     }   
 
     createUser = async (email, password) => {
+        addNewUserToCloud()
         await auth().createUserWithEmailAndPassword(email, password)
         .catch(error => {
             if (error.code === 'auth/email-already-in-use') {
@@ -112,11 +134,11 @@ const Settings = () => {
             if (error.code === 'auth/weak-password') {
                 alert('Missing or Weak Password')
             }
-        }).then( addNewUserToCloud() )
+        })
     }
 
-    addNewUserToCloud = () => {
-        firestore().collection('users').add({
+    addNewUserToCloud = async () => {
+        await firestore().collection('users').add({
             'email': email,
             'name': name,
             'phoneNumber': phone,
@@ -149,9 +171,9 @@ const Settings = () => {
     }
 
     logoff = () => { 
+        auth().signOut() 
         setUser({})
         setCloudUser({})
-        auth().signOut() 
     }
 
     openAuthOptions = () => { 
@@ -262,6 +284,11 @@ const Settings = () => {
                         <Button onPress={() => chooseLogin()} color='tomato'> Already have an account? </Button>
                         <Button onPress={() => chooseSignIn()} color='tomato'> New account </Button>
                     </View> : null }
+
+                { loginIsVisible || registerIsVisible ? null :
+                    <ScrollView alwaysBounceVertical={true} showsVerticalScrollIndicator={false} contentInset={{top: 0, left: 0, bottom: 108, right: 0}}> 
+                        <Specials/>
+                    </ScrollView> } 
 
                 { loginIsVisible ? 
                     <View style={styles.container}>
