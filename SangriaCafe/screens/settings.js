@@ -34,10 +34,8 @@ const Settings = () => {
     onAuthStateChanged = async (user) => {
         setUser(user)
         if (user) { 
-            const cloudUser = await firestore()
-                .collection("users")
-                .where('email', '==', user.email)
-                .get()
+            const cloudUser = await firestore().collection("users")
+                .where('email', '==', user.email).get()
             setCloudUser(cloudUser._docs[0]._data)
             setCloudID(cloudUser._docs[0]._ref._documentPath._parts[1])
             changeEmail(cloudUser._docs[0]._data.email)
@@ -63,9 +61,7 @@ const Settings = () => {
             await GoogleSignin.hasPlayServices()
             const userInfo = await GoogleSignin.signIn()
             const cloudUser = firestore().collection('users')
-                .where('email', '==', userInfo.user.email)
-                .get()
-            
+                .where('email', '==', userInfo.user.email).get()
             cloudUser === undefined ? 
                 await auth().createUserWithEmailAndPassword(userInfo.user.email, 'password123').then(
                     firestore().collection('users').add({
@@ -78,7 +74,6 @@ const Settings = () => {
                     'image': userInfo.user.photo })
                 ) : loginUser(userInfo.user.email, 'password123')
             onAuthStateChanged(userInfo.user)
-            
         } catch (error) {
             if (error.code === statusCodes.SIGN_IN_CANCELLED) {
                 console.log(error)
@@ -90,7 +85,7 @@ const Settings = () => {
                 console.log(error)
             }
         }
-      }
+    }
 
     loginUser = (email, password) => {
         let lowerEmail = email.toLowerCase()
@@ -146,23 +141,19 @@ const Settings = () => {
     }
 
     updateImage = async () => {
-        await firestore()
-        .collection('users')
-        .doc(userCloudRefId)
-        .update({ 'image': imageSource })
+        await firestore().collection('users')
+            .doc(userCloudRefId).update({ 'image': imageSource })
         onAuthStateChanged(userAuth)
     }
 
     updateUser = async () => {
-        await firestore()
-        .collection('users')
-        .doc(userCloudRefId)
-        .update({
-            'email': email,
-            'name': name,
-            'phoneNumber': phone,
-            'address': address
-        })
+        await firestore().collection('users')
+            .doc(userCloudRefId).update({
+                'email': email,
+                'name': name,
+                'phoneNumber': phone,
+                'address': address
+            })
         onAuthStateChanged(userAuth)
     }
 
@@ -217,6 +208,14 @@ const Settings = () => {
         })
     }
 
+    const title = toros => { 
+        if (toros >= 90880) return 'Matador 🥇'
+        if (toros >= 22720) return 'Picador 🥈'
+        if (toros >= 5680) return 'Banderillero 🥉'
+        if (toros >= 1420) return 'Mozo de Espada ⚔️'
+        if (toros < 1420) return 'Ayuda'
+    }
+
     return(
         <>
         <SafeAreaView>
@@ -234,13 +233,11 @@ const Settings = () => {
                             </TouchableOpacity>
                         </View>
                         <View style={styles.detailSection}>
-                            <View style={{flexDirection: 'row', alignItems: 'flex-start'}}>
-                                <Text style={{fontSize:24, textAlign: 'center'}}>{userCloud.name}</Text>
-                                <Text> {userCloud.toros}</Text>
-                            </View>
+                            <Text>{title(userCloud.toros_spent)}</Text>
+                            <Text style={{fontSize:24, textAlign: 'center'}}>{userCloud.name}</Text>
                             <View style={styles.toroSection}>
                                 <Image source={require('../assets/toro.png')} style={styles.toro}/>
-                                <Text style={{fontSize:24, textAlign: 'center'}}>{userCloud.toros_spent}</Text>
+                                <Text style={{fontSize:24, textAlign: 'center'}}>{userCloud.toros}</Text>
                             </View>
                         </View>
                     </View>
@@ -249,6 +246,7 @@ const Settings = () => {
                 <KeyboardAvoidingView behavior="position">
                 { updateVisible ? 
                     <View style={styles.container}>
+                        <Text style={styles.text}>Total Toros Used: {userCloud.toros_spent}</Text>                        
                         <Text style={styles.text}>Email</Text>
                         <TextInput placeholder={userAuth.email} autoCompleteType='email' autoCapitalize='none' onChangeText={changeEmail} value={email}/>
                         <Text style={styles.text}>Name</Text>
@@ -354,6 +352,7 @@ const styles = StyleSheet.create({
     },
     detailSection: {
         padding: 10,
+        alignItems: 'center'
     },
     textInput: {
         justifyContent: 'center',
