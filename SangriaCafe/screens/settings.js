@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { SafeAreaView, StyleSheet, View, Image, Dimensions, Text, TouchableOpacity } from 'react-native'
 import ImagePicker from 'react-native-image-picker'
-import { utils } from '@react-native-firebase/app'
 import storage from '@react-native-firebase/storage'
 import { firebaseConfig } from '../Setup'
 import { TextInput, Button } from 'react-native-paper'
@@ -132,7 +131,6 @@ const Settings = () => {
         .collection('users')
         .doc(userCloudRefId)
         .update({ 'image': imageSource })
-
         onAuthStateChanged(userAuth)
     }
 
@@ -210,21 +208,21 @@ const Settings = () => {
         { userAuth ?
             <View>
                 <View style={styles.loggedInUserBar}>
-                    <View style={{flexDirection: 'row', justifyContent:'space-around', alignItems: 'center'}}>
+                    <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
                         <View>
-                            <View style={styles.detailSection}>
-                            <Text style={{fontSize:20}}>{userCloud.name}</Text>
-                                <Text>{userCloud.toros == 0 ?'Welcome to Sangria Cafe App' : userCloud.toros }</Text>
+                            <TouchableOpacity onPress={() => getImage()}>
+                                <Image source={{uri : userCloud.image}} style={{height: 90, width: 90, borderRadius: 45}}/>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styles.detailSection}>
+                            <View style={{flexDirection: 'row', alignItems: 'flex-start'}}>
+                                <Text style={{fontSize:24, textAlign: 'center'}}>{userCloud.name}</Text>
+                                <Text> {userCloud.toros}</Text>
                             </View>
                             <View style={styles.toroSection}>
                                 <Image source={require('../assets/toro.png')} style={styles.toro}/>
-                                <Text style={{fontSize:20}}>  {userCloud.toros_spent}</Text>
+                                <Text style={{fontSize:24, textAlign: 'center'}}>{userCloud.toros_spent}</Text>
                             </View>
-                        </View>
-                        <View style={styles.userInfo}>
-                        <TouchableOpacity onPress={() => getImage()}>
-                            <Image source={{uri : userCloud.image}} style={{height: 90, width: 90, borderRadius: 45}}/>
-                        </TouchableOpacity>
                         </View>
                     </View>
                 </View>
@@ -243,9 +241,9 @@ const Settings = () => {
                     </View> : null }
 
                 <View style={{justifyContent: 'center', flexDirection: 'row'}}>
-                    <Button style={{margin: 5, width: screen.width / 4}} color='tomato' mode="contained" onPress={() => console.log('Pressed')}>Card</Button>
-                    <Button style={{margin: 5, width: screen.width / 4}} color='tomato' mode="contained" onPress={updateVisible ? () => toggleUpdate(false):() => toggleUpdate(true)}>{updateVisible ? 'Close' : 'Info'}</Button>
-                    <Button style={{margin: 5, width: screen.width / 4}} color='tomato' mode="contained" onPress={() => logoff()}>Logoff</Button> 
+                    <Button style={{margin: 5, width: screen.width / 4}} color='tomato' onPress={() => console.log('Pressed')}>Card</Button>
+                    <Button style={{margin: 5, width: screen.width / 4}} color='tomato' onPress={updateVisible ? () => toggleUpdate(false):() => toggleUpdate(true)}>{updateVisible ? 'Close' : 'Info'}</Button>
+                    <Button style={{margin: 5, width: screen.width / 4}} color='tomato' onPress={() => logoff()}>Logoff</Button> 
                 </View>
             </View>
                 : 
@@ -304,11 +302,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     toro: {
-        height: 28,
-        width: 28
+        height: 22,
+        width: 22,
+        margin: 5
     },
     container: {
-        margin: 10
+        margin: 5
     },
     text: {
         fontWeight: 'bold',
@@ -316,16 +315,13 @@ const styles = StyleSheet.create({
     },
     userBar: {
         padding: 10,
-        justifyContent: 'center'
     },
     loggedInUserBar: {
-        margin: 20,      
-    },
-    userInfo: {
-        alignItems: 'center'
+        marginTop: 10,
+        marginBottom: 10,
     },
     detailSection: {
-        padding: 5
+        padding: 10,
     },
     textInput: {
         justifyContent: 'center',
