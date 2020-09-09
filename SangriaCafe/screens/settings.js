@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { SafeAreaView, StyleSheet, View, Image, Dimensions, Text, TouchableOpacity } from 'react-native'
+import { SafeAreaView, StyleSheet, View, Image, Dimensions, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView } from 'react-native'
 import ImagePicker from 'react-native-image-picker'
 import storage from '@react-native-firebase/storage'
 import { firebaseConfig } from '../Setup'
@@ -7,6 +7,7 @@ import { TextInput, Button } from 'react-native-paper'
 import firestore from '@react-native-firebase/firestore'
 import auth from '@react-native-firebase/auth'
 import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-community/google-signin'
+import Specials from '../components/specialsCard'
 
 const Settings = () => {
 
@@ -190,8 +191,8 @@ const Settings = () => {
                 const pathToFile = source
                 await reference.putFile(pathToFile)
                 const url = await storage()
-                .ref(source)
-                .getDownloadURL()
+                    .ref(source)
+                    .getDownloadURL()
                 setImageSource( url )
                 updateImage()
             }
@@ -226,7 +227,8 @@ const Settings = () => {
                         </View>
                     </View>
                 </View>
-
+            
+                <KeyboardAvoidingView behavior="position">
                 { updateVisible ? 
                     <View style={styles.container}>
                         <Text style={styles.text}>Email</Text>
@@ -238,13 +240,18 @@ const Settings = () => {
                         <Text style={styles.text}>Address</Text>
                         <TextInput placeholder={userCloud.address} autoCompleteType='street-address' onChangeText={changeAddress} value={address}/>
                         <Button mode='contained' color='tomato' style={{margin:10}} onPress={() => updateUser()}>Update</Button>
-                    </View> : null }
+                    </View> : null}
 
                 <View style={{justifyContent: 'center', flexDirection: 'row'}}>
                     <Button style={{margin: 5, width: screen.width / 4}} color='tomato' onPress={() => console.log('Pressed')}>Card</Button>
                     <Button style={{margin: 5, width: screen.width / 4}} color='tomato' onPress={updateVisible ? () => toggleUpdate(false):() => toggleUpdate(true)}>{updateVisible ? 'Close' : 'Info'}</Button>
                     <Button style={{margin: 5, width: screen.width / 4}} color='tomato' onPress={() => logoff()}>Logoff</Button> 
                 </View>
+                { updateVisible ? null :
+                    <ScrollView alwaysBounceVertical={true} showsVerticalScrollIndicator={false} contentInset={{top: 0, left: 0, bottom: 108, right: 0}}> 
+                        <Specials/>
+                    </ScrollView> } 
+                </KeyboardAvoidingView>
             </View>
                 : 
             <View style={styles.userBar}>
@@ -264,6 +271,7 @@ const Settings = () => {
                         <GoogleSigninButton style={{ width: 192, height: 48, alignSelf: 'center' }} size={GoogleSigninButton.Size.Wide} color={GoogleSigninButton.Color.Dark} onPress={() => signIn()} />
                     </View> : null }
                 
+                <KeyboardAvoidingView behavior="position">
                 { registerIsVisible ? 
                     <View style={styles.container}>
                         <Text style={styles.text}>Email</Text>
@@ -279,6 +287,7 @@ const Settings = () => {
                         <Button mode='contained' color='tomato' style={{margin: 10}} onPress={() => createUser(email, password)}>Create New Account</Button>
                         <GoogleSigninButton style={{ width: 192, height: 48, alignSelf: 'center' }} size={GoogleSigninButton.Size.Wide} color={GoogleSigninButton.Color.Dark} onPress={() => signIn()} />
                     </View>  : null }
+                </KeyboardAvoidingView>
             </View> 
         }
         </SafeAreaView>
