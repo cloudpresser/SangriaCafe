@@ -208,11 +208,15 @@ const Settings = () => {
         })
     }
 
+    const matador = 90880
+    const picador = 22720
+    const banderillero = 5680
+    const mozo = 1420
     const title = toros => { 
-        if (toros >= 90880) return 'Matador 🥇'
-        if (toros >= 22720) return 'Picador 🥈'
-        if (toros >= 5680) return 'Banderillero 🥉'
-        if (toros >= 1420) return 'Mozo de Espada ⚔️'
+        if (toros >= matador) return 'Matador 🥇'
+        if (toros >= picador) return 'Picador 🥈'
+        if (toros >= banderillero) return 'Banderillero 🥉'
+        if (toros >= mozo) return 'Mozo de Espada ⚔️'
         if (toros < 1420) return 'Ayuda'
     }
 
@@ -271,7 +275,13 @@ const Settings = () => {
             </View>
                 : 
             <View style={styles.userBar}>
-                <Button onPress={() => openAuthOptions()} mode='contained' color='tomato'> {loginIsVisible || registerIsVisible ? 'Back':'Sign In'} </Button>
+                <Button onPress={() => openAuthOptions()} mode='contained' color='tomato' style={{margin: 10}}> {loginIsVisible || registerIsVisible ? 'Back':'Sign In'} </Button>
+
+                { authOptionsVisible || loginIsVisible || registerIsVisible ? null : 
+                <View style={{alignItems: 'center'}}>
+                    <Text>❗️ must be signed in to complete orders ❗️</Text>
+                    <Text>& collect Toros to gain new titles</Text>
+                </View> }
 
                 { authOptionsVisible ? 
                     <View>
@@ -344,7 +354,7 @@ const styles = StyleSheet.create({
         margin: 5
     },
     userBar: {
-        padding: 10,
+        padding: 10
     },
     loggedInUserBar: {
         marginTop: 10,
