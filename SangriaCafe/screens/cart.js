@@ -73,23 +73,23 @@ const Cart = props => {
                             <Text>Total</Text>
                             <Text>${total().toFixed(2)}</Text>
                         </View>
-                    </View>
-
-                    <View style={styles.tipCheckout}>
-                    <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', margin: 5}}>
-                        <Text>Add Tip for Driver</Text>
-                        <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+                        <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', marginTop: 5}}>
                             <Text>+ </Text>
                             <Image source={require('../assets/toro.png')} style={{height: 20, width: 20}} />
                             <Text> {toroTotal()}</Text>
                         </View>
                     </View>
+
+                    <View style={styles.tipCheckout}>
+                    <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', margin: 5}}>
+                        <Text>Add Tip for Driver</Text>
+                    </View>
                         <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
-                            <Button title={'Cash'} onPress={() => tipHandler(0)} />
-                            <Button title={'15%'} onPress={() => tipHandler(0.15)} />
-                            <Button title={'20%'} onPress={() => tipHandler(0.2)} />
-                            <Button title={'25%'} onPress={() => tipHandler(0.25)} />
-                            <Button title={'30%'} onPress={() => tipHandler(0.3)} />
+                            {tip === 0 ? <Button title={'Cash'} color='tomato' onPress={() => tipHandler(0)}/> : <Button title={'Cash'} onPress={() => tipHandler(0)}/> }
+                            {tip/total() === 0.15 ? <Button title={'15%'} color='tomato' onPress={() => tipHandler(0.15)}/> : <Button title={'15%'} onPress={() => tipHandler(0.15)}/> }
+                            {tip/total() === 0.20 ? <Button title={'20%'} color='tomato' onPress={() => tipHandler(0.20)}/> : <Button title={'20%'} onPress={() => tipHandler(0.20)}/> }
+                            {tip/total() === 0.25 ? <Button title={'25%'} color='tomato' onPress={() => tipHandler(0.25)}/> : <Button title={'25%'} onPress={() => tipHandler(0.25)}/> }
+                            {tip/total() === 0.30 ? <Button title={'30%'} color='tomato' onPress={() => tipHandler(0.30)}/> : <Button title={'30%'} onPress={() => tipHandler(0.30)}/> }
                         </View>
 
                         <TouchableOpacity>
@@ -154,5 +154,8 @@ const styles = StyleSheet.create({
         padding: 20,
         alignItems: 'center',
         backgroundColor: 'green'
+    },
+    selectedButton: {
+        color: 'tomato'
     }
 })
