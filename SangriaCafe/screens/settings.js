@@ -207,7 +207,16 @@ const Settings = () => {
             }
         })
     }
-
+    
+    addCard = () => {
+        firestore().collection('cards').add({
+            "card_number" : '',
+            'expiration_date' : '',
+            'security_code' : '',
+            'user_id' : ''
+        })
+    }
+    
     const matador = 90880
     const picador = 22720
     const banderillero = 5680
