@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { SafeAreaView, StyleSheet, View, Image, Dimensions, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView, Alert } from 'react-native'
+import { SafeAreaView, StyleSheet, View, Image, Dimensions, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView, Modal } from 'react-native'
 import ImagePicker from 'react-native-image-picker'
 import storage from '@react-native-firebase/storage'
 import { firebaseConfig } from '../Setup'
@@ -8,10 +8,13 @@ import firestore from '@react-native-firebase/firestore'
 import auth from '@react-native-firebase/auth'
 import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-community/google-signin'
 import Specials from '../components/specialsCard'
+import CardModal from '../components/cardModal'
 
 const Settings = () => {
 
     const [initializing, setInitializing] = useState(true)
+    const [modalVisible, setModalVisible] = useState(false)
+    const [card, setCard] = useState()
     const [authOptionsVisible, toggleOptions] = useState(false)
     const [loginIsVisible, toggleLogin] = useState(false)
     const [registerIsVisible, toggleRegister] = useState(false)
@@ -207,16 +210,13 @@ const Settings = () => {
             }
         })
     }
-    
-    addCard = () => {
-        firestore().collection('cards').add({
-            "card_number" : '',
-            'expiration_date' : '',
-            'security_code' : '',
-            'user_id' : ''
-        })
+
+    const handleCardPress = () => {
+        return (
+            <CardModal setModalVisible={setModalVisible(true)} card={card} setCard={setCard} cloudUser={userCloud} cloudUserId={userCloudRefId}/>
+        )
     }
-    
+
     const matador = 90880
     const picador = 22720
     const banderillero = 5680
@@ -235,6 +235,10 @@ const Settings = () => {
             <View style={styles.topContainer}>
                 <Image source={require('../assets/sangria_logo.png')} style={styles.logo}/>
             </View>
+
+            <Modal animationType="slide" transparent={false} visible={modalVisible}>
+                <CardModal setModalVisible={setModalVisible} card={card} setCard={setCard} cloudUser={userCloud} cloudUserId={userCloudRefId}/>
+            </Modal>
 
         { userAuth ?
             <View>
@@ -272,7 +276,7 @@ const Settings = () => {
                     </View> : null}
 
                 <View style={{justifyContent: 'center', flexDirection: 'row'}}>
-                    <Button style={{margin: 5, width: screen.width / 4}} color='tomato' onPress={() => console.log('Pressed')}>Card</Button>
+                    <Button style={{margin: 5, width: screen.width / 4}} color='tomato' onPress={() => handleCardPress()}>Card</Button>
                     <Button style={{margin: 5, width: screen.width / 4}} color='tomato' onPress={updateVisible ? () => toggleUpdate(false):() => toggleUpdate(true)}>{updateVisible ? 'Close' : 'Info'}</Button>
                     <Button style={{margin: 5, width: screen.width / 4}} color='tomato' onPress={() => logoff()}>Logoff</Button> 
                 </View>
