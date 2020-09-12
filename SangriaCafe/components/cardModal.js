@@ -4,10 +4,10 @@ import Button from 'react-native-paper'
 
 export default CardModal = props => {
 
-    const [name, changeName] = useState('')
-    const [exp, changeExp] = useState('')
+    const [nameOnCard, changeName] = useState('')
     const [cardNum, changeCardNum] = useState()
     const [securityNum, changeSecurityNum] = useState()
+    const [exp, changeExp] = useState('')
 
     saveCard = async () => {
         const currentCard = firestore().collection('cards')
@@ -39,18 +39,11 @@ export default CardModal = props => {
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.modalView}>
                 <KeyboardAvoidingView behavior="position">
-                    <View style={styles.modalMenuItems}>
-                        <Text style={styles.text}>Main Card</Text>                        
-                        <Text style={styles.text}>Name</Text>
-                        <TextInput placeholder={'name on card'} onChangeText={changeName} value={name}/>
-                        <Text style={styles.text}>Expiration Date</Text>
-                        <TextInput placeholder={'MM/DD'} onChangeText={changeExp} value={exp}/>
-                        <Text style={styles.text}>Card Number</Text>
-                        <TextInput placeholder={'000-0000-0000-000'} onChangeText={changeCardNum} value={cardNum}/>
-                        <Text style={styles.text}>Security Code</Text>
-                        <TextInput placeholder={'3-4 digit code on back of card'} onChangeText={changeSecurityNum} value={securityNum}/>
-                        <Button mode='contained' color='tomato' style={{margin:10}} onPress={() => saveCard()}>Save</Button>
-                        <Button mode='contained' color='tomato' style={{margin:10}} onPress={() => closeModal()}>Exit</Button>
+                    <View style={styles.modalMenuItems}> 
+                        <TextInput value={nameOnCard} placeholder={'name on card'} placeholderTextColor={'white'} onChangeText={changeName} color='white' borderColor='white' borderWidth={0.25} style={{width: screen.width / 1.7, height: 50, padding: 10 }} />
+                        <TextInput value={cardNum} placeholder={'card number'} placeholderTextColor={'white'} onChangeText={changeCardNum} color='white' borderColor='white' borderWidth={0.25} style={{width: screen.width / 1.7, height: 50, padding: 10 }} />
+                        <TextInput value={securityNum} placeholder={'security number'} placeholderTextColor={'white'} onChangeText={changeSecurityNum} color='white' borderColor='white' borderWidth={0.25} style={{width: screen.width / 1.7, height: 50, padding: 10 }} />
+                        <TextInput value={exp} placeholder={'expiration date: MM/DD'} placeholderTextColor={'white'} onChangeText={changeExp} color='white' borderColor='white' borderWidth={0.25} style={{width: screen.width / 1.7, height: 50, padding: 10 }} />
                     </View>
                 </KeyboardAvoidingView> 
             </View>
@@ -63,6 +56,7 @@ export default CardModal = props => {
 const screen = Dimensions.get('window')
 const styles = StyleSheet.create({
     modalView: {
+        alignItems: 'center',
         width: screen.width,
         backgroundColor: "white",
         padding: 5,
@@ -76,9 +70,9 @@ const styles = StyleSheet.create({
     modalMenuItems: {
         alignItems: 'center',
         backgroundColor: 'tomato',
-        margin: 5,
         borderRadius: 5,
-        width: screen.width / 1.25
+        width: screen.width / 1.25,
+        padding: 20
     },
     text: {
         fontWeight: 'bold',
