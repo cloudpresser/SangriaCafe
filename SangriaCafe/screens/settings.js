@@ -236,7 +236,7 @@ const Settings = () => {
                 <Image source={require('../assets/sangria_logo.png')} style={styles.logo}/>
             </View>
 
-            <Modal animationType="slide" transparent={false} visible={modalVisible}>
+            <Modal animationType="fade" transparent={true} visible={modalVisible}>
                 <CardModal setModalVisible={setModalVisible} card={card} setCard={setCard} cloudUser={userCloud} cloudUserId={userCloudRefId}/>
             </Modal>
 
