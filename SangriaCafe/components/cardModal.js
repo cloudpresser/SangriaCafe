@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Dimensions, SafeAreaView, Button, TouchableOpacity } from 'react-native'
+import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Dimensions, SafeAreaView, Button, TouchableOpacity, Image } from 'react-native'
 
 export default CardModal = props => {
 
@@ -7,6 +7,7 @@ export default CardModal = props => {
     const [cardNum, changeCardNum] = useState()
     const [securityNum, changeSecurityNum] = useState()
     const [exp, changeExp] = useState('')
+    const [bank, changeBank] = useState('')
 
     saveCard = async () => {
         const currentCard = firestore().collection('cards')
@@ -38,11 +39,26 @@ export default CardModal = props => {
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.modalView}>
                 <KeyboardAvoidingView behavior="position">
-                    <View style={styles.modalMenuItems}> 
-                        <TextInput value={nameOnCard} placeholder={'name on card'} placeholderTextColor={'white'} onChangeText={changeName} color='white' borderColor='white' borderWidth={0.25} style={{width: screen.width / 1.25, height: 50, padding: 10 }} />
-                        <TextInput value={cardNum} placeholder={'card number'} placeholderTextColor={'white'} onChangeText={changeCardNum} color='white' borderColor='white' borderWidth={0.25} style={{width: screen.width / 1.25, height: 50, padding: 10 }} />
-                        <TextInput value={securityNum} placeholder={'security number'} placeholderTextColor={'white'} onChangeText={changeSecurityNum} color='white' borderColor='white' borderWidth={0.25} style={{width: screen.width / 1.25, height: 50, padding: 10 }} />
-                        <TextInput value={exp} placeholder={'expiration date: MM/DD'} placeholderTextColor={'white'} onChangeText={changeExp} color='white' borderColor='white' borderWidth={0.25} style={{width: screen.width / 1.25, height: 50, padding: 10 }} />
+                    <View style={styles.frontOfCard}>
+                        <Text style={{alignSelf: 'flex-end', fontSize: 26}}>BANK</Text>
+                        <Image source={require('../assets/cardChip.png')} style={{alignSelf: 'flex-start', height: 50, width: 80, marginBottom: 15, marginTop: 20}}/>
+                        <TextInput value={cardNum} placeholder={'card number'} keyboardType='numeric' placeholderTextColor={'white'} autoCompleteType='cc-number' maxLength={16} onChangeText={changeCardNum}  style={{fontSize: 26, width: screen.width / 1.25, height: 40, padding: 10, }} />
+                        <TextInput value={exp} placeholder={'expiration date: MM/DD'} placeholderTextColor={'white'} onChangeText={changeExp} keyboardType='numeric' autoCompleteType='cc-exp' maxLength={5} style={{width: screen.width / 1.25, height: 35, padding: 10, paddingLeft: 50 }} />
+                        <TextInput value={nameOnCard} placeholder={'name on card'} placeholderTextColor={'white'} onChangeText={changeName} style={{width: screen.width / 1.25, height: 35, padding: 10 }} />
+
+                    </View>
+                    <View style={styles.backOfCard}> 
+                        <View style={{backgroundColor: 'black', height: 35, width: '100%', marginTop: 15}}></View>
+                        <Text style={{color: 'white', fontSize: 10, alignSelf: 'flex-start', margin: 5, marginLeft: 15}}>AUTHORIZED SIGNATURE</Text>
+                        <View style={{flexDirection: 'row', width: screen.width / 1.1, marginLeft: 25}}>
+                            <View style={{backgroundColor: 'white', height: 30, width: 200 }}>
+                                <Image source={require('../assets/signature.png')} style={{ height: 30, width: 100}}/>
+                            </View>
+                            <View style={{ height: 30, width: 200, marginLeft: 15}}>
+                                <TextInput value={exp} placeholder={'CVC code'} onChangeText={changeSecurityNum} keyboardType='numeric' style={{width: 100, height: 30, padding: 10, backgroundColor: 'white' }} />
+                            </View>
+                        </View>
+                        <View style={{height: 130}}></View>
                     </View>
                     <View style={styles.buttonContainer}>
                         <TouchableOpacity>
@@ -66,19 +82,25 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: screen.width,
         padding: 5,
-        alignItems: "center",
         shadowColor: "#000",
         shadowOffset: {
           width: 0,
           height: 2
-        },
+        }
     },
-    modalMenuItems: {
+    frontOfCard: {
         alignItems: 'center',
-        backgroundColor: 'tomato',
+        backgroundColor: 'cornflowerblue',
         borderRadius: 5,
         width: screen.width / 1.1,
-        padding: 20
+        padding: 15,
+    },
+    backOfCard: {
+        alignItems: 'center',
+        backgroundColor: 'cornflowerblue',
+        borderRadius: 5,
+        width: screen.width / 1.1,
+        marginTop: 20
     },
     text: {
         fontWeight: 'bold',
