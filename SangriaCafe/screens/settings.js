@@ -27,6 +27,8 @@ const Settings = () => {
     const [name, changeName] = useState('')
     const [phone, changePhone] = useState('')
     const [address, changeAddress] = useState('')
+    const [currentCard, getCard] = useState()
+    const [cardOnFile, getCOF] = useState()
     const [imageSource, setImageSource] = useState()
 
     useEffect(() => {
@@ -45,6 +47,7 @@ const Settings = () => {
             changeName(cloudUser._docs[0]._data.name)
             changePhone(cloudUser._docs[0]._data.phoneNumber)
             changeAddress(cloudUser._docs[0]._data.address)
+            findCard()
         }
         if (initializing) setInitializing(false)
     }
@@ -160,6 +163,12 @@ const Settings = () => {
         onAuthStateChanged(userAuth)
     }
 
+    findCard = async () => {
+        let savedCard = await firestore().collection('cards')
+            .where('user_id', '==', userCloudRefId).get()
+        savedCard === undefined ? null : getCard(savedCard._docs[0]._data) && getCOF(savedCard._docs[0]._ref._documentPath._parts[1])
+    }
+
     logoff = () => { 
         auth().signOut() 
         setUser({})
@@ -183,6 +192,7 @@ const Settings = () => {
         toggleLogin(false)
         toggleRegister(true)
     }
+
     const getImage = () => {
         const imagePickerOptions = {
             title: 'Select Avatar',
@@ -212,9 +222,10 @@ const Settings = () => {
     }
 
     const handleCardPress = () => {
+        console.log(currentCard)
         return (
-            <CardModal setModalVisible={setModalVisible(true)} card={card} setCard={setCard} cloudUser={userCloud} cloudUserId={userCloudRefId}/>
-        )
+            <CardModal setModalVisible={setModalVisible(true)} card={currentCard} cardRef={cardOnFile} />
+            )
     }
 
     const matador = 90880
@@ -237,7 +248,7 @@ const Settings = () => {
             </View>
 
             <Modal animationType="fade" transparent={true} visible={modalVisible}>
-                <CardModal setModalVisible={setModalVisible} card={card} setCard={setCard} cloudUser={userCloud} cloudUserId={userCloudRefId}/>
+                <CardModal setModalVisible={setModalVisible} card={currentCard} cardRef={cardOnFile} />
             </Modal>
 
         { userAuth ?

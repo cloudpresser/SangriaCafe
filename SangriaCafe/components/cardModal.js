@@ -8,16 +8,21 @@ export default CardModal = props => {
     const [cardNum, changeCardNum] = useState()
     const [securityNum, changeSecurityNum] = useState()
     const [exp, changeExp] = useState('')
-    const [bank, changeBank] = useState('')
 
     useEffect(() => {
         detectBank()
+        if (props.card) {
+            const currentCard = props.card
+            changeCardNum(currentCard.card_number)
+            changeExp(currentCard.expiration_date)
+            changeName(currentCard.name_on_card)
+            changeSecurityNum(currentCard.security_code)
+        }
     })
 
     saveCard = async () => {
-        const currentCard = firestore().collection('cards')
-            .where('user_id', '==', props.cloudUserId).get()
-        currentCard === undefined ?
+        if (!cardNum || !exp || !securityNum) alert('Missing Information!')
+        currentCard === undefined || null ?
             await firestore().collection('cards').add({
                 "card_number" : cardNum,
                 'expiration_date' : exp,
@@ -25,20 +30,19 @@ export default CardModal = props => {
                 'user_id' : props.cloudUserId
             }) 
             : 
-            await firestore().collection('cards').update({
+            await firestore().collection('cards').doc(props.cardRef).update({
                 "card_number" : cardNum,
                 'expiration_date' : exp,
-                'security_code' : securityNum,
-                'user_id' : props.cloudUserId
+                'security_code' : securityNum
             })
-        props.setModalVisible(false)
+        closeModal()
     }
 
     closeModal = () => {
         props.setModalVisible(false)
     }
 
-    detectBank = cardNum => {
+    detectBank = () => {
         if (cardNum === undefined) return 'BANK'
         bankNum = cardNum.split('')[0]
         if (bankNum === undefined) return 'BANK'
@@ -55,11 +59,11 @@ export default CardModal = props => {
             <View style={styles.modalView}>
                 <KeyboardAvoidingView behavior="position">
                     <View style={styles.frontOfCard}>
-                        <Text style={{alignSelf: 'flex-end', fontSize: 26}}>{detectBank(cardNum)}</Text>
+                        <Text style={{alignSelf: 'flex-end', fontSize: 26}}>{detectBank()}</Text>
                         <Image source={require('../assets/cardChip.png')} style={{alignSelf: 'flex-start', height: 40, width: 68, marginBottom: 15, marginTop: 20}}/>
-                        <TextInput value={cardNum} placeholder={'card number'} keyboardType='numeric' placeholderTextColor={'white'} autoCompleteType='cc-number' onChangeText={changeCardNum}  style={{fontSize: 30, height: 42, padding: 10, alignSelf: 'flex-start'  }} />
-                        <TextInput value={exp} placeholder={'expiration date: MM/DD'} placeholderTextColor={'white'} onChangeText={changeExp} keyboardType='numeric' autoCompleteType='cc-exp' maxLength={5} style={{height: 35, padding: 10}} />
-                        <TextInput value={nameOnCard} placeholder={'name on card'} placeholderTextColor={'white'} onChangeText={changeName} style={{height: 30, padding: 10, alignSelf: 'flex-start' }} />
+                        <TextInput value={cardNum} placeholder={cardNum ? cardNum : 'card number'} autoCompleteType='cc-number' keyboardType='numeric' placeholderTextColor={'white'} onChangeText={changeCardNum}  style={{fontSize: 30, height: 42, padding: 10, alignSelf: 'flex-start'  }} />
+                        <TextInput value={exp} placeholder={exp ? exp:'expiration date: MM/DD'} autoCompleteType='cc-exp' placeholderTextColor={'white'} onChangeText={changeExp} keyboardType='numeric' style={{height: 35, padding: 10}} />
+                        <TextInput value={nameOnCard} placeholder={nameOnCard ? nameOnCard:'name on card'} placeholderTextColor={'white'} onChangeText={changeName} style={{height: 30, padding: 10, alignSelf: 'flex-start' }} />
 
                     </View>
                     <View style={styles.backOfCard}> 
@@ -70,7 +74,7 @@ export default CardModal = props => {
                                 <Image source={require('../assets/signature.png')} style={{ height: 30, width: 100}}/>
                             </View>
                             <View style={{ height: 30, width: 200, marginLeft: 15}}>
-                                <TextInput value={securityNum} placeholder={'CVC code'} onChangeText={changeSecurityNum} keyboardType='numeric' style={{width: 100, height: 30, padding: 10, backgroundColor: 'white' }} />
+                                <TextInput value={securityNum} placeholder={securityNum ? securityNum:'CVC code'} onChangeText={changeSecurityNum} keyboardType='numeric' style={{width: 100, height: 30, padding: 10, backgroundColor: 'white' }} />
                             </View>
                         </View>
                         <View style={{height: 110}}></View>

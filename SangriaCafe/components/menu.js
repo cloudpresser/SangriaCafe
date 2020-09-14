@@ -198,7 +198,7 @@ const Menu =
                 'details' : {
                     'description' : 'lobster, shrimp, scallops, calamari, mussels, clams',
                     'price' : 30,
-                    'toros' : 15,
+                    'toros' : 150,
                     'image' : 'https://www.simplyrecipes.com/wp-content/uploads/2018/07/Seafood-Paella-HORIZONTAL.jpg'          
                 }
             },
