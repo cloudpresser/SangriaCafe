@@ -11,19 +11,17 @@ export default CardModal = props => {
 
     useEffect(() => {
         detectBank()
-        if (props.card) {
-            const currentCard = props.card
-            changeCardNum(currentCard.card_number)
-            changeExp(currentCard.expiration_date)
-            changeName(currentCard.name_on_card)
-            changeSecurityNum(currentCard.security_code)
-        }
+        if (props.card.card_number) changeCardNum(props.card.card_number)
+        if (props.card.expiration_date) changeExp(props.card.expiration_date)
+        if (props.card.name_on_card) changeName(props.card.name_on_card)
+        if (props.card.security_code) changeSecurityNum(props.card.security_code)
     })
 
     saveCard = async () => {
         if (!cardNum || !exp || !securityNum) alert('Missing Information!')
-        currentCard === undefined || null ?
+        props.cardRef === undefined || null ?
             await firestore().collection('cards').add({
+                'name_on_card' : nameOnCard,
                 "card_number" : cardNum,
                 'expiration_date' : exp,
                 'security_code' : securityNum,
@@ -31,9 +29,11 @@ export default CardModal = props => {
             }) 
             : 
             await firestore().collection('cards').doc(props.cardRef).update({
+                'name_on_card' : nameOnCard,
                 "card_number" : cardNum,
                 'expiration_date' : exp,
-                'security_code' : securityNum
+                'security_code' : securityNum,
+                'user_id' : props.cloudUserId
             })
         closeModal()
     }
@@ -63,7 +63,7 @@ export default CardModal = props => {
                         <Image source={require('../assets/cardChip.png')} style={{alignSelf: 'flex-start', height: 40, width: 68, marginBottom: 15, marginTop: 20}}/>
                         <TextInput value={cardNum} placeholder={cardNum ? cardNum : 'card number'} autoCompleteType='cc-number' keyboardType='numeric' placeholderTextColor={'white'} onChangeText={changeCardNum}  style={{fontSize: 30, height: 42, padding: 10, alignSelf: 'flex-start'  }} />
                         <TextInput value={exp} placeholder={exp ? exp:'expiration date: MM/DD'} autoCompleteType='cc-exp' placeholderTextColor={'white'} onChangeText={changeExp} keyboardType='numeric' style={{height: 35, padding: 10}} />
-                        <TextInput value={nameOnCard} placeholder={nameOnCard ? nameOnCard:'name on card'} placeholderTextColor={'white'} onChangeText={changeName} style={{height: 30, padding: 10, alignSelf: 'flex-start' }} />
+                        <TextInput value={nameOnCard} placeholder={nameOnCard ? nameOnCard:'name on card'} placeholderTextColor={'white'} onChangeText={changeName} style={{height: 34, padding: 10, alignSelf: 'flex-start' }} />
 
                     </View>
                     <View style={styles.backOfCard}> 

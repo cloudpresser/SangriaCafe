@@ -14,7 +14,6 @@ const Settings = () => {
 
     const [initializing, setInitializing] = useState(true)
     const [modalVisible, setModalVisible] = useState(false)
-    const [card, setCard] = useState()
     const [authOptionsVisible, toggleOptions] = useState(false)
     const [loginIsVisible, toggleLogin] = useState(false)
     const [registerIsVisible, toggleRegister] = useState(false)
@@ -113,28 +112,6 @@ const Settings = () => {
     }   
 
     createUser = async (email, password) => {
-        addNewUserToCloud()
-        await auth().createUserWithEmailAndPassword(email, password)
-        .catch(error => {
-            if (error.code === 'auth/email-already-in-use') {
-                alert('That email address is already in use!')
-            }
-            if (error.code === 'auth/invalid-email') {
-                alert('That email address is invalid!')
-            }
-            if (error.code === 'auth/user-not-found') {
-                alert('No Account Found')
-            }
-            if (error.code === 'auth/wrong-password') {
-                alert('Incorrect Account Information Try Again')
-            }
-            if (error.code === 'auth/weak-password') {
-                alert('Missing or Weak Password')
-            }
-        })
-    }
-
-    addNewUserToCloud = async () => {
         await firestore().collection('users').add({
             'email': email,
             'name': name,
@@ -143,7 +120,26 @@ const Settings = () => {
             'toros': 0,
             'toros_spent': 0,
             'image': 'https://www.pikpng.com/pngl/m/16-168770_user-iconset-no-profile-picture-icon-circle-clipart.png'
-        })
+        }).then(
+            auth().createUserWithEmailAndPassword(email, password)
+            .catch(error => {
+                if (error.code === 'auth/email-already-in-use') {
+                    alert('That email address is already in use!')
+                }
+                if (error.code === 'auth/invalid-email') {
+                    alert('That email address is invalid!')
+                }
+                if (error.code === 'auth/user-not-found') {
+                    alert('No Account Found')
+                }
+                if (error.code === 'auth/wrong-password') {
+                    alert('Incorrect Account Information Try Again')
+                }
+                if (error.code === 'auth/weak-password') {
+                    alert('Missing or Weak Password')
+                }
+            })
+        )
     }
 
     updateImage = async () => {
@@ -166,7 +162,10 @@ const Settings = () => {
     findCard = async () => {
         let savedCard = await firestore().collection('cards')
             .where('user_id', '==', userCloudRefId).get()
-        savedCard === undefined ? null : getCard(savedCard._docs[0]._data) && getCOF(savedCard._docs[0]._ref._documentPath._parts[1])
+        if (savedCard._docs[0] !== undefined) {
+            getCard(savedCard._docs[0]._data)
+            getCOF(savedCard._docs[0]._ref._documentPath._parts[1])
+        }
     }
 
     logoff = () => { 
@@ -222,9 +221,8 @@ const Settings = () => {
     }
 
     const handleCardPress = () => {
-        console.log(currentCard)
         return (
-            <CardModal setModalVisible={setModalVisible(true)} card={currentCard} cardRef={cardOnFile} />
+            <CardModal setModalVisible={setModalVisible(true)} card={currentCard} cardRef={cardOnFile} cloudUserId={userCloudRefId}/>
             )
     }
 
@@ -248,7 +246,7 @@ const Settings = () => {
             </View>
 
             <Modal animationType="fade" transparent={true} visible={modalVisible}>
-                <CardModal setModalVisible={setModalVisible} card={currentCard} cardRef={cardOnFile} />
+                <CardModal setModalVisible={setModalVisible} card={currentCard} cardRef={cardOnFile} cloudUserId={userCloudRefId}/>
             </Modal>
 
         { userAuth ?
