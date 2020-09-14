@@ -29,7 +29,7 @@ const Cart = props => {
                     </View>
 
                     <View style={{padding: 20}}>
-                        <Text style={{}}>Delivery to 555 Broadway New York, NY 10017</Text>
+                        <Text style={{}}>Delivery</Text>
                         <Text>ASAP (40 - 50 mins)</Text>
                     </View>
 
@@ -87,7 +87,7 @@ const Cart = props => {
                     </View>
                         <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
                             {tip/total() === 0.15 ? <Button title={'15%'} color='tomato' onPress={() => tipHandler(0.15)}/> : <Button title={'15%'} onPress={() => tipHandler(0.15)}/> }
-                            {tip/total() === 0.2 ? <Button title={'20%'} color='tomato' onPress={() => tipHandler(0.20)}/> : <Button title={'20%'} onPress={() => tipHandler(0.20)}/> }
+                            {tip/total() === 0.20 ? <Button title={'20%'} color='tomato' onPress={() => tipHandler(0.20)}/> : <Button title={'20%'} onPress={() => tipHandler(0.20)}/> }
                             {tip/total() === 0.25 ? <Button title={'25%'} color='tomato' onPress={() => tipHandler(0.25)}/> : <Button title={'25%'} onPress={() => tipHandler(0.25)}/> }
                             {tip/total() === 0.30 ? <Button title={'30%'} color='tomato' onPress={() => tipHandler(0.30)}/> : <Button title={'30%'} onPress={() => tipHandler(0.30)}/> }
                             {tip === 0 ? <Button title={'Cash'} color='tomato' onPress={() => tipHandler(0)}/> : <Button title={'Cash'} onPress={() => tipHandler(0)}/> }
