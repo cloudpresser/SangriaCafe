@@ -172,6 +172,8 @@ const Settings = () => {
         auth().signOut() 
         setUser({})
         setCloudUser({})
+        getCard()
+        getCOF()
     }
 
     openAuthOptions = () => { 
@@ -223,7 +225,7 @@ const Settings = () => {
     const handleCardPress = () => {
         return (
             <CardModal setModalVisible={setModalVisible(true)} card={currentCard} cardRef={cardOnFile} cloudUserId={userCloudRefId}/>
-            )
+        )
     }
 
     const matador = 90880

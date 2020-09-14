@@ -11,10 +11,6 @@ export default CardModal = props => {
 
     useEffect(() => {
         detectBank()
-        if (props.card.card_number) changeCardNum(props.card.card_number)
-        if (props.card.expiration_date) changeExp(props.card.expiration_date)
-        if (props.card.name_on_card) changeName(props.card.name_on_card)
-        if (props.card.security_code) changeSecurityNum(props.card.security_code)
     })
 
     saveCard = async () => {
@@ -61,9 +57,9 @@ export default CardModal = props => {
                     <View style={styles.frontOfCard}>
                         <Text style={{alignSelf: 'flex-end', fontSize: 26}}>{detectBank()}</Text>
                         <Image source={require('../assets/cardChip.png')} style={{alignSelf: 'flex-start', height: 40, width: 68, marginBottom: 15, marginTop: 20}}/>
-                        <TextInput value={cardNum} placeholder={cardNum ? cardNum : 'card number'} autoCompleteType='cc-number' keyboardType='numeric' placeholderTextColor={'white'} onChangeText={changeCardNum}  style={{fontSize: 30, height: 42, padding: 10, alignSelf: 'flex-start'  }} />
-                        <TextInput value={exp} placeholder={exp ? exp:'expiration date: MM/DD'} autoCompleteType='cc-exp' placeholderTextColor={'white'} onChangeText={changeExp} keyboardType='numeric' style={{height: 35, padding: 10}} />
-                        <TextInput value={nameOnCard} placeholder={nameOnCard ? nameOnCard:'name on card'} placeholderTextColor={'white'} onChangeText={changeName} style={{height: 34, padding: 10, alignSelf: 'flex-start' }} />
+                        <TextInput value={cardNum} placeholder={props.card.card_number ? props.card.card_number : 'card number'} autoCompleteType='cc-number' keyboardType='numeric' placeholderTextColor={'black'} onChangeText={changeCardNum}  style={{fontSize: 30, height: 42, padding: 10, alignSelf: 'flex-start'  }} />
+                        <TextInput value={exp} placeholder={props.card.expiration_date ? props.card.expiration_date:'expiration date: MM/DD'} autoCompleteType='cc-exp' placeholderTextColor={'black'} onChangeText={changeExp} keyboardType='numeric' style={{height: 35, padding: 10}} />
+                        <TextInput value={nameOnCard} placeholder={props.card.name_on_card ? props.card.name_on_card:'name on card'} placeholderTextColor={'black'} onChangeText={changeName} style={{height: 34, padding: 10, alignSelf: 'flex-start' }} />
 
                     </View>
                     <View style={styles.backOfCard}> 
@@ -74,7 +70,7 @@ export default CardModal = props => {
                                 <Image source={require('../assets/signature.png')} style={{ height: 30, width: 100}}/>
                             </View>
                             <View style={{ height: 30, width: 200, marginLeft: 15}}>
-                                <TextInput value={securityNum} placeholder={securityNum ? securityNum:'CVC code'} onChangeText={changeSecurityNum} keyboardType='numeric' style={{width: 100, height: 30, padding: 10, backgroundColor: 'white' }} />
+                                <TextInput value={securityNum} placeholder={props.card.security_code ? props.card.security_code:'CVC code'} onChangeText={changeSecurityNum} placeholderTextColor={'black'} keyboardType='numeric' style={{width: 100, height: 30, padding: 10, backgroundColor: 'white' }} />
                             </View>
                         </View>
                         <View style={{height: 110}}></View>
