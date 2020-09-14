@@ -33,6 +33,7 @@ const Map = () => {
                 error => alert(error.message),   
                 { enableHighAccuracy: false, timeout: 20000, maximumAge: 10000 } 
         )
+
     }
 
     const ASPECT_RATIO = width / height
@@ -88,7 +89,8 @@ const styles = StyleSheet.create({
         flex: 1,
         elevation: 10,
         shadowOffset: {width: 20, height: 25},
-        shadowColor: 'black'
+        shadowColor: 'black',
+        marginBottom: 25
     }
 })
 
