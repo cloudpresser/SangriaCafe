@@ -40,7 +40,7 @@ const Settings = () => {
         if (user) { 
             const cloudUser = await firestore().collection("users")
                 .where('email', '==', user.email).get()
-            if (cloudUser !== undefined) {
+            if (cloudUser._docs && cloudUser._docs.length > 0) {
                 setCloudUser(cloudUser._docs[0]._data),
                 setCloudID(cloudUser._docs[0]._ref._documentPath._parts[1]),
                 changeEmail(cloudUser._docs[0]._data.email),
@@ -69,17 +69,7 @@ const Settings = () => {
             const userInfo = await GoogleSignin.signIn()
             const cloudUser = firestore().collection('users')
                 .where('email', '==', userInfo.user.email).get()
-                cloudUser._docs.length > 0 ? loginUser(userInfo.user.email, 'password123') :
-                await auth().createUserWithEmailAndPassword(userInfo.user.email, 'password123').then(
-                    firestore().collection('users').add({
-                    'email': userInfo.user.email,
-                    'name': userInfo.user.name,
-                    'phoneNumber': '',
-                    'address': '',
-                    'toros': 0,
-                    'toros_spent': 0,
-                    'image': userInfo.user.photo })
-                )
+                cloudUser._docs && cloudUser._docs.length > 0 ? loginUser(userInfo.user.email, 'password123') : createUser(userInfo.user.email, 'password123')
             onAuthStateChanged(userInfo.user)
         } catch (error) {
             if (error.code === statusCodes.SIGN_IN_CANCELLED) {
@@ -114,11 +104,12 @@ const Settings = () => {
     }   
 
     createUser = async (email, password) => {
+        let lowerEmail = email.toLowerCase()
         const cloudUser = await firestore().collection('users')
-            .where('email', '==', email).get()
-        cloudUser._docs.length > 0 ? alert('User already exists! Sign In instead.') :
+            .where('email', '==', lowerEmail).get()
+        cloudUser._docs && cloudUser._docs.length > 0 ? loginUser(lowerEmail, password) :
             firestore().collection('users').add({
-                'email': email,
+                'email': lowerEmail,
                 'name': name,
                 'phoneNumber': phone,
                 'address': address,
@@ -126,7 +117,7 @@ const Settings = () => {
                 'toros_spent': 0,
                 'image': 'https://www.pikpng.com/pngl/m/16-168770_user-iconset-no-profile-picture-icon-circle-clipart.png'
             }).then(
-                auth().createUserWithEmailAndPassword(email, password)
+                auth().createUserWithEmailAndPassword(lowerEmail, password)
                 .catch(error => {
                     if (error.code === 'auth/email-already-in-use') {
                         alert('That email address is already in use!')
@@ -167,7 +158,7 @@ const Settings = () => {
     findCard = async () => {
         let savedCard = await firestore().collection('cards')
             .where('user_id', '==', userCloudRefId).get()
-        if (savedCard._docs[0] !== undefined) {
+        if (savedCard._docs && savedCard._docs.length > 0) {
             getCard(savedCard._docs[0]._data)
             getCOF(savedCard._docs[0]._ref._documentPath._parts[1])
         }
@@ -207,7 +198,6 @@ const Settings = () => {
               path: 'images',
             },
         }
-
         ImagePicker.showImagePicker(imagePickerOptions, async (response) => {
             if (response.didCancel) {
                 console.log('User cancelled image picker')

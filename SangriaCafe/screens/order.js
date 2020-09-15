@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { Modal, SafeAreaView, StyleSheet, View, Image, Dimensions, Text, ScrollView, TouchableOpacity } from 'react-native'
 import Menu from '../components/menu'
 import ModalCard from '../components/modalCard'
+import firestore from '@react-native-firebase/firestore'
+import auth from '@react-native-firebase/auth'
 
 const Order = props => {
 
