@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { SafeAreaView, StyleSheet, View, Image, Dimensions, Text, Button, TouchableOpacity, ScrollView } from 'react-native'
-import auth from '@react-native-firebase/auth'
 
 const Cart = props => {
 
@@ -21,7 +20,7 @@ const Cart = props => {
         props.removeFromCart(item)
     }
 
-    return props.foodCart.length > 0 ? 
+    return props.foodCart.length > 0 ?
             <>
                 <SafeAreaView>
                     <View style={styles.topContainer}>
