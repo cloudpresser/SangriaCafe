@@ -40,13 +40,15 @@ const Settings = () => {
         if (user) { 
             const cloudUser = await firestore().collection("users")
                 .where('email', '==', user.email).get()
-            setCloudUser(cloudUser._docs[0]._data)
-            setCloudID(cloudUser._docs[0]._ref._documentPath._parts[1])
-            changeEmail(cloudUser._docs[0]._data.email)
-            changeName(cloudUser._docs[0]._data.name)
-            changePhone(cloudUser._docs[0]._data.phoneNumber)
-            changeAddress(cloudUser._docs[0]._data.address)
-            findCard()
+            if (cloudUser !== undefined) {
+                setCloudUser(cloudUser._docs[0]._data),
+                setCloudID(cloudUser._docs[0]._ref._documentPath._parts[1]),
+                changeEmail(cloudUser._docs[0]._data.email),
+                changeName(cloudUser._docs[0]._data.name),
+                changePhone(cloudUser._docs[0]._data.phoneNumber),
+                changeAddress(cloudUser._docs[0]._data.address),
+                findCard()
+            }
         }
         if (initializing) setInitializing(false)
     }
@@ -67,7 +69,7 @@ const Settings = () => {
             const userInfo = await GoogleSignin.signIn()
             const cloudUser = firestore().collection('users')
                 .where('email', '==', userInfo.user.email).get()
-            cloudUser === undefined ? 
+                cloudUser._docs.length > 0 ? loginUser(userInfo.user.email, 'password123') :
                 await auth().createUserWithEmailAndPassword(userInfo.user.email, 'password123').then(
                     firestore().collection('users').add({
                     'email': userInfo.user.email,
@@ -77,7 +79,7 @@ const Settings = () => {
                     'toros': 0,
                     'toros_spent': 0,
                     'image': userInfo.user.photo })
-                ) : loginUser(userInfo.user.email, 'password123')
+                )
             onAuthStateChanged(userInfo.user)
         } catch (error) {
             if (error.code === statusCodes.SIGN_IN_CANCELLED) {
@@ -112,34 +114,37 @@ const Settings = () => {
     }   
 
     createUser = async (email, password) => {
-        await firestore().collection('users').add({
-            'email': email,
-            'name': name,
-            'phoneNumber': phone,
-            'address': address,
-            'toros': 0,
-            'toros_spent': 0,
-            'image': 'https://www.pikpng.com/pngl/m/16-168770_user-iconset-no-profile-picture-icon-circle-clipart.png'
-        }).then(
-            auth().createUserWithEmailAndPassword(email, password)
-            .catch(error => {
-                if (error.code === 'auth/email-already-in-use') {
-                    alert('That email address is already in use!')
-                }
-                if (error.code === 'auth/invalid-email') {
-                    alert('That email address is invalid!')
-                }
-                if (error.code === 'auth/user-not-found') {
-                    alert('No Account Found')
-                }
-                if (error.code === 'auth/wrong-password') {
-                    alert('Incorrect Account Information Try Again')
-                }
-                if (error.code === 'auth/weak-password') {
-                    alert('Missing or Weak Password')
-                }
-            })
-        )
+        const cloudUser = await firestore().collection('users')
+            .where('email', '==', email).get()
+        cloudUser._docs.length > 0 ? alert('User already exists! Sign In instead.') :
+            firestore().collection('users').add({
+                'email': email,
+                'name': name,
+                'phoneNumber': phone,
+                'address': address,
+                'toros': 0,
+                'toros_spent': 0,
+                'image': 'https://www.pikpng.com/pngl/m/16-168770_user-iconset-no-profile-picture-icon-circle-clipart.png'
+            }).then(
+                auth().createUserWithEmailAndPassword(email, password)
+                .catch(error => {
+                    if (error.code === 'auth/email-already-in-use') {
+                        alert('That email address is already in use!')
+                    }
+                    if (error.code === 'auth/invalid-email') {
+                        alert('That email address is invalid!')
+                    }
+                    if (error.code === 'auth/user-not-found') {
+                        alert('No Account Found')
+                    }
+                    if (error.code === 'auth/wrong-password') {
+                        alert('Incorrect Account Information Try Again')
+                    }
+                    if (error.code === 'auth/weak-password') {
+                        alert('Missing or Weak Password')
+                    }
+                })
+            ) 
     }
 
     updateImage = async () => {
