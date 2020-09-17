@@ -52,30 +52,21 @@ const requestPOSTOptions = {
 const postOrderBody = {
     "EmployeeID": 1000000000000000001, // bigint, not null
 	"OrderType": 1, // int, not null, 1=DineIn, 2=Bar, 3=TakeOut, 4=DriveThru, 5=Delivery, 6=Retail
-    "GuestCount": 99, // int, not null, 1 ~ 99
-	"SeatingID": null, // bigint, null
-	"BarTabName": null, // string, null, up to 100 char, bar tab order type only
-	"CustomerID": null, // bigint, null
+    "GuestCount": 1, // int, not null, 1 ~ 99
 	"CustomerName": null, // string, null, up to 100 char, CustomerName for customer
 	"Telephone": null, // string, null, up to 20 char, numbers and dash '-' only, valid formats: ###-###-####, ########, Telephone for customer
     "Email": null, // string, null, up to 100 char, Email for customer
 	"Address": null, // string, null, up to 100 char, address for customer
 	"PostalCode": null, // string, null, up to 10 char, PostalCode for customer
-	"City": null, // string, null, up to 80 char, City for PostalCode
-    "State": null, // string, null, up to 20 char, State for PostalCode
+	"City": 'Bronx', // string, null, up to 80 char, City for PostalCode
+    "State": 'New York', // string, null, up to 20 char, State for PostalCode
     "CustomerPickupName": null, // string, null, up to 100 char
-    "OrderDiscountID": null,  // [bigint] NULL
-    "CashPromoEmployeeID": null, // bigint, null, a cash promotional discount applied by an employee, this field indicates the employee who applied it
-    "CashPromoAmountApplied": null, // float, null, cash promotional discount applied to this order
     "OrderSurchargeID": null,  // bigint, null
     "DeliveryCharge": null, // float, null, delivery charge assessed to customer for this order
     "OrderGratuityPercent": 15.00, // float, null, order gratuity applied toward this order
-    "CashGratuityAmountUsed": 5.00, // float, null, cash gratuity applied toward this order
     "OrderNote": null, // string, null, up to 40 char, order level note or comment
-    "AutoPrint": false, // bool, if true = order will auto print to kitchen but a notification is sent; if false = order will not auto print to kitchen
+    "AutoPrint": true, // bool, if true = order will auto print to kitchen but a notification is sent; if false = order will not auto print to kitchen
     "SystemPrint": false, // bool, if true = order will print to kitchen based on pos config AutoPrintNonPaidISVOrdersToKitchen; if false = order will not print to kitchen
-    "FutureDateHoldUntilTime": "2018-12-10 20:00", // datetime, null, Future Date Used Only, order is held until this date and time, format is yyyy-mm-dd hh:mm with hh in 24 hour notation
- 
     "OrderDetails": [
         {
           "ItemID": 1000000000000000346, // bigint, not null
@@ -86,17 +77,7 @@ const postOrderBody = {
           "LineNote": null, // string, null, up to 100 char
           "CreatedByEmployeeID": 1000000000000000001, // bigint, not null, order detail created by this employee
           "SameDateHoldUntilTime": "2018-12-10 20:00", // datetime, null, Same Date Hold Used Only, order item is held until this date and time, format is yyyy-mm-dd hh:mm with hh in 24 hour notation
-        "OrderDetailModifiers": [
-            {
-              "ModifierID": 1000000000000000291, // bigint, not null
-              "ModifierPrice":5, // float, null, modifier price to add on
-              "PortionType": null, // int, null, valid values are: null or 0 means no portion type; 1 = for whole portion; 2 = for halves portion; 3 = for thirds portion (portion is used in pizza ordering)
-              "PortionSection": null, // int, null, conditionally required if PortionType is 2 or 3; indicates portion section: 1=Whole, 2=FirstHalf, 3=SecondHalf, 4=FirstThirds, 5=SecondThirds, 6=ThirdThirds
-              "ModifierType": 1, // int, null, null means 1, valid values are: null or 1 = for forced modifier; 2 = for advanced modifiers; 3 = for pizza modifier
-              "ModifierGroupNumber": 1, // int, null, null means group 1, valid values 1 to 10
-            }
-        ]
-        }
+        },
     ]
 }
 
