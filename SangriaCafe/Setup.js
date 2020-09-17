@@ -18,7 +18,7 @@ const instaToken = 'IGQVJXNVRIbDltaGU3ZAldSVHdnQ1lKcFBENDhxQ0N0RUg1LXZAQb1hPMEwz
 
 const mapApi = 'AIzaSyCWrz16D7gqe7fJNtT8iqs4sa3JdAcU5xA'
 
-const posHeaders = {
+const postHeaders = {
     'Content-Type': "application/json",
     'ISV-ID':"???",
     'ISV-Key':"???",
@@ -45,7 +45,7 @@ const requestGetOptions = {
 const requestPOSTOptions = {
     method: 'POST',
     headers: sandboxHeaders,
-    body: raw,
+    body: postOrderBody,
     redirect: 'follow'
 }
 
@@ -78,7 +78,7 @@ const postOrderBody = {
  
     "OrderDetails": [
         {
-            "ItemID": 1000000000000000346, // bigint, not null
+          "ItemID": 1000000000000000346, // bigint, not null
           "SeatNumber": null, // int, null
           "Qty": 1.000, // float, not null, only weighted item can have fractions, 3 decimal places for weighted item, non weighted item must be integer
           "UnitPrice": 6, // float, null
@@ -86,7 +86,7 @@ const postOrderBody = {
           "LineNote": null, // string, null, up to 100 char
           "CreatedByEmployeeID": 1000000000000000001, // bigint, not null, order detail created by this employee
           "SameDateHoldUntilTime": "2018-12-10 20:00", // datetime, null, Same Date Hold Used Only, order item is held until this date and time, format is yyyy-mm-dd hh:mm with hh in 24 hour notation
-          "OrderDetailModifiers": [
+        "OrderDetailModifiers": [
             {
               "ModifierID": 1000000000000000291, // bigint, not null
               "ModifierPrice":5, // float, null, modifier price to add on
@@ -95,17 +95,19 @@ const postOrderBody = {
               "ModifierType": 1, // int, null, null means 1, valid values are: null or 1 = for forced modifier; 2 = for advanced modifiers; 3 = for pizza modifier
               "ModifierGroupNumber": 1, // int, null, null means group 1, valid values 1 to 10
             }
+        ]
+        }
     ]
 }
 
-const posFetch = () => {
+const postFetch = () => {
     fetch("https://sandbox.aldelo.io/v1/boarding/connected/20181202/20181203", requestOptions)
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.log('error', error))
 }
 
-export {firebaseConfig, instaToken, mapApi, posFetch}
+export {firebaseConfig, instaToken, mapApi, postFetch, postOrderBody}
 
 const Setup = () => {
     {firebase.initializeApp(firebaseConfig)}
