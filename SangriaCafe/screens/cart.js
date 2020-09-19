@@ -18,6 +18,35 @@ const Cart = props => {
 
     takeOutTheBag = item => {
         props.removeFromCart(item)
+    } 
+
+    checkoutButtonPress = () => {
+        const postOrderBody = {
+            "EmployeeID": 1000000000000000001, // bigint, not null
+            "OrderType": 5, // int, not null 3=TakeOut, 5=Delivery
+            "GuestCount": 1, // int, not null, 1 ~ 99
+            "CustomerName": null, // string, null, up to 100 char, CustomerName for customer
+            "Telephone": null, // string, null, up to 20 char, numbers and dash '-' only, valid formats: ###-###-####, ########, Telephone for customer
+            "Email": null, // string, null, up to 100 char, Email for customer
+            "Address": null, // string, null, up to 100 char, address for customer
+            "PostalCode": null, // string, null, up to 10 char, PostalCode for customer
+            "City": 'Bronx', // string, null, up to 80 char, City for PostalCode
+            "State": 'New York', // string, null, up to 20 char, State for PostalCode
+            "CustomerPickupName": null, // string, null, up to 100 char
+            "OrderSurchargeID": null,  // bigint, null
+            "DeliveryCharge": null, // float, null, delivery charge assessed to customer for this order
+            "OrderGratuityPercent": 15.00, // float, null, order gratuity applied toward this order
+            "OrderNote": null, // string, null, up to 40 char, order level note or comment
+            "AutoPrint": true, // bool, if true = order will auto print to kitchen but a notification is sent; if false = order will not auto print to kitchen
+            "SystemPrint": false,
+            "OrderDetails": props.foodCart.map( food => {
+                // "ItemID": food.item.id,
+                // "Qty": food.quantity,
+                // "UnitPrice": food.item.details.price,
+                // "LineNote": food.instruction ? food.instruction : null,
+                // "CreatedByEmployeeID": 1000000000000000001
+            })
+        }
     }
 
     return props.foodCart.length > 0 ?
@@ -92,7 +121,7 @@ const Cart = props => {
                             {tip === 0 ? <Button title={'Cash'} color='tomato' onPress={() => tipHandler(0)}/> : <Button title={'Cash'} onPress={() => tipHandler(0)}/> }
                         </View>
 
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => checkoutButtonPress()}>
                         <View style={styles.checkoutButton}>
                             <Text style={{color: 'white', fontWeight: 'bold', fontSize: 17}}>CHECKOUT ${(parseFloat(total()) + parseFloat(tip)).toFixed(2)}</Text>
                         </View>

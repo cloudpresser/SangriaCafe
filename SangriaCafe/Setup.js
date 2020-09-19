@@ -51,7 +51,7 @@ const requestPOSTOptions = {
 
 const postOrderBody = {
     "EmployeeID": 1000000000000000001, // bigint, not null
-	"OrderType": 1, // int, not null, 1=DineIn, 2=Bar, 3=TakeOut, 4=DriveThru, 5=Delivery, 6=Retail
+	"OrderType": 1, // int, not null 3=TakeOut, 5=Delivery
     "GuestCount": 1, // int, not null, 1 ~ 99
 	"CustomerName": null, // string, null, up to 100 char, CustomerName for customer
 	"Telephone": null, // string, null, up to 20 char, numbers and dash '-' only, valid formats: ###-###-####, ########, Telephone for customer
@@ -70,13 +70,10 @@ const postOrderBody = {
     "OrderDetails": [
         {
           "ItemID": 1000000000000000346, // bigint, not null
-          "SeatNumber": null, // int, null
           "Qty": 1.000, // float, not null, only weighted item can have fractions, 3 decimal places for weighted item, non weighted item must be integer
           "UnitPrice": 6, // float, null
-          "LineDiscountID": null, // bigint, null
           "LineNote": null, // string, null, up to 100 char
           "CreatedByEmployeeID": 1000000000000000001, // bigint, not null, order detail created by this employee
-          "SameDateHoldUntilTime": "2018-12-10 20:00", // datetime, null, Same Date Hold Used Only, order item is held until this date and time, format is yyyy-mm-dd hh:mm with hh in 24 hour notation
         },
     ]
 }
