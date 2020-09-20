@@ -4,6 +4,7 @@ import { SafeAreaView, StyleSheet, View, Image, Dimensions, Text, Button, Toucha
 const Cart = props => {
 
     const [tip, addTip] = useState(0)
+    const [orderType, changeOrderType] = useState(5)
     
     const taxRate = 0.08875
     const subtotal = () => (props.foodCart.reduce((total, food) => total += parseInt(food.item.details.price * food.quantity), 0))
@@ -18,12 +19,16 @@ const Cart = props => {
 
     takeOutTheBag = item => {
         props.removeFromCart(item)
-    } 
+    }
+
+    handleOrderType = () => {
+        orderType === 5 ? changeOrderType(3) : changeOrderType(5) 
+    }
 
     checkoutButtonPress = () => {
         const postOrderBody = {
             "EmployeeID": 1000000000000000001, // bigint, not null
-            "OrderType": 5, // int, not null 3=TakeOut, 5=Delivery
+            "OrderType": orderType, // int, not null 3=TakeOut, 5=Delivery
             "GuestCount": 1, // int, not null, 1 ~ 99
             "CustomerName": null, // string, null, up to 100 char, CustomerName for customer
             "Telephone": null, // string, null, up to 20 char, numbers and dash '-' only, valid formats: ###-###-####, ########, Telephone for customer
