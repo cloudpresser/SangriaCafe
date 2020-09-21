@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { SafeAreaView, StyleSheet, View, Image, Dimensions, Text, Button, TouchableOpacity, ScrollView } from 'react-native'
 
 const Cart = props => {
@@ -13,45 +13,60 @@ const Cart = props => {
     const total = () => subtotal() + deliveryFee() + salesTax()
     const toroTotal = () => (props.foodCart.reduce((total, food) => total += parseInt(food.item.details.toros * food.quantity), 0))
 
+    useEffect(() => {
+        tipHandler(0.15)
+    }, [])
+
     tipHandler = select => {
         addTip((total() * select))
     }
 
-    takeOutTheBag = item => {
-        props.removeFromCart(item)
-    }
-
-    handleOrderType = () => {
-        orderType === 5 ? changeOrderType(3) : changeOrderType(5) 
-    }
-
-    checkoutButtonPress = () => {
+    checkoutButtonPress = async () => {
+        const sandboxHeaders = {
+            'Content-Type':"application/json",
+            'ISV-ID':"D-181207-0001",
+            'ISV-Key':"480a31cb-03e6-4718-9e16-2d7a27e7af8f",
+            'App-Key':"6eeeccfb-dd19-41a3-b2fa-a15586c23e64",
+            'App-Version':"1.0.0.0",
+            'Store-Sub-ID':"2296-1C2A"
+        }
+        
         const postOrderBody = {
-            "EmployeeID": 1000000000000000001, // bigint, not null
+            "EmployeeID": 1000000000000000001,
             "OrderType": orderType, // int, not null 3=TakeOut, 5=Delivery
-            "GuestCount": 1, // int, not null, 1 ~ 99
+            "GuestCount": 1,
             "CustomerName": null, // string, null, up to 100 char, CustomerName for customer
             "Telephone": null, // string, null, up to 20 char, numbers and dash '-' only, valid formats: ###-###-####, ########, Telephone for customer
-            "Email": null, // string, null, up to 100 char, Email for customer
             "Address": null, // string, null, up to 100 char, address for customer
             "PostalCode": null, // string, null, up to 10 char, PostalCode for customer
             "City": 'Bronx', // string, null, up to 80 char, City for PostalCode
             "State": 'New York', // string, null, up to 20 char, State for PostalCode
-            "CustomerPickupName": null, // string, null, up to 100 char
-            "OrderSurchargeID": null,  // bigint, null
-            "DeliveryCharge": null, // float, null, delivery charge assessed to customer for this order
-            "OrderGratuityPercent": 15.00, // float, null, order gratuity applied toward this order
-            "OrderNote": null, // string, null, up to 40 char, order level note or comment
-            "AutoPrint": true, // bool, if true = order will auto print to kitchen but a notification is sent; if false = order will not auto print to kitchen
-            "SystemPrint": false,
+            "DeliveryCharge": deliveryFee(), // float, null, delivery charge assessed to customer for this order
+            "OrderGratuityPercent": (tip/total())*100, // float, null, order gratuity applied toward this order
+            "AutoPrint": false, // bool, if true = order will auto print to kitchen but a notification is sent; if false = order will not auto print to kitchen
+            "SystemPrint": false, // bool, if true = order will print to kitchen based on pos config AutoPrintNonPaidISVOrdersToKitchen; if false = order will not print to kitchen
             "OrderDetails": props.foodCart.map( food => {
-                // "ItemID": food.item.id,
-                // "Qty": food.quantity,
-                // "UnitPrice": food.item.details.price,
-                // "LineNote": food.instruction ? food.instruction : null,
-                // "CreatedByEmployeeID": 1000000000000000001
+                return ({
+                    "ItemID" : food.item.name,
+                    "Qty" : food.quantity,
+                    "UnitPrice" : food.item.details.price,
+                    "LineNote" : food.instruction,
+                    "CreatedByEmployeeID" : 1000000000000000001
+                })
             })
         }
+
+        const requestOptions = {
+            method: 'POST',
+            headers: sandboxHeaders,
+            body: postOrderBody,
+            redirect: 'follow'
+        }
+
+        await fetch("https://sandbox.aldelo.io/v1/boarding/connected/20181202/20181203", requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error))
     }
 
     return props.foodCart.length > 0 ?
@@ -61,9 +76,8 @@ const Cart = props => {
                         <Image source={require('../assets/sangria_logo.png')} style={styles.logo}/>
                     </View>
 
-                    <View style={{padding: 20}}>
-                        <Text style={{}}>Delivery</Text>
-                        <Text>ASAP (40 - 50 mins)</Text>
+                    <View style={{padding: 20, flexDirection: 'row'}}>
+                        {orderType === 5 ? <Button title={'Delivery'} color='tomato' onPress={() => changeOrderType(3)}/> : <Button title={'PickUp'} onPress={() => changeOrderType(5)}/> }
                     </View>
 
                     <ScrollView  alwaysBounceVertical={true} showsVerticalScrollIndicator={false} contentInset={{bottom: 130}} >
@@ -81,9 +95,9 @@ const Cart = props => {
                                     <Image source={require('../assets/toro.png')} style={{height: 20, width: 20}} />
                                     <Text>  {food.item.details.toros * food.quantity}</Text>
                                 </View>
-                                <Text>{food.instruction}</Text>
+                                <Text>{food.instruction ? food.instruction : null}</Text>
                                 <TouchableOpacity>
-                                <Button title='Remove' style={{alignItems: 'flex-start'}} onPress={() => takeOutTheBag(food)}/>
+                                    <Button title='Remove' onPress={() => props.removeFromCart(food)}/>
                                 </TouchableOpacity>
                             </View>
                         </View>
