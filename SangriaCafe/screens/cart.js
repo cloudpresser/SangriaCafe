@@ -32,6 +32,12 @@ const Cart = props => {
     }
 
     checkoutButtonPress = async () => {
+        //POST order to database, do not print
+        // GET order and iterate information to POST externalPay
+        // GET externalPay to gather information for POST
+        // if POST externalPay successful then print order in Kitchen
+        // push order confirmation to user
+
         const sandboxHeaders = {
             'Content-Type':"application/json",
             'ISV-ID':"D-181207-0001",
@@ -44,7 +50,7 @@ const Cart = props => {
         const paymentBody = `{
             "CashierID": 1000000000000000001, 
             "EmployeeID": 1000000000000000001, 	
-            "OrderID": 100000000000000001, 
+            "OrderID": 100000000000000001, // GET order ID from Order Get Request
             "ExternalTenderID": 1, // int, not null, valid values 1 - 20 only, must be a valid and enabled id returned from GET /externalPay, otherwise, call will be discardedn	
             "PaymentAmount": ${total()},
             "TipIncluded": ${tip}
