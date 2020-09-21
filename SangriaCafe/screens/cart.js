@@ -7,7 +7,7 @@ const Cart = props => {
 
     const [tip, addTip] = useState(0)
     const [orderType, changeOrderType] = useState(5)
-    const [currentUser, setCurrentUser] = useState({})
+    const [currentUser, setCurrentUser] = useState(null)
     
     const taxRate = 0.08875
     const subtotal = () => (props.foodCart.reduce((total, food) => total += parseInt(food.item.details.price * food.quantity), 0))
@@ -18,9 +18,14 @@ const Cart = props => {
 
     useEffect(() => {
         tipHandler(0.15)
-        setCurrentUser(firestore().collection("users")
-                .where('email', '==', auth()._user.email).get())
+        setUser()
     }, [])
+
+    setUser = async () => {
+        user = await firestore().collection("users")
+            .where('email', '==', auth()._user.email).get()
+        setCurrentUser(user._docs[0]._data)
+    }
 
     tipHandler = select => {
         addTip((total() * select))
@@ -35,26 +40,64 @@ const Cart = props => {
             'App-Version':"1.0.0.0",
             'Store-Sub-ID':"2296-1C2A"
         }
+
+        const paymentBody = `{
+            "CashierID": 1000000000000000001, 
+            "EmployeeID": 1000000000000000001, 	
+            "OrderID": 100000000000000001, 
+            "ExternalTenderID": 1, // int, not null, valid values 1 - 20 only, must be a valid and enabled id returned from GET /externalPay, otherwise, call will be discardedn	
+            "PaymentAmount": ${total()},
+            "TipIncluded": ${tip}
+            "PaymentRefNumber": null, // string, null, up to 100 char, ISV payment's reference number, may be required if POS store settings External Payment Tender has this toggled for required, see GET /externalPay for requirementn	
+            "AutoPrint": true, // bool, if true = order will auto print to kitchen but a notification is sent; if false = order will not auto print to kitchen"
+        }`
         
-        const postOrderBody =
-            `{\n	\"EmployeeID\": 1000000000000000001, // bigint, not null\n	\"OrderType\": ${orderType}, // int, not null, 1=DineIn, 2=Bar, 3=TakeOut, 4=DriveThru, 5=Delivery, 6=Retail\n    \"GuestCount\": 1, // int, not null, 1 ~ 99\n	\"SeatingID\": null, // bigint, null\n	\"BarTabName\": null, // string, null, up to 100 char, bar tab order type only\n	\"CustomerID\": null, // bigint, null\n	\"CustomerName\": ${currentUser.name}, // string, null, up to 100 char, CustomerName for customer\n	\"Telephone\": ${currentUser.phoneNumber}, // string, null, up to 20 char, numbers and dash '-' only, valid formats: ###-###-####, ########, Telephone for customer\n    \"Email\": null, // string, null, up to 100 char, Email for customer\n	\"Address\": ${currentUser.address}, // string, null, up to 100 char, address for customer\n	\"PostalCode\": ${currentUser.postalCode}, // string, null, up to 10 char, PostalCode for customer\n	\"City\": Bronx, // string, null, up to 80 char, City for PostalCode\n    \"State\": New York, // string, null, up to 20 char, State for PostalCode\n    \"CustomerPickupName\": null, // string, null, up to 100 char\n    \"OrderDiscountID\": null,  // [bigint] NULL\n    \"CashPromoEmployeeID\": null, // bigint, null, a cash promotional discount applied by an employee, this field indicates the employee who applied it\n    \"CashPromoAmountApplied\": null, // float, null, cash promotional discount applied to this order\n    \"OrderSurchargeID\": null,  // bigint, null\n    \"DeliveryCharge\": ${deliveryFee()}, // float, null, delivery charge assessed to customer for this order\n    \"OrderGratuityPercent\": ${(tip/total())*100}, // float, null, order gratuity applied toward this order\n    \"CashGratuityAmountUsed\": null, // float, null, cash gratuity applied toward this order\n    \"OrderNote\": null, // string, null, up to 40 char, order level note or comment\n    \"AutoPrint\": false, // bool, if true = order will auto print to kitchen but a notification is sent; if false = order will not auto print to kitchen\n    \"SystemPrint\": false, // bool, if true = order will print to kitchen based on pos config AutoPrintNonPaidISVOrdersToKitchen; if false = order will not print to kitchen\n    \"FutureDateHoldUntilTime\": \"2018-12-10 20:00\", // datetime, null, Future Date Used Only, order is held until this date and time, format is yyyy-mm-dd hh:mm with hh in 24 hour notation\n \n    \"OrderDetails\": [\n   ${props.foodCart.map( food => {
-            return `{\n    	\"ItemID\": ${food.item.name}, // bigint, not null\n        \"SeatNumber\": null, // int, null\n        \"Qty\": ${food.quantity}, // float, not null, only weighted item can have fractions, 3 decimal places for weighted item, non weighted item must be integer\n        \"UnitPrice\": ${food.item.details.price}, // float, null\n        \"LineDiscountID\": null, // bigint, null\n        \"LineNote\": ${food.instruction}, // string, null, up to 100 char\n        \"CreatedByEmployeeID\": 1000000000000000001, // bigint, not null, order detail created by this employee\n        \"SameDateHoldUntilTime\": \"2018-12-10 20:00\", // datetime, null, Same Date Hold Used Only, order item is held until this date and time, format is yyyy-mm-dd hh:mm with hh in 24 hour notation\n\n \"OrderDetailModifiers\": [\n          {\n            \"ModifierID\": 1000000000000000001, // bigint, not null\n            \"ModifierPrice\": 0.25, // float, null, modifier price to add on\n            \"PortionType\": null, // int, null, valid values are: null or 0 means no portion type; 1 = for whole portion; 2 = for halves portion; 3 = for thirds portion (portion is used in pizza ordering)\n            \"PortionSection\": null, // int, null, conditionally required if PortionType is 2 or 3; indicates portion section: 1=Whole, 2=FirstHalf, 3=SecondHalf, 4=FirstThirds, 5=SecondThirds, 6=ThirdThirds\n            \"ModifierType\": null, // int, null, null means 1, valid values are: null or 1 = for forced modifier; 2 = for advanced modifiers; 3 = for pizza modifier\n            \"ModifierGroupNumber\": null, // int, null, null means group 1, valid values 1 to 10\n          },\n          ... // more order detail modifiers\n        ],\n        \"TagAlongItems\": [ // If menu item includes tag along items, then ISV app must include tag along items along with associated modifiers during order entry and order submit\n          {\n            \"ItemID\": 1000000000000000004, // bigint, not null\n            \"OrderDetailModifiers\": [\n              {\n                \"ModifierID\": 1000000000000000291, // bigint, not null\n                \"ModifierPrice\":5, // float, null, modifier price to add on\n                \"PortionType\": null, // int, null, valid values are: null or 0 means no portion type; 1 = for whole portion; 2 = for halves portion; 3 = for thirds portion (portion is used in pizza ordering)\n                \"PortionSection\": null, // int, null, conditionally required if PortionType is 2 or 3; indicates portion section: 1=Whole, 2=FirstHalf, 3=SecondHalf, 4=FirstThirds, 5=SecondThirds, 6=ThirdThirds\n                \"ModifierType\": 1, // int, null, null means 1, valid values are: null or 1 = for forced modifier; 2 = for advanced modifiers; 3 = for pizza modifier\n                \"ModifierGroupNumber\": 1, // int, null, null means group 1, valid values 1 to 10\n              },\n            ]\n          },\n        ]\n      },\n      ... // more order detail records for this order\n    ]\n}`
-        })}`
+        const orderBody = `{ 
+            "EmployeeID":1000000000000000001, 
+            "OrderType": ${orderType}, // int, not null, 1=DineIn, 2=Bar, 3=TakeOut, 4=DriveThru, 5=Delivery, 6=Retailn    
+            "GuestCount": 1,	
+            "CustomerName": ${currentUser.name}, 
+            "Telephone": ${currentUser.phoneNumber}, 
+            "Address": ${currentUser.address}, // string, null, up to 100 char, address for customern	
+            "PostalCode": ${currentUser.postalCode}, 
+            "City": Bronx, 
+            "State": New York, 
+            "DeliveryCharge": ${deliveryFee()},    
+            "OrderGratuityPercent": ${(tip/total())*100}, 
+            "AutoPrint": false, // bool, if true = order will auto print to kitchen but a notification is sent; if false = order will not auto print to kitchenn    
+            "SystemPrint": false,  
+            "OrderDetails": ${props.foodCart.map( food => { 
+                return (
+                    `{
+                        "ItemID": ${food.item.name}, // bigint, not nulln 
+                        "Qty": ${food.quantity}, // float, not null, only weighted item can have fractions, 3 decimal places for weighted item, non weighted item must be integern        
+                        "UnitPrice": ${food.item.details.price}, // float, nulln        
+                        "LineNote": ${food.instruction}, // string, null, up to 100 charn 
+                    }`
+                ) })} }`
 
-        // valid formats: ###-###-####, ######## !!! NEED FUUNCTION TO REFORMAT
-        // add POSTAL CODE TO SETTINGS FORM
-
-        const requestOptions = {
+        const orderRequestOptions = {
             method: 'POST',
             headers: sandboxHeaders,
-            body: postOrderBody,
+            body: orderBody,
             redirect: 'follow'
         }
 
-        await fetch("https://sandbox.aldelo.io/v1/order", requestOptions)
+        const paymentRequestOptions = {
+            method: 'POST',
+            headers: sandboxHeaders,
+            body: paymentBody,
+            redirect: 'follow'
+        }
+          
+        await fetch("https://sandbox.aldelo.io/v1/order", orderRequestOptions)
             .then(response => response.text())
             .then(result => console.log(result))
             .catch(error => console.log('error', error))
+            .then(await fetch("https://sandbox.aldelo.io/v1/externalPay", paymentRequestOptions)
+                .then(response => response.text())
+                .then(result => console.log(result))
+                .catch(error => console.log('error', error)))
     }
 
     return props.foodCart.length > 0 ?
@@ -65,7 +108,7 @@ const Cart = props => {
                     </View>
 
                     <View style={{padding: 20, flexDirection: 'row'}}>
-                        {orderType === 5 ? <Button title={'Delivery'} color='tomato' onPress={() => changeOrderType(3)}/> : <Button title={'PickUp'} onPress={() => changeOrderType(5)}/> }
+                        {orderType === 5 ? <Button title={'Delivery'} onPress={() => changeOrderType(3)}/> : <Button title={'PickUp'} onPress={() => changeOrderType(5)}/> }
                     </View>
 
                     <ScrollView  alwaysBounceVertical={true} showsVerticalScrollIndicator={false} contentInset={{bottom: 130}} >
