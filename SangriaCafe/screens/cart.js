@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { SafeAreaView, StyleSheet, View, Image, Dimensions, Text, Button, TouchableOpacity, ScrollView } from 'react-native'
+import firestore from '@react-native-firebase/firestore'
+import auth from '@react-native-firebase/auth'
 
 const Cart = props => {
 
     const [tip, addTip] = useState(0)
     const [orderType, changeOrderType] = useState(5)
+    const [currentUser, setCurrentUser] = useState({})
     
     const taxRate = 0.08875
     const subtotal = () => (props.foodCart.reduce((total, food) => total += parseInt(food.item.details.price * food.quantity), 0))
@@ -15,6 +18,8 @@ const Cart = props => {
 
     useEffect(() => {
         tipHandler(0.15)
+        setCurrentUser(firestore().collection("users")
+                .where('email', '==', auth()._user.email).get())
     }, [])
 
     tipHandler = select => {
