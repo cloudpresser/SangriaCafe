@@ -38,7 +38,7 @@ const Settings = () => {
     onAuthStateChanged = async (user) => {
         setUser(user)
         if (user) { 
-            const cloudUser = await firestore().collection("users")
+            const cloudUser = await firestore().collection('users')
                 .where('email', '==', user.email).get()
             if (cloudUser._docs && cloudUser._docs.length > 0) {
                 setCloudUser(cloudUser._docs[0]._data),

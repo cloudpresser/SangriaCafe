@@ -19,29 +19,25 @@ const Cart = props => {
     const toroTotal = () => (props.foodCart.reduce((total, food) => total += parseInt(food.item.details.toros * food.quantity), 0))
 
     useEffect(() => {
-        tipHandler(0.15)
-        setUser()
-        findCard()
-        console.log(currentUser)
-        console.log(currentCard)
+        const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
+        return subscriber
     }, [])
 
-    setUser = async () => {
-        let user = await firestore().collection("users")
+    onAuthStateChanged = async (user) => {
+        tipHandler(0.15)
+        let cloudUser = await firestore().collection("users")
             .where('email', '==', auth()._user.email).get()
-        setCurrentUser(user._docs[0]._data)
-        setRefId(user._docs[0]._ref._documentPath._parts[1])   
-    }
-
-    findCard = async () => {
-        let savedCard = await firestore().collection('cards')
-            .where('user_id', '==', refId ? refId : alert('ID needed')).get()
-        if (savedCard._docs && savedCard._docs.length > 0) {
-            getCard(savedCard._docs[0]._data)
+        setCurrentUser(cloudUser._docs[0]._data)
+        setRefId(cloudUser._docs[0]._ref._documentPath._parts[1])  
+    
+        if (currentUser) {
+            let savedCard = firestore().collection('cards')
+                .where('user_id', '==', refId).get()
+            if (savedCard._docs && savedCard._docs.length > 0) {
+                getCard(savedCard._docs[0]._data)
+            }
         }
     }
-
-    
 
     tipHandler = select => {
         addTip((total() * select))
@@ -138,6 +134,7 @@ const Cart = props => {
             .then(response => response.text())
             .then(result => console.log(result))
             .catch(error => console.log('error', error))
+
         } else {
             alert('no card on file')
         }
