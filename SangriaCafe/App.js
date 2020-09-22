@@ -16,7 +16,7 @@ export default class App extends React.Component {
   }
 
   componentDidMount(){
-    this.setState({ user: auth().currentUser })
+    this.setState({ user: auth()._user })
   }
 
   addItem = item => {
@@ -33,27 +33,19 @@ export default class App extends React.Component {
   }
 
   HomeScreen = () => {
-    return (
-        <Home user={this.state.user} />
-    )
+    return <Home />
   }
   
   OrderScreen = () => {
-    return (
-      <Order addToCart={this.addItem} />
-    )
+    return <Order addToCart={this.addItem} />
   }
   
   CartScreen = () => {
-      return (
-        <Cart foodCart={this.state.foodCart} removeFromCart={this.removeItem}/>
-      )
+      return <Cart foodCart={this.state.foodCart} removeFromCart={this.removeItem} />
   }
   
   SettingsScreen = () => {
-    return (
-      <Settings user={this.state.user}/>
-    )
+    return <Settings user={this.state.user}/>
   }
   
   render(){ 

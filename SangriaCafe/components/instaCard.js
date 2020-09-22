@@ -8,7 +8,6 @@ export default Card = () => {
 
     useEffect( () => {
         fetchFeed()
-        console.log(posts)
     }, [] )
 
     const fetchFeed = async () => {
