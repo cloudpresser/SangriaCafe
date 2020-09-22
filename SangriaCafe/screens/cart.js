@@ -21,35 +21,30 @@ const Cart = props => {
 
     useEffect(() => {
         tipHandler(0.15)  
-        const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
-        findUserInfo().then(checkCardOnFile())
-        return subscriber
+        findUserInfo()
+        checkCardOnFile()
     }, [])
 
-    onAuthStateChanged = async (user) => {
-        setCurrentUser(user)
-        if (initializing) setInitializing(false)
-    }
-
     findUserInfo = async () => {
-        if (currentUser){
+        if (props.user && props.user.email){
             const cloudUser = await firestore().collection("users")
-                .where('email', '==', currentUser.email).get()
+                .where('email','==',props.user.email).get()
             setCurrentUser(cloudUser._docs[0]._data) 
             setRefId(cloudUser._docs[0]._ref._documentPath._parts[1])
         }
-        console.log(currentUser)
     }
 
     checkCardOnFile = async () => {
-        const savedCard = await firestore().collection('cards')
-            .where('user_id', '==', refId).get()
-        if (savedCard._docs && savedCard._docs.length > 0) {
-            getCard(savedCard._docs[0]._data)
-        } else {
-            alert('NO CARD ON FILE')
+        if (props.user && props.user.email){
+            const savedCard = await firestore().collection('cards')
+                .where('user_id', '==', refId).get()
+            if (savedCard._docs && savedCard._docs.length > 0) {
+                getCard(savedCard._docs[0]._data)
+            } else {
+                alert('NO CARD ON FILE')
+            }
+            console.log(currentCard)
         }
-        console.log(currentCard)
     }
 
     tipHandler = select => {

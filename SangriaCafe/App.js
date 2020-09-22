@@ -12,11 +12,19 @@ export default class App extends React.Component {
 
   state = {
     foodCart: [],
-    user: null
+    user: null,
+    initializing: true
   }
 
   componentDidMount(){
-    this.setState({ user: auth()._user })
+    this.setState({user: auth()._user})
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
+    return subscriber
+  }
+
+  onAuthStateChanged = async (user) => {
+    this.setState({user})
+    if (initializing) this.setState({initializing:false})
   }
 
   addItem = item => {
@@ -41,11 +49,11 @@ export default class App extends React.Component {
   }
   
   CartScreen = () => {
-      return <Cart foodCart={this.state.foodCart} removeFromCart={this.removeItem} />
+    return <Cart foodCart={this.state.foodCart} removeFromCart={this.removeItem} user={this.state.user} />
   }
   
   SettingsScreen = () => {
-    return <Settings user={this.state.user}/>
+    return <Settings />
   }
   
   render(){ 

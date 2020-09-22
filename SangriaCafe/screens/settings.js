@@ -31,9 +31,15 @@ const Settings = () => {
     const [imageSource, setImageSource] = useState()
 
     useEffect(() => {
-        if (props.user) { 
-            const cloudUser = await firestore().collection('users')
-                .where('email', '==', props.user.email).get()
+        const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
+        return subscriber
+    }, [])
+    
+    onAuthStateChanged = async (user) => {
+        if (user) { 
+            setUser(user)
+            const cloudUser = await firestore().collection("users")
+                .where('email','==',user.email).get()
             if (cloudUser._docs && cloudUser._docs.length > 0) {
                 setCloudUser(cloudUser._docs[0]._data),
                 setCloudID(cloudUser._docs[0]._ref._documentPath._parts[1]),
@@ -44,7 +50,8 @@ const Settings = () => {
                 findCard()
             }
         }
-    }, [])
+        if (initializing) setInitializing(false)
+    }
 
     GoogleSignin.configure({
         webClientId: firebaseConfig.webClientId
