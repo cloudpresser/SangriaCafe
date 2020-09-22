@@ -7,7 +7,9 @@ const Cart = props => {
 
     const [tip, addTip] = useState(0)
     const [orderType, changeOrderType] = useState(5)
-    const [currentUser, setCurrentUser] = useState(null)
+    const [currentUser, setCurrentUser] = useState()
+    const [currentCard, getCard] = useState()
+    const [refId, setRefId] = useState()
     
     const taxRate = 0.08875
     const subtotal = () => (props.foodCart.reduce((total, food) => total += parseInt(food.item.details.price * food.quantity), 0))
@@ -19,19 +21,34 @@ const Cart = props => {
     useEffect(() => {
         tipHandler(0.15)
         setUser()
+        findCard()
+        console.log(currentUser)
+        console.log(currentCard)
     }, [])
 
     setUser = async () => {
-        user = await firestore().collection("users")
+        let user = await firestore().collection("users")
             .where('email', '==', auth()._user.email).get()
         setCurrentUser(user._docs[0]._data)
+        setRefId(user._docs[0]._ref._documentPath._parts[1])   
     }
+
+    findCard = async () => {
+        let savedCard = await firestore().collection('cards')
+            .where('user_id', '==', refId ? refId : alert('ID needed')).get()
+        if (savedCard._docs && savedCard._docs.length > 0) {
+            getCard(savedCard._docs[0]._data)
+        }
+    }
+
+    
 
     tipHandler = select => {
         addTip((total() * select))
     }
 
     checkoutButtonPress = async () => {
+        if (currentCard) {
         //POST order to database, do not print
         // GET order and iterate information to POST externalPay
         // GET externalPay to gather information for POST
@@ -82,28 +99,48 @@ const Cart = props => {
                     }`
                 ) })} }`
 
-        const orderRequestOptions = {
+        const orderPOSTOptions = {
             method: 'POST',
             headers: sandboxHeaders,
             body: orderBody,
             redirect: 'follow'
         }
 
-        const paymentRequestOptions = {
+        const paymentPOSTOptions = {
             method: 'POST',
             headers: sandboxHeaders,
             body: paymentBody,
             redirect: 'follow'
         }
+
+        const GETRequest = {
+            method: 'GET',
+            headers: sandboxHeaders,
+            redirect: 'follow'
+        }
           
-        await fetch("https://sandbox.aldelo.io/v1/order", orderRequestOptions)
+        await fetch("https://sandbox.aldelo.io/v1/order", orderPOSTOptions)
             .then(response => response.text())
             .then(result => console.log(result))
             .catch(error => console.log('error', error))
-            .then(await fetch("https://sandbox.aldelo.io/v1/externalPay", paymentRequestOptions)
-                .then(response => response.text())
-                .then(result => console.log(result))
-                .catch(error => console.log('error', error)))
+
+        await fetch("https://sandbox.aldelo.io/v1/order/1000000000000000001", GETRequest)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
+          
+        await fetch("https://sandbox.aldelo.io/v1/externalPay/1000000000000000001", GETRequest)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error))      
+        
+        await fetch("https://sandbox.aldelo.io/v1/externalPay", paymentPOSTOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error))
+        } else {
+            alert('no card on file')
+        }
     }
 
     return props.foodCart.length > 0 ?
@@ -113,11 +150,11 @@ const Cart = props => {
                         <Image source={require('../assets/sangria_logo.png')} style={styles.logo}/>
                     </View>
 
+                    <ScrollView  alwaysBounceVertical={true} showsVerticalScrollIndicator={false} contentInset={{bottom: 100}} >
+
                     <View style={{padding: 20, flexDirection: 'row'}}>
                         {orderType === 5 ? <Button title={'Delivery'} onPress={() => changeOrderType(3)}/> : <Button title={'PickUp'} onPress={() => changeOrderType(5)}/> }
                     </View>
-
-                    <ScrollView  alwaysBounceVertical={true} showsVerticalScrollIndicator={false} contentInset={{bottom: 130}} >
 
                     {props.foodCart.map( food => {
                         return (
