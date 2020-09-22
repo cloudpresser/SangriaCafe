@@ -10,6 +10,7 @@ const Cart = props => {
     const [currentUser, setCurrentUser] = useState()
     const [currentCard, getCard] = useState()
     const [refId, setRefId] = useState()
+    const [initializing, setInitializing] = useState(true)
     
     const taxRate = 0.08875
     const subtotal = () => (props.foodCart.reduce((total, food) => total += parseInt(food.item.details.price * food.quantity), 0))
@@ -19,24 +20,36 @@ const Cart = props => {
     const toroTotal = () => (props.foodCart.reduce((total, food) => total += parseInt(food.item.details.toros * food.quantity), 0))
 
     useEffect(() => {
+        tipHandler(0.15)  
         const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
+        findUserInfo().then(checkCardOnFile())
         return subscriber
     }, [])
 
     onAuthStateChanged = async (user) => {
-        tipHandler(0.15)
-        let cloudUser = await firestore().collection("users")
-            .where('email', '==', auth()._user.email).get()
-        setCurrentUser(cloudUser._docs[0]._data)
-        setRefId(cloudUser._docs[0]._ref._documentPath._parts[1])  
-    
-        if (currentUser) {
-            let savedCard = firestore().collection('cards')
-                .where('user_id', '==', refId).get()
-            if (savedCard._docs && savedCard._docs.length > 0) {
-                getCard(savedCard._docs[0]._data)
-            }
+        setCurrentUser(user)
+        if (initializing) setInitializing(false)
+    }
+
+    findUserInfo = async () => {
+        if (currentUser){
+            const cloudUser = await firestore().collection("users")
+                .where('email', '==', currentUser.email).get()
+            setCurrentUser(cloudUser._docs[0]._data) 
+            setRefId(cloudUser._docs[0]._ref._documentPath._parts[1])
         }
+        console.log(currentUser)
+    }
+
+    checkCardOnFile = async () => {
+        const savedCard = await firestore().collection('cards')
+            .where('user_id', '==', refId).get()
+        if (savedCard._docs && savedCard._docs.length > 0) {
+            getCard(savedCard._docs[0]._data)
+        } else {
+            alert('NO CARD ON FILE')
+        }
+        console.log(currentCard)
     }
 
     tipHandler = select => {
