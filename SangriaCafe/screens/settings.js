@@ -36,8 +36,8 @@ const Settings = () => {
     }, [])
     
     onAuthStateChanged = async (user) => {
+        setUser(user)
         if (user) { 
-            setUser(user)
             const cloudUser = await firestore().collection("users")
                 .where('email','==',user.email).get()
             if (cloudUser._docs && cloudUser._docs.length > 0) {
@@ -50,6 +50,7 @@ const Settings = () => {
                 findCard()
             }
         }
+        console.log(userCloud)
         if (initializing) setInitializing(false)
     }
 
@@ -101,6 +102,7 @@ const Settings = () => {
                 alert('Incorrect Account Information Try Again')
             }
         })
+        onAuthStateChanged(auth()._user)
     }   
 
     createUser = async (email, password) => {
@@ -136,6 +138,7 @@ const Settings = () => {
                     }
                 })
             ) 
+        onAuthStateChanged(auth()._user)
     }
 
     updateImage = async () => {
@@ -166,8 +169,8 @@ const Settings = () => {
 
     logoff = () => { 
         auth().signOut() 
-        setUser({})
-        setCloudUser({})
+        setUser(null)
+        setCloudUser(null)
         getCard()
         getCOF()
     }
@@ -246,7 +249,7 @@ const Settings = () => {
                 <CardModal setModalVisible={setModalVisible} card={currentCard} cardRef={cardOnFile} cloudUserId={userCloudRefId}/>
             </Modal>
 
-        { userAuth ?
+        { userCloud ?
             <View>
                 <View style={styles.loggedInUserBar}>
                     <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>

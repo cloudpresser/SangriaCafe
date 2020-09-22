@@ -2,7 +2,6 @@ import React from 'react';
 import { Image, StatusBar } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import auth from '@react-native-firebase/auth'
 import Home from './screens/home'
 import Order from './screens/order'
 import Cart from './screens/cart'
@@ -11,20 +10,7 @@ import Settings from './screens/settings'
 export default class App extends React.Component {
 
   state = {
-    foodCart: [],
-    user: null,
-    initializing: true
-  }
-
-  componentDidMount(){
-    this.setState({user: auth()._user})
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
-    return subscriber
-  }
-
-  onAuthStateChanged = async (user) => {
-    this.setState({user})
-    if (initializing) this.setState({initializing:false})
+    foodCart: []
   }
 
   addItem = item => {

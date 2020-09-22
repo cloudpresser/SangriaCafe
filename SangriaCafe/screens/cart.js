@@ -20,12 +20,12 @@ const Cart = props => {
 
     useEffect(() => {
         tipHandler(0.15)
-        if (props.user && props.user.email) findUserInfo()
+        if (auth()._user && auth()._user.email) findUserInfo()
     }, [])
 
     findUserInfo = async () => {
         let cloudUser = await firestore().collection("users")
-            .where('email','==',props.user.email).get()
+            .where('email','==',auth()._user.email).get()
         setCurrentUser(cloudUser._docs[0]._data) 
         setRefId(cloudUser._docs[0]._ref._documentPath._parts[1])
     }

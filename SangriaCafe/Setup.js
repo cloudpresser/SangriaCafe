@@ -14,7 +14,7 @@ const firebaseConfig = {
     forceCodeForRefreshToken: true
 }
 
-const instaToken = 'IGQVJXNVRIbDltaGU3ZAldSVHdnQ1lKcFBENDhxQ0N0RUg1LXZAQb1hPMEwzWkp3V0hrYjdXeGxkQUtKVEd2WGwwV3MxbXBoOFB1WXNEbVFqdzJrQzhtSUlXWXZAMS0hLQW9DU1FWLWRIMXlVa010SncxTwZDZD'
+const instaToken = 'IGQVJWWjJldEhjVWZAsV1ZADd0ZAZAQmN1T0FmUFkwWmZAvTFFZAX3E2Uzgtd1cxRURjcDdwdkh6TmNRcWlnekpxSXBTQ1NCbFZAXdGhmbUllOXRsNVQyQVdFNEwzd1ZAXYjd5QjBvYWdhOVM1Q29VZAXRyRlo3ZAQZDZD'
 
 const mapApi = 'AIzaSyCWrz16D7gqe7fJNtT8iqs4sa3JdAcU5xA'
 
