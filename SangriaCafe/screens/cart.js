@@ -28,7 +28,7 @@ const Cart = props => {
             .where('email','==',auth()._user.email).get()
         setCurrentUser(cloudUser._docs[0]._data) 
         setRefId(cloudUser._docs[0]._ref._documentPath._parts[1])
-        checkCardOnFile()
+        checkCardOnFile() // will remove and place in checkout sequence once up and running
     }
 
     checkCardOnFile = async () => {
