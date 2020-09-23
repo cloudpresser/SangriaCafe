@@ -28,6 +28,7 @@ const Cart = props => {
             .where('email','==',auth()._user.email).get()
         setCurrentUser(cloudUser._docs[0]._data) 
         setRefId(cloudUser._docs[0]._ref._documentPath._parts[1])
+        checkCardOnFile()
     }
 
     checkCardOnFile = async () => {
@@ -48,89 +49,106 @@ const Cart = props => {
         // if POST externalPay successful then print order in Kitchen
         // push order confirmation to user
 
-        const sandboxHeaders = {
-            'Content-Type':"application/json",
-            'ISV-ID':"D-181207-0001",
-            'ISV-Key':"480a31cb-03e6-4718-9e16-2d7a27e7af8f",
-            'App-Key':"6eeeccfb-dd19-41a3-b2fa-a15586c23e64",
-            'App-Version':"1.0.0.0",
-            'Store-Sub-ID':"2296-1C2A"
-        }
+    const sandboxHeaders = {
+        'Content-Type':"application/json",
+        'ISV-ID':"D-181207-0001",
+        'ISV-Key':"480a31cb-03e6-4718-9e16-2d7a27e7af8f",
+        'App-Key':"6eeeccfb-dd19-41a3-b2fa-a15586c23e64",
+        'App-Version':"1.0.0.0",
+        'Store-Sub-ID':"2296-1C2A",
+    }
 
-        const paymentBody = `{
-            "CashierID": 1000000000000000001, 
-            "EmployeeID": 1000000000000000001, 	
-            "OrderID": 100000000000000001, // GET order ID from Order Get Request
-            "ExternalTenderID": 1, // int, not null, valid values 1 - 20 only, must be a valid and enabled id returned from GET /externalPay, otherwise, call will be discardedn	
-            "PaymentAmount": ${total()},
-            "TipIncluded": ${tip}
-            "PaymentRefNumber": null, // string, null, up to 100 char, ISV payment's reference number, may be required if POS store settings External Payment Tender has this toggled for required, see GET /externalPay for requirementn	
-            "AutoPrint": true, // bool, if true = order will auto print to kitchen but a notification is sent; if false = order will not auto print to kitchen"
-        }`
+    const requestOptions = {
+        method: 'GET',
+        headers: sandboxHeaders,
+        redirect: 'follow'
+    }
+
+    fetch("https://sandbox.aldelo.io/v1/groupList?orderType=1&isDefault=false", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error))
         
-        const orderBody = `{ 
-            "EmployeeID":1000000000000000001, 
-            "OrderType": ${orderType}, // int, not null, 1=DineIn, 2=Bar, 3=TakeOut, 4=DriveThru, 5=Delivery, 6=Retailn    
-            "GuestCount": 1,	
-            "CustomerName": ${currentUser.name}, 
-            "Telephone": ${currentUser.phoneNumber}, 
-            "Address": ${currentUser.address}, // string, null, up to 100 char, address for customern	
-            "PostalCode": ${currentUser.postalCode}, 
-            "City": Bronx, 
-            "State": New York, 
-            "DeliveryCharge": ${deliveryFee()},    
-            "OrderGratuityPercent": ${(tip/total())*100}, 
-            "AutoPrint": false, // bool, if true = order will auto print to kitchen but a notification is sent; if false = order will not auto print to kitchenn    
-            "SystemPrint": false,  
-            "OrderDetails": ${props.foodCart.map( food => { 
-                return (
-                    `{
-                        "ItemID": ${food.item.name}, // bigint, not nulln 
-                        "Qty": ${food.quantity}, // float, not null, only weighted item can have fractions, 3 decimal places for weighted item, non weighted item must be integern        
-                        "UnitPrice": ${food.item.details.price}, // float, nulln        
-                        "LineNote": ${food.instruction}, // string, null, up to 100 charn 
-                    }`
-                ) })} }`
+        // const paymentBody = `{
+            //     "CashierID": 1000000000000000001, 
+            //     "EmployeeID": 1000000000000000001, 	
+            //     "OrderID": 100000000000000001, // GET order ID from Order Get Request
+            //     "ExternalTenderID": 1, // int, not null, valid values 1 - 20 only, must be a valid and enabled id returned from GET /externalPay, otherwise, call will be discardedn	
+            //     "PaymentAmount": ${total()},
+            //     "TipIncluded": ${tip}
+            //     "PaymentRefNumber": null, // string, null, up to 100 char, ISV payment's reference number, may be required if POS store settings External Payment Tender has this toggled for required, see GET /externalPay for requirementn	
+            //     "AutoPrint": true, // bool, if true = order will auto print to kitchen but a notification is sent; if false = order will not auto print to kitchen"
+            // }`
 
-        const orderPOSTOptions = {
-            method: 'POST',
-            headers: sandboxHeaders,
-            body: orderBody,
-            redirect: 'follow'
-        }
 
-        const paymentPOSTOptions = {
-            method: 'POST',
-            headers: sandboxHeaders,
-            body: paymentBody,
-            redirect: 'follow'
-        }
-
-        const GETRequest = {
-            method: 'GET',
-            headers: sandboxHeaders,
-            redirect: 'follow'
-        }
-          
-        await fetch("https://sandbox.aldelo.io/v1/order", orderPOSTOptions)
-            .then(response => response.text())
-            .then(result => console.log(result))
-            .catch(error => console.log('error', error))
-
-        await fetch("https://sandbox.aldelo.io/v1/order/1000000000000000001", GETRequest)
-            .then(response => response.text())
-            .then(result => console.log(result))
-            .catch(error => console.log('error', error));
-          
-        await fetch("https://sandbox.aldelo.io/v1/externalPay/1000000000000000001", GETRequest)
-            .then(response => response.text())
-            .then(result => console.log(result))
-            .catch(error => console.log('error', error))      
+        // const formattedOrderDetails = props.foodCart.map( food => { 
+        //     return (
+        //         {
+        //             "ItemID": food.item.name, // bigint, not nulln 
+        //             "Qty": food.quantity, // float, not null, only weighted item can have fractions, 3 decimal places for weighted item, non weighted item must be integern        
+        //             "UnitPrice": food.item.details.price, // float, nulln        
+        //             "LineNote": food.instruction, // string, null, up to 100 charn 
+        //         }
+        //     ) 
+        // })
         
-        await fetch("https://sandbox.aldelo.io/v1/externalPay", paymentPOSTOptions)
-            .then(response => response.text())
-            .then(result => console.log(result))
-            .catch(error => console.log('error', error))
+        // const orderBody = { 
+        //     "EmployeeID": 1000000000000000001, 
+        //     "OrderType": orderType,    
+        //     "GuestCount": 1,	
+        //     "CustomerName": currentUser.name, 
+        //     "Telephone": currentUser.phoneNumber, 
+        //     "Address": currentUser.address, 	
+        //     "PostalCode": currentUser.postalCode, 
+        //     "City": 'Bronx', 
+        //     "State": 'New York', 
+        //     "DeliveryCharge": deliveryFee(),    
+        //     "OrderGratuityPercent": (tip/total())*100, 
+        //     "AutoPrint": false,   
+        //     "SystemPrint": false,  
+        //     "OrderDetails": formattedOrderDetails 
+        // }
+
+        // const orderPOSTOptions = {
+        //     method: 'POST',
+        //     headers: sandboxHeaders,
+        //     body: orderBody,
+        //     redirect: 'follow'
+        // }
+        
+        // await fetch("https://sandbox.aldelo.io/v1/order", orderPOSTOptions)
+        //     .then(response => response.text())
+        //     .then(result => console.log(result))
+        //     .catch(error => console.log('error', error))
+
+        // const paymentPOSTOptions = {
+        //     method: 'POST',
+        //     headers: sandboxHeaders,
+        //     body: paymentBody,
+        //     redirect: 'follow'
+        // }
+
+        // const GETRequest = {
+        //     method: 'GET',
+        //     headers: sandboxHeaders,
+        //     redirect: 'follow'
+        // }
+          
+
+        // await fetch("https://sandbox.aldelo.io/v1/order/1000000000000000001", GETRequest)
+        //     .then(response => response.text())
+        //     .then(result => console.log(result))
+        //     .catch(error => console.log('error', error));
+          
+        // await fetch("https://sandbox.aldelo.io/v1/externalPay/1000000000000000001", GETRequest)
+        //     .then(response => response.text())
+        //     .then(result => console.log(result))
+        //     .catch(error => console.log('error', error))      
+        
+        // await fetch("https://sandbox.aldelo.io/v1/externalPay", paymentPOSTOptions)
+        //     .then(response => response.text())
+        //     .then(result => console.log(result))
+        //     .catch(error => console.log('error', error))
 
         } else {
             alert('no card on file')

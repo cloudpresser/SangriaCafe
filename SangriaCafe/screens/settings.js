@@ -50,7 +50,6 @@ const Settings = () => {
                 findCard()
             }
         }
-        console.log(userCloud)
         if (initializing) setInitializing(false)
     }
 
@@ -159,7 +158,7 @@ const Settings = () => {
     }
 
     findCard = async () => {
-        let savedCard = await firestore().collection('cards')
+        const savedCard = await firestore().collection('cards')
             .where('user_id', '==', userCloudRefId).get()
         if (savedCard._docs && savedCard._docs.length > 0) {
             getCard(savedCard._docs[0]._data)
