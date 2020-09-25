@@ -26,6 +26,7 @@ const Settings = () => {
     const [name, changeName] = useState('')
     const [phone, changePhone] = useState('')
     const [address, changeAddress] = useState('')
+    const [postalCode, changePostalCode] = useState('')
     const [currentCard, getCard] = useState()
     const [cardOnFile, getCOF] = useState()
     const [imageSource, setImageSource] = useState()
@@ -47,6 +48,7 @@ const Settings = () => {
                 changeName(cloudUser._docs[0]._data.name),
                 changePhone(cloudUser._docs[0]._data.phoneNumber),
                 changeAddress(cloudUser._docs[0]._data.address),
+                changePostalCode(cloudUser._docs[0]._data.postalCode)
                 findCard()
             }
         }
@@ -114,6 +116,7 @@ const Settings = () => {
                 'name': name,
                 'phoneNumber': phone,
                 'address': address,
+                'postalCode' : postalCode,
                 'toros': 0,
                 'toros_spent': 0,
                 'image': 'https://www.pikpng.com/pngl/m/16-168770_user-iconset-no-profile-picture-icon-circle-clipart.png'
@@ -234,7 +237,7 @@ const Settings = () => {
         if (toros >= picador) return 'Picador 🥈'
         if (toros >= banderillero) return 'Banderillero 🥉'
         if (toros >= mozo) return 'Mozo de Espada ⚔️'
-        if (toros < 1420) return 'Ayuda'
+        if (toros < mozo) return 'Ayuda'
     }
 
     return(
@@ -269,8 +272,15 @@ const Settings = () => {
                 </View>
             
                 <KeyboardAvoidingView behavior="position">
+                <View style={{justifyContent: 'center', flexDirection: 'row'}}>
+                    <Button style={{margin: 5, width: screen.width / 4}} color='tomato' onPress={() => handleCardPress()}>Card</Button>
+                    <Button style={{margin: 5, width: screen.width / 4}} color='tomato' onPress={updateVisible ? () => toggleUpdate(false):() => toggleUpdate(true)}>{updateVisible ? 'Close' : 'Info'}</Button>
+                    <Button style={{margin: 5, width: screen.width / 4}} color='tomato' onPress={() => logoff()}>Logoff</Button> 
+                </View>
+
                 { updateVisible ? 
                     <View style={styles.container}>
+                        <ScrollView alwaysBounceVertical={true} showsVerticalScrollIndicator={false} contentInset={{top: 0, left: 0, bottom: 108, right: 0}}> 
                         <Text style={styles.text}>Total Toros Used: {userCloud.toros_spent}</Text>                        
                         <Text style={styles.text}>Email</Text>
                         <TextInput placeholder={userAuth.email} autoCompleteType='email' autoCapitalize='none' onChangeText={changeEmail} value={email}/>
@@ -280,14 +290,12 @@ const Settings = () => {
                         <TextInput placeholder={userCloud.phoneNumber} onChangeText={changePhone} value={phone}/>
                         <Text style={styles.text}>Address</Text>
                         <TextInput placeholder={userCloud.address} autoCompleteType='street-address' onChangeText={changeAddress} value={address}/>
+                        <Text style={styles.text}>Zip Code</Text>
+                        <TextInput placeholder={userCloud.postalCode} onChangeText={changePostalCode} value={postalCode}/>
                         <Button mode='contained' color='tomato' style={{margin:10}} onPress={() => updateUser()}>Update</Button>
+                        </ScrollView>
                     </View> : null}
 
-                <View style={{justifyContent: 'center', flexDirection: 'row'}}>
-                    <Button style={{margin: 5, width: screen.width / 4}} color='tomato' onPress={() => handleCardPress()}>Card</Button>
-                    <Button style={{margin: 5, width: screen.width / 4}} color='tomato' onPress={updateVisible ? () => toggleUpdate(false):() => toggleUpdate(true)}>{updateVisible ? 'Close' : 'Info'}</Button>
-                    <Button style={{margin: 5, width: screen.width / 4}} color='tomato' onPress={() => logoff()}>Logoff</Button> 
-                </View>
                 { updateVisible ? null :
                     <ScrollView alwaysBounceVertical={true} showsVerticalScrollIndicator={false} contentInset={{top: 0, left: 0, bottom: 108, right: 0}}> 
                         <Specials/>
@@ -336,6 +344,7 @@ const Settings = () => {
                         <TextInput placeholder={'phone number'} autoCompleteType='tel' onChangeText={changePhone} value={phone}/>
                         <Text style={styles.text}>Address</Text>
                         <TextInput placeholder={'address'} autoCompleteType='street-address' onChangeText={changeAddress} value={address}/>
+                        <TextInput placeholder={'zip code'} onChangeText={changePostalCode} value={postalCode}/>
                         <Button mode='contained' color='tomato' style={{margin: 10}} onPress={() => createUser(email, password)}>Create New Account</Button>
                         <GoogleSigninButton style={{ width: 192, height: 48, alignSelf: 'center' }} size={GoogleSigninButton.Size.Wide} color={GoogleSigninButton.Color.Dark} onPress={() => signIn()} />
                     </View>  : null }

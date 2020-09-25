@@ -49,58 +49,54 @@ const Cart = props => {
         // if POST externalPay successful then print order in Kitchen
         // push order confirmation to user
 
-        // do get request first then study data
+            const sandboxHeaders = {
+                'Content-Type':"application/json",
+                'ISV-ID':"D-181207-0001",
+                'ISV-Key':"480a31cb-03e6-4718-9e16-2d7a27e7af8f",
+                'App-Key':"6eeeccfb-dd19-41a3-b2fa-a15586c23e64",
+                'App-Version':"1.0.0.0",
+                'Store-Sub-ID':"2296-1C2A",
+                'Store-App-Token': '72ce5c21-9885-4de8-9f07-7dcc3202e83a'
+            }
 
-    const sandboxHeaders = {
-        'Content-Type':"application/json",
-        'ISV-ID':"D-181207-0001",
-        'ISV-Key':"480a31cb-03e6-4718-9e16-2d7a27e7af8f",
-        'App-Key':"6eeeccfb-dd19-41a3-b2fa-a15586c23e64",
-        'App-Version':"1.0.0.0",
-        'Store-Sub-ID':"2296-1C2A",
-        'Store-App-Token': '72ce5c21-9885-4de8-9f07-7dcc3202e83a'
-    }
+            const requestOptions = {
+                method: 'GET',
+                headers: sandboxHeaders,
+                redirect: 'follow'
+            }
 
-    const requestOptions = {
-        method: 'GET',
-        headers: sandboxHeaders,
-        redirect: 'follow'
-    }
+            fetch("https://sandbox.aldelo.io/v1/group/1000000000000000001", requestOptions)
+                .then(response => response.text())
+                .then(result => console.log(result))
+                .catch(error => console.log('error', error))
 
-    fetch("https://sandbox.aldelo.io/v1/group/1000000000000000001", requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error))
-
-    const order = {
-        "EmployeeID": 1000000000000000001,
-        "OrderType": orderType, // 3=takeout 5=delivery
-        "GuestCount": 1,
-        "CustomerName": currentUser.name,
-        "Telephone": currentUser.phoneNumber,
-        "Address": currentUser.address,
-        "PostalCode": currentUser.postalCode,
-        "City": 'Bronx',
-        "State": 'NY',
-        "DeliveryCharge": deliveryFee(),
-        "OrderGratuityPercent": (tip/total())*100,
-        "AutoPrint": false,
-        "SystemPrint": false,
-        "OrderDetails": props.foodCart.map( food => {
-            return (
-                {
-                    "ItemID" : food.item.name,
-                    "Qty": food.quantity,
-                    "UnitPrice": food.item.details.price,
-                    "LineNote": food.instruction ? food.instruction : null,
-                    "CreatedByEmployeeID": 1000000000000000001
-                }
-            )
-        })
-    }
-
-    console.log(order)
-
+            const order = {
+                "EmployeeID": 1000000000000000001,
+                "OrderType": orderType, // 3=takeout 5=delivery
+                "GuestCount": 1,
+                "CustomerName": currentUser.name,
+                "Telephone": currentUser.phoneNumber,
+                "Address": currentUser.address,
+                "PostalCode": currentUser.postalCode,
+                "City": 'Bronx',
+                "State": 'NY',
+                "DeliveryCharge": deliveryFee(),
+                "OrderGratuityPercent": (tip/total())*100,
+                "AutoPrint": false,
+                "SystemPrint": false,
+                "OrderDetails": props.foodCart.map( food => {
+                    return (
+                        {
+                            "ItemID" : food.item.name,
+                            "Qty": food.quantity,
+                            "UnitPrice": food.item.details.price,
+                            "LineNote": food.instruction ? food.instruction : null,
+                            "CreatedByEmployeeID": 1000000000000000001
+                        }
+                    )
+                })
+            }
+            console.log(order)
         } else {
             alert('no card on file')
         }
