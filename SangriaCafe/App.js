@@ -63,24 +63,24 @@ export default class App extends React.Component {
               let iconName;
               if (route.name === 'Home') {
                 iconName = focused
-                  ? 'https://cdn2.iconfinder.com/data/icons/font-awesome/1792/home-512.png'
-                  : 'https://cdn2.iconfinder.com/data/icons/font-awesome/1792/home-512.png';
+                  ? require('./assets/home_icon_focused.png')
+                  : require('./assets/home_icon.png');
               } else if (route.name === 'Order') {
                 iconName = focused
-                  ? 'https://image.flaticon.com/icons/png/512/45/45552.png'
-                  : 'https://image.flaticon.com/icons/png/512/45/45552.png';
-              } else if (route.name === 'Profile') {
+                  ? require('./assets/order_icon_focused.png')
+                  : require('./assets/order_icon.png');
+              } else if (route.name === 'Settings') {
                 iconName = focused
-                  ? 'https://img.pngio.com/profile-icon-png-image-free-download-searchpngcom-profile-icon-png-673_673.png'
-                  : 'https://img.pngio.com/profile-icon-png-image-free-download-searchpngcom-profile-icon-png-673_673.png';
+                  ? require('./assets/profile_icon_focused.png')
+                  : require('./assets/profile_icon.png');
               } else if (route.name === 'Cart') {
                 iconName = focused
-                  ? 'https://image.flaticon.com/icons/png/512/126/126083.png'
-                  : 'https://image.flaticon.com/icons/png/512/126/126083.png';
+                  ? require('./assets/cart_icon_focused.png')
+                  : require('./assets/cart_icon.png');
               }
               return (
                 <Image
-                  source={{uri: iconName}}
+                  source={iconName}
                   size={size}
                   color={color}
                   style={{height: 30, width: 30}}
@@ -104,7 +104,7 @@ export default class App extends React.Component {
                   : null,
             }}
           />
-          <Tab.Screen name="Profile" component={this.SettingsScreen} />
+          <Tab.Screen name="Settings" component={this.SettingsScreen} />
         </Tab.Navigator>
       </NavigationContainer>
     );
