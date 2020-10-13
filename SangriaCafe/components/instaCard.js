@@ -60,7 +60,10 @@ export default Card = () => {
                     style={styles.picture}
                   />
                   <Image
-                    source={require('../assets/grambottom.png')}
+                    source={{
+                      uri:
+                        'https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/assets%2Fgrambottom.png?alt=media&token=741efa43-a316-4fc3-a51a-555dce122f57',
+                    }}
                     style={{height: 18, width: 300}}
                   />
                 </View>

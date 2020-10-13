@@ -9,6 +9,7 @@ import {
   Button,
   TouchableOpacity,
   ScrollView,
+  Switch,
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
@@ -38,6 +39,7 @@ const Cart = (props) => {
     );
 
   useEffect(() => {
+    changeOrderType(5);
     tipHandler(0.15);
     if (auth()._user && auth()._user.email) findUserInfo();
   }, []);
@@ -65,6 +67,10 @@ const Cart = (props) => {
     addTip(total() * select);
   };
 
+  flipOrderType = () => {
+    orderType === 3 ? changeOrderType(5) : changeOrderType(3) && tipHandler(0);
+  };
+
   checkoutButtonPress = async () => {
     if (currentCard) {
       //POST order to database, do not print
@@ -89,10 +95,7 @@ const Cart = (props) => {
         redirect: 'follow',
       };
 
-      fetch(
-        'https://sandbox.aldelo.io/v1/group/1000000000000000001',
-        requestOptions,
-      )
+      fetch('https://sandbox.aldelo.io/v1/store', requestOptions)
         .then((response) => response.text())
         .then((result) => console.log(result))
         .catch((error) => console.log('error', error));
@@ -132,7 +135,10 @@ const Cart = (props) => {
       <SafeAreaView>
         <View style={styles.topContainer}>
           <Image
-            source={require('../assets/sangria_logo.png')}
+            source={{
+              uri:
+                'https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/assets%2Fsangria_logo.png?alt=media&token=65d5bb98-bcfc-4599-bc4c-395ac130212a',
+            }}
             style={styles.logo}
           />
         </View>
@@ -141,12 +147,14 @@ const Cart = (props) => {
           alwaysBounceVertical={true}
           showsVerticalScrollIndicator={false}
           contentInset={{bottom: 100}}>
-          <View style={{padding: 20, flexDirection: 'row'}}>
-            {orderType === 5 ? (
-              <Button title={'Delivery'} onPress={() => changeOrderType(3)} />
-            ) : (
-              <Button title={'PickUp'} onPress={() => changeOrderType(5)} />
-            )}
+          <View
+            style={{padding: 20, flexDirection: 'row', alignItems: 'center'}}>
+            <Switch
+              thumbColor={orderType === 3 ? '#767577' : 'tomato'}
+              onValueChange={() => flipOrderType()}
+              value={orderType}
+            />
+            {orderType === 5 ? <Text> Delivery</Text> : <Text> PickUp</Text>}
           </View>
 
           {props.foodCart.map((food) => {
@@ -160,7 +168,10 @@ const Cart = (props) => {
                   <Text>${food.item.details.price * food.quantity}</Text>
                   <View style={{flexDirection: 'row', alignItems: 'center'}}>
                     <Image
-                      source={require('../assets/toro.png')}
+                      source={{
+                        uri:
+                          'https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/assets%2Ftoro.png?alt=media&token=240fcdac-2e49-47e7-b3ea-8a2f93d4105e',
+                      }}
                       style={{height: 20, width: 20}}
                     />
                     <Text> {food.item.details.toros * food.quantity}</Text>
@@ -207,7 +218,10 @@ const Cart = (props) => {
               }}>
               <Text>+ </Text>
               <Image
-                source={require('../assets/toro.png')}
+                source={{
+                  uri:
+                    'https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/assets%2Ftoro.png?alt=media&token=240fcdac-2e49-47e7-b3ea-8a2f93d4105e',
+                }}
                 style={{height: 20, width: 20}}
               />
               <Text> {toroTotal()}</Text>
@@ -290,7 +304,10 @@ const Cart = (props) => {
       <SafeAreaView>
         <View style={styles.topContainer}>
           <Image
-            source={require('../assets/sangria_logo.png')}
+            source={{
+              uri:
+                'https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/assets%2Fsangria_logo.png?alt=media&token=65d5bb98-bcfc-4599-bc4c-395ac130212a',
+            }}
             style={styles.logo}
           />
         </View>

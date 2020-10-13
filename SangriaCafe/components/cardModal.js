@@ -75,7 +75,10 @@ export default CardModal = (props) => {
                   {detectBank()}
                 </Text>
                 <Image
-                  source={require('../assets/cardChip.png')}
+                  source={{
+                    uri:
+                      'https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/assets%2FcardChip.png?alt=media&token=a97ce33f-afb2-4a3c-a6b7-e08e3280e43c',
+                  }}
                   style={{
                     alignSelf: 'flex-start',
                     height: 40,
@@ -151,7 +154,10 @@ export default CardModal = (props) => {
                   <View
                     style={{backgroundColor: 'white', height: 30, width: 200}}>
                     <Image
-                      source={require('../assets/signature.png')}
+                      source={{
+                        uri:
+                          'https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/assets%2Fsignature.png?alt=media&token=32682d14-517f-4413-8c48-ab4f9341ce46',
+                      }}
                       style={{height: 30, width: 100}}
                     />
                   </View>

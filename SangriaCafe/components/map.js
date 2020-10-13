@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import MapView from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import Geolocation from 'react-native-geolocation-service';
-import {StyleSheet, Dimensions, View, Text} from 'react-native';
+import {StyleSheet, Dimensions, Text} from 'react-native';
 import {mapApi} from '../Setup';
 
 const Map = () => {

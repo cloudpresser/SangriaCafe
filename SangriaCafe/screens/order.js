@@ -43,7 +43,10 @@ const Order = (props) => {
 
         <View style={styles.topContainer}>
           <Image
-            source={require('../assets/sangria_logo.png')}
+            source={{
+              uri:
+                'https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/assets%2Fsangria_logo.png?alt=media&token=65d5bb98-bcfc-4599-bc4c-395ac130212a',
+            }}
             style={styles.logo}
           />
         </View>
@@ -130,7 +133,10 @@ const Order = (props) => {
                       </View>
                       <View style={styles.toroContainer}>
                         <Image
-                          source={require('../assets/toro.png')}
+                          source={{
+                            uri:
+                              'https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/assets%2Ftoro.png?alt=media&token=240fcdac-2e49-47e7-b3ea-8a2f93d4105e',
+                          }}
                           style={{height: 35, width: 35}}
                         />
                         <Text style={{fontSize: 16}}>{food.details.toros}</Text>
@@ -174,7 +180,10 @@ const Order = (props) => {
                       </View>
                       <View style={styles.toroContainer}>
                         <Image
-                          source={require('../assets/toro.png')}
+                          source={{
+                            uri:
+                              'https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/assets%2Ftoro.png?alt=media&token=240fcdac-2e49-47e7-b3ea-8a2f93d4105e',
+                          }}
                           style={{height: 35, width: 35}}
                         />
                         <Text style={{fontSize: 16}}>{food.details.toros}</Text>
@@ -220,7 +229,10 @@ const Order = (props) => {
                       </View>
                       <View style={styles.toroContainer}>
                         <Image
-                          source={require('../assets/toro.png')}
+                          source={{
+                            uri:
+                              'https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/assets%2Ftoro.png?alt=media&token=240fcdac-2e49-47e7-b3ea-8a2f93d4105e',
+                          }}
                           style={{height: 35, width: 35}}
                         />
                         <Text style={{fontSize: 16}}>{food.details.toros}</Text>
@@ -264,7 +276,10 @@ const Order = (props) => {
                       </View>
                       <View style={styles.toroContainer}>
                         <Image
-                          source={require('../assets/toro.png')}
+                          source={{
+                            uri:
+                              'https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/assets%2Ftoro.png?alt=media&token=240fcdac-2e49-47e7-b3ea-8a2f93d4105e',
+                          }}
                           style={{height: 35, width: 35}}
                         />
                         <Text style={{fontSize: 16}}>{food.details.toros}</Text>
@@ -308,7 +323,10 @@ const Order = (props) => {
                       </View>
                       <View style={styles.toroContainer}>
                         <Image
-                          source={require('../assets/toro.png')}
+                          source={{
+                            uri:
+                              'https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/assets%2Ftoro.png?alt=media&token=240fcdac-2e49-47e7-b3ea-8a2f93d4105e',
+                          }}
                           style={{height: 35, width: 35}}
                         />
                         <Text style={{fontSize: 16}}>{food.details.toros}</Text>

@@ -20,7 +20,10 @@ export default class Home extends React.Component {
         <SafeAreaView style={styles.homePageContainer}>
           <View style={styles.topContainer}>
             <Image
-              source={require('../assets/sangria_logo.png')}
+              source={{
+                uri:
+                  'https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/assets%2Fsangria_logo.png?alt=media&token=65d5bb98-bcfc-4599-bc4c-395ac130212a',
+              }}
               style={styles.logo}
             />
           </View>
@@ -30,7 +33,10 @@ export default class Home extends React.Component {
             contentInset={{top: 0, left: 0, bottom: 115, right: 0}}>
             <View style={styles.infoContainer}>
               <Image
-                source={require('../assets/toro_front.jpg')}
+                source={{
+                  uri:
+                    'https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/assets%2Ftoro_front.jpg?alt=media&token=af5ff861-83e8-4e6e-b87a-2cab6fc9ccb4',
+                }}
                 style={styles.welcomPic}
               />
               <View>

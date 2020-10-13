@@ -50,7 +50,10 @@ export default ModalCard = (props) => {
                 </View>
                 <View style={styles.modalToroContainer}>
                   <Image
-                    source={require('../assets/toro.png')}
+                    source={{
+                      uri:
+                        'https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/assets%2Ftoro.png?alt=media&token=240fcdac-2e49-47e7-b3ea-8a2f93d4105e',
+                    }}
                     style={{height: 35, width: 35}}
                   />
                   <Text style={{fontSize: 16}}>{props.food.details.toros}</Text>
@@ -81,7 +84,10 @@ export default ModalCard = (props) => {
                 <View style={styles.buttons}>
                   <TouchableOpacity onPress={() => throwinthebag(props.food)}>
                     <Image
-                      source={require('../assets/add.png')}
+                      source={{
+                        uri:
+                          'https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/assets%2Fadd.png?alt=media&token=f165dd3d-4263-4598-86a9-7a6ee4c0ce9e',
+                      }}
                       style={{margin: 25, height: 35, width: 35}}
                     />
                   </TouchableOpacity>
@@ -89,7 +95,10 @@ export default ModalCard = (props) => {
                   <TouchableOpacity
                     onPress={() => props.setModalVisible(false)}>
                     <Image
-                      source={require('../assets/close.png')}
+                      source={{
+                        uri:
+                          'https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/assets%2Fclose.png?alt=media&token=8bca3fdf-2f65-4fc8-a8a4-f5eccb3df648',
+                      }}
                       style={{margin: 25, height: 35, width: 35}}
                     />
                   </TouchableOpacity>
