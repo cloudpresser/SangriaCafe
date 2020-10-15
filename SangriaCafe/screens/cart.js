@@ -73,7 +73,6 @@ const Cart = (props) => {
 
   checkoutButtonPress = async () => {
     if (currentCard) {
-
       const sandboxHeaders = {
         'Content-Type': 'application/json',
         'ISV-ID': 'D-181207-0001',
@@ -224,64 +223,70 @@ const Cart = (props) => {
           </View>
 
           <View style={styles.tipCheckout}>
-            {orderType === 5 ? <><View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                margin: 5,
-              }}>
-              <Text>Add Tip for Driver</Text>
-            </View>
-            <View
-              style={{flexDirection: 'row', justifyContent: 'space-around'}}>
-              {tip / total() === 0.15 ? (
-                <Button
-                  title={'15%'}
-                  color="tomato"
-                  onPress={() => tipHandler(0.15)}
-                />
-              ) : (
-                <Button title={'15%'} onPress={() => tipHandler(0.15)} />
-              )}
-              {tip / total() === 0.2 ? (
-                <Button
-                  title={'20%'}
-                  color="tomato"
-                  onPress={() => tipHandler(0.2)}
-                />
-              ) : (
-                <Button title={'20%'} onPress={() => tipHandler(0.2)} />
-              )}
-              {tip / total() === 0.25 ? (
-                <Button
-                  title={'25%'}
-                  color="tomato"
-                  onPress={() => tipHandler(0.25)}
-                />
-              ) : (
-                <Button title={'25%'} onPress={() => tipHandler(0.25)} />
-              )}
-              {tip / total() === 0.3 ? (
-                <Button
-                  title={'30%'}
-                  color="tomato"
-                  onPress={() => tipHandler(0.3)}
-                />
-              ) : (
-                <Button title={'30%'} onPress={() => tipHandler(0.3)} />
-              )}
-              {tip === 0 ? (
-                <Button
-                  title={'Cash'}
-                  color="tomato"
-                  onPress={() => tipHandler(0)}
-                />
-              ) : (
-                <Button title={'Cash'} onPress={() => tipHandler(0)} />
-              )}
-            </View></>
-            : null }
+            {orderType === 5 ? (
+              <>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    margin: 5,
+                  }}>
+                  <Text>Add Tip for Driver</Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-around',
+                  }}>
+                  {tip / total() === 0.15 ? (
+                    <Button
+                      title={'15%'}
+                      color="tomato"
+                      onPress={() => tipHandler(0.15)}
+                    />
+                  ) : (
+                    <Button title={'15%'} onPress={() => tipHandler(0.15)} />
+                  )}
+                  {tip / total() === 0.2 ? (
+                    <Button
+                      title={'20%'}
+                      color="tomato"
+                      onPress={() => tipHandler(0.2)}
+                    />
+                  ) : (
+                    <Button title={'20%'} onPress={() => tipHandler(0.2)} />
+                  )}
+                  {tip / total() === 0.25 ? (
+                    <Button
+                      title={'25%'}
+                      color="tomato"
+                      onPress={() => tipHandler(0.25)}
+                    />
+                  ) : (
+                    <Button title={'25%'} onPress={() => tipHandler(0.25)} />
+                  )}
+                  {tip / total() === 0.3 ? (
+                    <Button
+                      title={'30%'}
+                      color="tomato"
+                      onPress={() => tipHandler(0.3)}
+                    />
+                  ) : (
+                    <Button title={'30%'} onPress={() => tipHandler(0.3)} />
+                  )}
+                  {tip === 0 ? (
+                    <Button
+                      title={'Cash'}
+                      color="tomato"
+                      onPress={() => tipHandler(0)}
+                    />
+                  ) : (
+                    <Button title={'Cash'} onPress={() => tipHandler(0)} />
+                  )}
+                </View>
+              </>
+            ) : null}
 
             <TouchableOpacity onPress={() => checkoutButtonPress()}>
               <View style={styles.checkoutButton}>

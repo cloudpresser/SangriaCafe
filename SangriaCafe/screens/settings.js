@@ -51,24 +51,26 @@ const Settings = () => {
   }, []);
 
   onAuthStateChanged = async (user) => {
-    setUser(user);
-    if (user) {
-      const cloudUser = await firestore()
-        .collection('users')
-        .where('email', '==', user.email)
-        .get();
-      if (cloudUser._docs && cloudUser._docs.length > 0) {
-        setCloudUser(cloudUser._docs[0]._data),
-          setCloudID(cloudUser._docs[0]._ref._documentPath._parts[1]),
-          changeEmail(cloudUser._docs[0]._data.email),
-          changeName(cloudUser._docs[0]._data.name),
-          changePhone(cloudUser._docs[0]._data.phoneNumber),
-          changeAddress(cloudUser._docs[0]._data.address),
-          changePostalCode(cloudUser._docs[0]._data.postalCode);
-        findCard();
+    if (user != null) {
+      setUser(user);
+      if (user) {
+        const cloudUser = await firestore()
+          .collection('users')
+          .where('email', '==', user.email)
+          .get();
+        if (cloudUser._docs && cloudUser._docs.length > 0) {
+          setCloudUser(cloudUser._docs[0]._data),
+            setCloudID(cloudUser._docs[0]._ref._documentPath._parts[1]),
+            changeEmail(cloudUser._docs[0]._data.email),
+            changeName(cloudUser._docs[0]._data.name),
+            changePhone(cloudUser._docs[0]._data.phoneNumber),
+            changeAddress(cloudUser._docs[0]._data.address),
+            changePostalCode(cloudUser._docs[0]._data.postalCode);
+          findCard();
+        }
       }
+      if (initializing) setInitializing(false);
     }
-    if (initializing) setInitializing(false);
   };
 
   GoogleSignin.configure({
