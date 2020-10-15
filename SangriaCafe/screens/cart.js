@@ -73,11 +73,6 @@ const Cart = (props) => {
 
   checkoutButtonPress = async () => {
     if (currentCard) {
-      //POST order to database, do not print
-      // GET order and iterate information to POST externalPay
-      // GET externalPay to gather information for POST
-      // if POST externalPay successful then print order in Kitchen
-      // push order confirmation to user
 
       const sandboxHeaders = {
         'Content-Type': 'application/json',
@@ -126,7 +121,7 @@ const Cart = (props) => {
       };
       console.log(order);
     } else {
-      alert('no card on file');
+      alert('Please Add Card');
     }
   };
 
@@ -229,7 +224,7 @@ const Cart = (props) => {
           </View>
 
           <View style={styles.tipCheckout}>
-            <View
+            {orderType === 5 ? <><View
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
@@ -285,7 +280,8 @@ const Cart = (props) => {
               ) : (
                 <Button title={'Cash'} onPress={() => tipHandler(0)} />
               )}
-            </View>
+            </View></>
+            : null }
 
             <TouchableOpacity onPress={() => checkoutButtonPress()}>
               <View style={styles.checkoutButton}>
