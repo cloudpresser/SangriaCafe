@@ -141,8 +141,7 @@ const Cart = (props) => {
           alwaysBounceVertical={true}
           showsVerticalScrollIndicator={false}
           contentInset={{bottom: 100}}>
-          <View
-            style={{padding: 20, flexDirection: 'row', alignItems: 'center'}}>
+          <View style={{padding: 10}}>
             <Switch
               thumbColor={orderType === 3 ? '#767577' : 'tomato'}
               onValueChange={() => flipOrderType()}
