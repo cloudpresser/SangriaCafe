@@ -7,6 +7,7 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "node server.js",
+    "heroku-postbuild": "npm start",
     "test": "jest",
     "lint": "eslint ."
   },
