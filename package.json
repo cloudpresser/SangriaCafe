@@ -2,6 +2,7 @@
   "name": "SangriaCafe",
   "version": "0.0.1",
   "private": true,
+  "main": "index.js",
   "type": "module",
   "scripts": {
     "android": "react-native run-android",
