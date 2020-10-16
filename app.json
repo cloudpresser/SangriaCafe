@@ -1,0 +1,9 @@
+{
+  "name": "Sangria Cafe",
+  "displayName": "Sangria Cafe",
+  "description": "built by Cache Technologies",
+  "version": "1.0.0",
+  "engines": {
+    "node": "14.x"
+  }
+}
