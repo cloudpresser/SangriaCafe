@@ -2,12 +2,10 @@
   "name": "SangriaCafe",
   "version": "0.0.1",
   "private": true,
-  "type": "module",
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "start": "node server.js",
-    "heroku-postbuild": "npm start",
+    "start": "react-native start",
     "test": "jest",
     "lint": "eslint ."
   },
