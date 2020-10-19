@@ -4,7 +4,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/edhernandez04/SangriaCafe">
-    <img src="https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/assets%2Fsangria_logo.png?alt=media&token=65d5bb98-bcfc-4599-bc4c-395ac130212a" alt="Logo" width="80" height="80">
+    <img src="https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/assets%2Fsangria_logo.png?alt=media&token=65d5bb98-bcfc-4599-bc4c-395ac130212a" alt="Logo">
   </a>
 
   <h3 align="center">Sangria Cafe</h3>
