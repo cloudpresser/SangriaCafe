@@ -4,7 +4,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/edhernandez04/SangriaCafe">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/assets%2Fsangria_logo.png?alt=media&token=65d5bb98-bcfc-4599-bc4c-395ac130212a" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Sangria Cafe</h3>
@@ -12,14 +12,12 @@
   <p align="center">
     2085 Bartow Ave. Bronx NY 
     <br />
-    <a href="https://github.com/edhernandez04/SangriaCafe"><strong>Explore the docs »</strong></a>
     <br />
-    <br />
-    <a href="https://github.com/edhernandez04/SangriaCafe">View Demo</a>
+    <a href="https://appetize.io/app/nn4ha64vzxdtprhmcm6j1j51bm?device=iphone6s&scale=75&orientation=portrait&osVersion=13.3">View Demo</a>
     ·
     <a href="https://github.com/edhernandez04/SangriaCafe/issues">Report Bug</a>
     ·
-    <a href="https://github.com/edhernandez04/SangriaCafe/issues">Request Feature</a>
+    <a href="http://sangriabx.com/">Restaurant Homepage</a>
   </p>
 </p>
 
@@ -28,74 +26,26 @@
 
 * [About the Project](#about-the-project)
   * [Built With](#built-with)
-* [Getting Started](#getting-started)
-  * [Prerequisites](#prerequisites)
-  * [Installation](#installation)
 * [Usage](#usage)
-* [Roadmap](#roadmap)
 * [Contributing](#contributing)
 * [License](#license)
 * [Contact](#contact)
-* [Acknowledgements](#acknowledgements)
-
-
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
-
-Here's a blank template to get started:
-**To avoid retyping too much info. Do a search and replace with your text editor for the following:**
-`edhernandez04`, `SangriaCafe`, `twitter_handle`, `ed@cachetechnologies.nyc`
-
+[![Product Name Screen Shot][product-screenshot]](https://appetize.io/app/nn4ha64vzxdtprhmcm6j1j51bm?device=iphone6s&scale=75&orientation=portrait&osVersion=13.3)
 
 ### Built With
 
-* [@React-Native](https://reactnative.dev/)
-* [@React-Native_Firebase](https://rnfirebase.io/)
-
-
-<!-- GETTING STARTED -->
-## Getting Started
-
-To get a local copy up and running follow these simple steps.
-
-### Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-```sh
-npm install npm@latest -g
-```
-
-### Installation
-
-1. Clone the repo
-```sh
-git clone https://github.com/edhernandez04/SangriaCafe.git
-```
-2. Install NPM packages
-```sh
-npm install
-```
-
+* [React-Native](https://reactnative.dev/)
+* [React-Native_Firebase](https://rnfirebase.io/)
 
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-
-
-<!-- ROADMAP -->
-## Roadmap
-
-See the [open issues](https://github.com/edhernandez04/SangriaCafe/issues) for a list of proposed features (and known issues).
-
+Get more out of your experience with Sangria Cafe by downloading the App! With the app you are able to earn, win, and spend customer loyalty reward points with every order. Whether you are picking up or ordering out, our new App is the best way to do it. 
 
 
 <!-- CONTRIBUTING -->
@@ -117,10 +67,10 @@ Contributions are what make the open source community such an amazing place to b
 Distributed under the MIT License. See `LICENSE` for more information.
 
 
-
 <!-- CONTACT -->
 ## Contact
 
-Ed Hernandez - [@Cache_Technologies](ed@cachetechnologies.nyc) - email
+Ed Hernandez - [Cache_Technologies](http://cachetechnologies.nyc/)
+[Ed@cachetechnologies.nyc](mailto:ed@cachetechnologies.nyc)
 
 Project Link: [https://github.com/edhernandez04/SangriaCafe](https://github.com/edhernandez04/SangriaCafe)
