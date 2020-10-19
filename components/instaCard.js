@@ -45,7 +45,7 @@ export default Card = () => {
                     <Image
                       source={{
                         uri:
-                          'https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/assets%2Fsangria_logo.png?alt=media&token=65d5bb98-bcfc-4599-bc4c-395ac130212a',
+                          'https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/assets%2Finsta_logo.jpg?alt=media&token=db344a72-d391-4577-9ebd-d82f209b0e3d',
                       }}
                       style={{
                         height: 20,

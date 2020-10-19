@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import MapView from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
-import Geolocation from 'react-native-geolocation-service';
+import Geolocation from '@react-native-community/geolocation';
 import {StyleSheet, Dimensions, Text, Platform} from 'react-native';
 import {mapApi} from '../Setup';
 
@@ -15,6 +15,8 @@ const Map = () => {
   }, []);
 
   findCoordinates = async () => {
+    Geolocation.setRNConfiguration({authorizationLevel: 'whenInUse'});
+    Geolocation.requestAuthorization()
     Geolocation.getCurrentPosition(
       (position) => {
         setCoords([
