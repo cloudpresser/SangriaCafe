@@ -34,10 +34,20 @@
 
 ## About The Project
 
-<img src='https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/readme%2FScreen%20Shot%202020-10-19%20at%205.26.45%20PM.png?alt=media&token=6d44b0ea-9ab8-4050-a6b3-5d6c2cfd51a1'>
-<img src='https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/readme%2FScreen%20Shot%202020-10-19%20at%205.29.13%20PM.png?alt=media&token=148a0aee-c8ca-439d-8cd5-f75673a75df6'>
-<img src='https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/readme%2FScreen%20Shot%202020-10-19%20at%205.27.59%20PM.png?alt=media&token=1520af3e-0d96-41f7-87d1-d16ec6f6f293'>
-<img src='https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/readme%2FScreen%20Shot%202020-10-19%20at%205.30.30%20PM.png?alt=media&token=7a48ca47-4658-4b33-a9ce-237d4a8725a2'>
+<div class='row'>
+    <div class='column'>
+        <img src='https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/readme%2FScreen%20Shot%202020-10-19%20at%205.26.45%20PM.png?alt=media&token=6d44b0ea-9ab8-4050-a6b3-5d6c2cfd51a1'>
+    </div>
+    <div class='column'>
+        <img src='https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/readme%2FScreen%20Shot%202020-10-19%20at%205.29.13%20PM.png?alt=media&token=148a0aee-c8ca-439d-8cd5-f75673a75df6'>
+    </div>
+    <div class='column'>
+        <img src='https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/readme%2FScreen%20Shot%202020-10-19%20at%205.27.59%20PM.png?alt=media&token=1520af3e-0d96-41f7-87d1-d16ec6f6f293'>
+    </div>
+    <div class='column'>
+        <img src='https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/readme%2FScreen%20Shot%202020-10-19%20at%205.30.30%20PM.png?alt=media&token=7a48ca47-4658-4b33-a9ce-237d4a8725a2'>
+    </div>
+</div>
 
 [![Product Name Screen Shot][product-screenshot]](https://appetize.io/app/nn4ha64vzxdtprhmcm6j1j51bm?device=iphone6s&scale=75&orientation=portrait&osVersion=13.3)
 
