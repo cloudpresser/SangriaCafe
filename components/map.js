@@ -11,6 +11,7 @@ const Map = () => {
   const [time, getTravelTime] = useState();
 
   useEffect(() => {
+    Geolocation.requestAuthorization();
     findCoordinates();
   }, []);
 
@@ -85,11 +86,7 @@ const Map = () => {
         />
       </MapView>
     </>
-  ) : (
-    <>
-      <Text>ALLOW LOCATION SERVICES TO GET DIRECTIONS</Text>
-    </>
-  );
+  ) : null;
 };
 
 const {width, height} = Dimensions.get('window');
