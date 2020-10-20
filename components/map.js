@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import MapView from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import Geolocation from '@react-native-community/geolocation';
-import {StyleSheet, Dimensions, Text, Platform} from 'react-native';
+import {StyleSheet, Dimensions, Text} from 'react-native';
 import {mapApi} from '../Setup';
 
 const Map = () => {
@@ -11,12 +11,15 @@ const Map = () => {
   const [time, getTravelTime] = useState();
 
   useEffect(() => {
-    findCoordinates();
+    requestLocationPermission();
   }, []);
 
-  findCoordinates = async () => {
+  requestLocationPermission = async () => {
     Geolocation.setRNConfiguration({authorizationLevel: 'whenInUse'});
-    Geolocation.requestAuthorization()
+    if (Geolocation.requestAuthorization()) findCoordinates();
+  };
+
+  findCoordinates = async () => {
     Geolocation.getCurrentPosition(
       (position) => {
         setCoords([
