@@ -113,7 +113,7 @@ export default CardModal = (props) => {
                   autoCompleteType="cc-exp"
                   placeholderTextColor={'black'}
                   onChangeText={changeExp}
-                  keyboardType="numeric"
+                  keyboardType="number-pad"
                   style={{height: 35, padding: 10}}
                 />
                 <TextInput

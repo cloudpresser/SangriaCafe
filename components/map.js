@@ -11,31 +11,32 @@ const Map = () => {
   const [time, getTravelTime] = useState();
 
   useEffect(() => {
-    requestLocationPermission();
+    findCoordinates();
   }, []);
 
-  requestLocationPermission = async () => {
-    Geolocation.setRNConfiguration({authorizationLevel: 'whenInUse'});
-    if (Geolocation.requestAuthorization()) findCoordinates();
-  };
-
   findCoordinates = async () => {
-    Geolocation.getCurrentPosition(
-      (position) => {
-        setCoords([
-          {
-            latitude: parseFloat(JSON.stringify(position.coords.latitude)),
-            longitude: parseFloat(JSON.stringify(position.coords.longitude)),
-          },
-          {
-            latitude: 40.86973,
-            longitude: -73.82774,
-          },
-        ]);
-      },
-      (error) => alert(error.message),
-      {enableHighAccuracy: false, timeout: 20000, maximumAge: 10000},
-    );
+    Geolocation.setRNConfiguration({authorizationLevel: 'whenInUse'});
+    const granted = Geolocation.requestAuthorization;
+    if (granted) {
+      Geolocation.getCurrentPosition(
+        (position) => {
+          setCoords([
+            {
+              latitude: parseFloat(JSON.stringify(position.coords.latitude)),
+              longitude: parseFloat(JSON.stringify(position.coords.longitude)),
+            },
+            {
+              latitude: 40.86973,
+              longitude: -73.82774,
+            },
+          ]);
+        },
+        (error) => alert(error.message),
+        {enableHighAccuracy: false, timeout: 20000, maximumAge: 10000},
+      );
+    } else {
+      Geolocation.requestAuthorization();
+    }
   };
 
   const ASPECT_RATIO = width / height;

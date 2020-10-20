@@ -313,7 +313,10 @@ const Cart = (props) => {
         </View>
         <View style={styles.empty}>
           <Image
-            source={require('../assets/empty.png')}
+            source={{
+              uri:
+                'https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/assets%2Fempty.png?alt=media&token=b86c1d0b-45df-4931-84bb-9299f68bc7f7',
+            }}
             style={styles.emptyImage}
           />
         </View>
@@ -354,6 +357,10 @@ const styles = StyleSheet.create({
   empty: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  emptyImage: {
+    width: screen.width,
+    height: screen.height / 1.5
   },
   checkoutButton: {
     margin: 10,
