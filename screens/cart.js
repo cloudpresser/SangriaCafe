@@ -73,26 +73,26 @@ const Cart = (props) => {
 
   checkoutButtonPress = async () => {
     if (currentCard) {
-      const sandboxHeaders = {
-        'Content-Type': 'application/json',
-        'ISV-ID': 'D-181207-0001',
-        'ISV-Key': '480a31cb-03e6-4718-9e16-2d7a27e7af8f',
-        'App-Key': '6eeeccfb-dd19-41a3-b2fa-a15586c23e64',
-        'App-Version': '1.0.0.0',
-        'Store-Sub-ID': '2296-1C2A',
-        'Store-App-Token': '72ce5c21-9885-4de8-9f07-7dcc3202e83a',
-      };
+      // const sandboxHeaders = {
+      //   'Content-Type': 'application/json',
+      //   'ISV-ID': 'D-181207-0001',
+      //   'ISV-Key': '480a31cb-03e6-4718-9e16-2d7a27e7af8f',
+      //   'App-Key': '6eeeccfb-dd19-41a3-b2fa-a15586c23e64',
+      //   'App-Version': '1.0.0.0',
+      //   'Store-Sub-ID': '2296-1C2A',
+      //   'Store-App-Token': '72ce5c21-9885-4de8-9f07-7dcc3202e83a',
+      // };
 
-      const requestOptions = {
-        method: 'GET',
-        headers: sandboxHeaders,
-        redirect: 'follow',
-      };
+      // const requestOptions = {
+      //   method: 'GET',
+      //   headers: sandboxHeaders,
+      //   redirect: 'follow',
+      // };
 
-      fetch('https://sandbox.aldelo.io/v1/store', requestOptions)
-        .then((response) => response.text())
-        .then((result) => console.log(result))
-        .catch((error) => console.log('error', error));
+      // fetch('https://sandbox.aldelo.io/v1/store', requestOptions)
+      //   .then((response) => response.text())
+      //   .then((result) => console.log(result))
+      //   .catch((error) => console.log('error', error));
 
       const order = {
         EmployeeID: 1000000000000000001,
@@ -119,8 +119,12 @@ const Cart = (props) => {
         }),
       };
       console.log(order);
+      firestore().collection('orders').add({
+        order: order,
+        userId: refId,
+      });
     } else {
-      alert('Please Add Card');
+      alert('Please Create Profile & Add Card');
     }
   };
 
@@ -360,7 +364,7 @@ const styles = StyleSheet.create({
   },
   emptyImage: {
     width: screen.width,
-    height: screen.height / 1.5
+    height: screen.height / 1.5,
   },
   checkoutButton: {
     margin: 10,
