@@ -42,11 +42,8 @@ export default class Home extends React.Component {
           <Modal
             animationType="slide"
             transparent={true}
-            visible={this.state.modalVisible}
-            onRequestClose={() => {
-              Alert.alert('Modal has been closed.');
-            }}>
-            <ToroModal setModalVisible={() => this.setModalVisible()}/>
+            visible={this.state.modalVisible}>
+            <ToroModal setModalVisible={() => this.setModalVisible()} />
           </Modal>
 
           <ScrollView
