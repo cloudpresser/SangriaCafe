@@ -40,6 +40,7 @@ const Cart = (props) => {
     );
 
   useEffect(() => {
+    console.log(props)
     if (auth()._user && auth()._user.email) findUserInfo();
   }, []);
 
@@ -134,7 +135,7 @@ const Cart = (props) => {
         [
           {
             text: 'Settings',
-            onPress: () => console.log(props),
+            onPress: () => props.navigation.navigate('Settings'),
           },
         ],
       );

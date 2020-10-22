@@ -38,13 +38,13 @@ export default class App extends React.Component {
     return <Order addToCart={this.addItem} />;
   };
 
-  CartScreen = () => {
-    console.log(navigator)
+  CartScreen = ({ navigation }) => {
     return (
       <Cart
         foodCart={this.state.foodCart}
         removeFromCart={this.removeItem}
         user={this.state.user}
+        navigation={navigation}
       />
     );
   };

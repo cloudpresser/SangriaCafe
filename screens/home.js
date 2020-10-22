@@ -12,24 +12,18 @@ import {
   Modal,
 } from 'react-native';
 import {Button} from 'react-native-paper';
-import ToroModal from '../components/toroModal'
+import ToroModal from '../components/toroModal';
 import Card from '../components/instaCard';
 import Map from '../components/map';
 
 export default class Home extends React.Component {
-
   state = {
-    modalVisible: false
-  }
+    modalVisible: false,
+  };
 
-  openToroModal = () => {
-    this.setState({modalVisible: true})
-    return (
-      <ToroModal
-        setModalVisible={this.setState({modalVisible: false})}
-      />
-    );
-  }
+  setModalVisible = (visible) => {
+    this.setState({modalVisible: visible});
+  };
 
   render() {
     return (
@@ -44,6 +38,17 @@ export default class Home extends React.Component {
               style={styles.logo}
             />
           </View>
+
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={this.state.modalVisible}
+            onRequestClose={() => {
+              Alert.alert('Modal has been closed.');
+            }}>
+            <ToroModal setModalVisible={() => this.setModalVisible()}/>
+          </Modal>
+
           <ScrollView
             alwaysBounceVertical={true}
             showsVerticalScrollIndicator={false}
@@ -88,14 +93,14 @@ export default class Home extends React.Component {
               <Card />
             </View>
             <View>
-              <TouchableOpacity onPress={() => this.openToroModal()}>
-              <Image
-                source={{
-                  uri:
-                    'https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/assets%2Ftoro_banner.png?alt=media&token=282c97f2-d78b-47ee-8bfe-6f86c47d9950',
-                }}
-                style={styles.toroBanner}
-              />
+              <TouchableOpacity onPress={() => this.setModalVisible()}>
+                <Image
+                  source={{
+                    uri:
+                      'https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/assets%2Ftoro_banner.png?alt=media&token=282c97f2-d78b-47ee-8bfe-6f86c47d9950',
+                  }}
+                  style={styles.toroBanner}
+                />
               </TouchableOpacity>
             </View>
             <View>
