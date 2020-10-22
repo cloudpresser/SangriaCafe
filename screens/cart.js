@@ -134,7 +134,8 @@ const Cart = (props) => {
         [
           {
             text: 'Settings',
-            onPress: () => props.goToButton(),
+            // props.navigation.navigate('Settings')
+            onPress: () => console.log('SEND TO SETTINGS / DONT BREAK HOOK RULES'),
           },
         ],
       );

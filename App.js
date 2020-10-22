@@ -45,7 +45,7 @@ export default class App extends React.Component {
         foodCart={this.state.foodCart}
         removeFromCart={this.removeItem}
         user={this.state.user}
-        goToButton={useNavigation().navigate('Settings')}
+        navigation={useNavigation()}
       />
     );
   };
