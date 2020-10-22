@@ -2,6 +2,7 @@ import React from 'react';
 import {Image, StatusBar} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {useNavigation} from '@react-navigation/native';
 import Home from './screens/home';
 import Order from './screens/order';
 import Cart from './screens/cart';
@@ -38,13 +39,13 @@ export default class App extends React.Component {
     return <Order addToCart={this.addItem} />;
   };
 
-  CartScreen = ({ navigation }) => {
+  CartScreen = () => {
     return (
       <Cart
         foodCart={this.state.foodCart}
         removeFromCart={this.removeItem}
         user={this.state.user}
-        navigation={navigation}
+        goToButton={useNavigation().navigate('Settings')}
       />
     );
   };
