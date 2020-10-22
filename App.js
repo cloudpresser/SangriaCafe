@@ -39,6 +39,7 @@ export default class App extends React.Component {
   };
 
   CartScreen = () => {
+    console.log(navigator)
     return (
       <Cart
         foodCart={this.state.foodCart}
@@ -71,7 +72,7 @@ export default class App extends React.Component {
                       uri:
                         'https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/assets%2Fhome_icon.png?alt=media&token=697d19be-c116-4b48-8900-7343a62ef33c',
                     };
-              } else if (route.name === 'Order') {
+              } else if (route.name === 'Menu') {
                 iconName = focused
                   ? {
                       uri:
@@ -117,7 +118,7 @@ export default class App extends React.Component {
             inactiveTintColor: 'gray',
           }}>
           <Tab.Screen name="Home" component={this.HomeScreen} />
-          <Tab.Screen name="Order" component={this.OrderScreen} />
+          <Tab.Screen name="Menu" component={this.OrderScreen} />
           <Tab.Screen
             name="Cart"
             component={() => this.CartScreen()}

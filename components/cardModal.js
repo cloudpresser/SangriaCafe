@@ -11,7 +11,6 @@ import {
   SafeAreaView,
   Button,
   TouchableOpacity,
-  Image,
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 
@@ -71,115 +70,45 @@ export default CardModal = (props) => {
           <View style={styles.modalView}>
             <KeyboardAvoidingView behavior="position">
               <View style={styles.frontOfCard}>
-                <Text style={{alignSelf: 'flex-end', fontSize: 26}}>
+                <Text style={{alignSelf: 'flex-end', fontSize: 26, color: 'white'}}>
                   {detectBank()}
                 </Text>
-                <Image
-                  source={{
-                    uri:
-                      'https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/assets%2FcardChip.png?alt=media&token=a97ce33f-afb2-4a3c-a6b7-e08e3280e43c',
-                  }}
-                  style={{
-                    alignSelf: 'flex-start',
-                    height: 40,
-                    width: 68,
-                    marginBottom: 15,
-                    marginTop: 20,
-                  }}
+                <Text style={{color: 'white', fontWeight: 'bold'}}>Name on Card</Text>
+                <TextInput
+                  value={nameOnCard}
+                  placeholder={props.card ? props.card.name_on_card : null}
+                  placeholderTextColor={'black'}
+                  onChangeText={changeName}
+                  style={styles.textBox}
                 />
+                <Text style={{color: 'white', fontWeight: 'bold'}}>Card Number</Text>
                 <TextInput
                   value={cardNum}
-                  placeholder={
-                    props.card ? props.card.card_number : 'card number'
-                  }
+                  placeholder={props.card ? props.card.card_number : null}
                   autoCompleteType="cc-number"
                   keyboardType="numeric"
                   placeholderTextColor={'black'}
                   onChangeText={changeCardNum}
-                  style={{
-                    fontSize: 30,
-                    height: 42,
-                    padding: 10,
-                    alignSelf: 'flex-start',
-                  }}
+                  style={styles.textBox}
                 />
+                <Text style={{color: 'white', fontWeight: 'bold'}}>Expiration Date</Text>
                 <TextInput
                   value={exp}
-                  placeholder={
-                    props.card
-                      ? props.card.expiration_date
-                      : 'expiration date: MM/DD'
-                  }
+                  placeholder={props.card ? props.card.expiration_date : null}
                   autoCompleteType="cc-exp"
                   placeholderTextColor={'black'}
                   onChangeText={changeExp}
-                  keyboardType="number-pad"
-                  style={{height: 35, padding: 10}}
+                  style={styles.textBox}
                 />
+                <Text style={{color: 'white', fontWeight: 'bold'}}>CVC Code</Text>
                 <TextInput
-                  value={nameOnCard}
-                  placeholder={
-                    props.card ? props.card.name_on_card : 'name on card'
-                  }
+                  value={securityNum}
+                  placeholder={props.card ? props.card.security_code : null}
+                  onChangeText={changeSecurityNum}
                   placeholderTextColor={'black'}
-                  onChangeText={changeName}
-                  style={{height: 34, padding: 10, alignSelf: 'flex-start'}}
+                  keyboardType="numeric"
+                  style={styles.textBox}
                 />
-              </View>
-              <View style={styles.backOfCard}>
-                <View
-                  style={{
-                    backgroundColor: 'black',
-                    height: 35,
-                    width: '100%',
-                    marginTop: 15,
-                  }}></View>
-                <Text
-                  style={{
-                    color: 'white',
-                    fontSize: 10,
-                    alignSelf: 'flex-start',
-                    margin: 5,
-                    marginLeft: 15,
-                    marginTop: 15,
-                  }}>
-                  AUTHORIZED SIGNATURE
-                </Text>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    width: screen.width / 1.1,
-                    marginLeft: 25,
-                  }}>
-                  <View
-                    style={{backgroundColor: 'white', height: 30, width: 200}}>
-                    <Image
-                      source={{
-                        uri:
-                          'https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/assets%2Fsignature.png?alt=media&token=32682d14-517f-4413-8c48-ab4f9341ce46',
-                      }}
-                      style={{height: 30, width: 100}}
-                    />
-                  </View>
-                  <View style={{height: 30, width: 200, marginLeft: 15}}>
-                    <TextInput
-                      value={securityNum}
-                      placeholder={
-                        props.card ? props.card.security_code : 'cvc code'
-                      }
-                      onChangeText={changeSecurityNum}
-                      placeholderTextColor={'black'}
-                      keyboardType="numeric"
-                      style={{
-                        width: 100,
-                        height: 30,
-                        padding: 10,
-                        backgroundColor: 'white',
-                      }}
-                    />
-                  </View>
-                </View>
-                <View style={{height: 110}}></View>
               </View>
               <View style={styles.buttonContainer}>
                 <TouchableOpacity>
@@ -210,22 +139,10 @@ const styles = StyleSheet.create({
     },
   },
   frontOfCard: {
-    alignItems: 'center',
     backgroundColor: 'cornflowerblue',
     borderRadius: 5,
     width: screen.width / 1.1,
     padding: 15,
-  },
-  backOfCard: {
-    alignItems: 'center',
-    backgroundColor: 'cornflowerblue',
-    borderRadius: 5,
-    width: screen.width / 1.1,
-    marginTop: 20,
-  },
-  text: {
-    fontWeight: 'bold',
-    margin: 5,
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -233,5 +150,12 @@ const styles = StyleSheet.create({
     margin: 20,
     backgroundColor: 'white',
     borderRadius: 5,
+  },
+  textBox: {
+    height: 50,
+    padding: 10,
+    backgroundColor: 'white',
+    borderRadius: 2,
+    margin: 5,
   },
 });

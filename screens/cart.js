@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Switch,
+  Alert,
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
@@ -39,8 +40,6 @@ const Cart = (props) => {
     );
 
   useEffect(() => {
-    changeOrderType(5);
-    tipHandler(0.15);
     if (auth()._user && auth()._user.email) findUserInfo();
   }, []);
 
@@ -72,7 +71,7 @@ const Cart = (props) => {
   };
 
   checkoutButtonPress = async () => {
-    if (currentCard) {
+    if (currentUser && currentCard) {
       // const sandboxHeaders = {
       //   'Content-Type': 'application/json',
       //   'ISV-ID': 'D-181207-0001',
@@ -118,13 +117,27 @@ const Cart = (props) => {
           };
         }),
       };
-      console.log(order);
       firestore().collection('orders').add({
         order: order,
         userId: refId,
       });
+      firestore()
+        .collection('users')
+        .doc(refId)
+        .update({
+          toros: currentUser.toros + toroTotal(),
+        });
     } else {
-      alert('Please Create Profile & Add Card');
+      Alert.alert(
+        'No Credit Card Information Found',
+        'Please signin and update your user information to continue your order',
+        [
+          {
+            text: 'Settings',
+            onPress: () => console.log(props),
+          },
+        ],
+      );
     }
   };
 
@@ -174,11 +187,8 @@ const Cart = (props) => {
                     <Text> {food.item.details.toros * food.quantity}</Text>
                   </View>
                   <Text>{food.instruction ? food.instruction : null}</Text>
-                  <TouchableOpacity>
-                    <Button
-                      title="Remove"
-                      onPress={() => props.removeFromCart(food)}
-                    />
+                  <TouchableOpacity onPress={() => props.removeFromCart(food)}>
+                    <Text style={{color: '#0645AD'}}>Remove</Text>
                   </TouchableOpacity>
                 </View>
               </View>
