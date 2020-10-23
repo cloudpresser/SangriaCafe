@@ -46,8 +46,8 @@ const Settings = () => {
   const [imageSource, setImageSource] = useState();
 
   useEffect(() => {
-      const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-      return subscriber;
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber;
   }, []);
 
   onAuthStateChanged = async (user) => {
@@ -335,7 +335,7 @@ const Settings = () => {
               </View>
             </View>
 
-            <KeyboardAvoidingView behavior="position">
+            <KeyboardAvoidingView behavior="height">
               <View style={{justifyContent: 'center', flexDirection: 'row'}}>
                 <Button
                   style={{margin: 5, width: screen.width / 4}}

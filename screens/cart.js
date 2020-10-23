@@ -125,7 +125,7 @@ const Cart = (props) => {
         .collection('users')
         .doc(refId)
         .update({
-          toros: currentUser.toros + toroTotal(),
+          toros: parseInt(currentUser.toros) + toroTotal(),
         });
     } else {
       Alert.alert(
@@ -135,7 +135,7 @@ const Cart = (props) => {
           {
             text: 'Settings',
             // props.navigation.navigate('Settings')
-            onPress: () => console.log('SEND TO SETTINGS / DONT BREAK HOOK RULES'),
+            onPress: () => props.navigation(),
           },
         ],
       );

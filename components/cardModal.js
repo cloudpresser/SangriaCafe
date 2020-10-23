@@ -25,7 +25,7 @@ export default CardModal = (props) => {
   });
 
   saveCard = async () => {
-    if (!cardNum || !exp || !securityNum) alert('Missing Information!');
+    if (!cardNum.length || !exp.length || !securityNum.length) alert('Missing Information!');
     props.cardRef === undefined || null
       ? await firestore().collection('cards').add({
           name_on_card: nameOnCard,
