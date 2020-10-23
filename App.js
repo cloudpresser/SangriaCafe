@@ -31,10 +31,6 @@ export default class App extends React.Component {
       this.setState({foodCart: this.state.foodCart});
   };
 
-  navigateToSettings = () => {
-    useNavigation().push('Settings')
-  }
-
   HomeScreen = () => {
     return <Home />;
   };
@@ -44,12 +40,15 @@ export default class App extends React.Component {
   };
 
   CartScreen = () => {
+    // const navigateToSettings = () => {
+    //   useNavigation().navigate('Settings');
+    // };
     return (
       <Cart
         foodCart={this.state.foodCart}
         removeFromCart={this.removeItem}
         user={this.state.user}
-        navigation={this.navigateToSettings}
+        // navigation={navigateToSettings}
       />
     );
   };
