@@ -40,15 +40,12 @@ export default class App extends React.Component {
   };
 
   CartScreen = () => {
-    // const navigateToSettings = () => {
-    //   useNavigation().navigate('Settings');
-    // };
     return (
       <Cart
         foodCart={this.state.foodCart}
         removeFromCart={this.removeItem}
         user={this.state.user}
-        // navigation={navigateToSettings}
+        navigation={useNavigation}
       />
     );
   };
