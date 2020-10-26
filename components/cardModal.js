@@ -25,7 +25,10 @@ export default CardModal = (props) => {
   });
 
   saveCard = async () => {
-    if (!cardNum.length || !exp.length || !securityNum.length) alert('Missing Information!');
+    if (!cardNum.length || !exp.length || !securityNum.length)
+      alert('Missing Information!');
+    if (cardNum.length != 16) alert('Not Valid Credit Card');
+    // if ()
     props.cardRef === undefined || null
       ? await firestore().collection('cards').add({
           name_on_card: nameOnCard,
@@ -48,9 +51,16 @@ export default CardModal = (props) => {
     props.setModalVisible(false);
   };
 
-  detectBank = () => {
-    if (cardNum === undefined) return 'BANK';
-    bankNum = cardNum.split('')[0];
+  formatNumber = (number) => {
+    numArray = number.split('');
+    last4Digits = numArray.slice(-4);
+    secureNum = last4Digits.join('');
+    return '************' + secureNum;
+  };
+
+  detectBank = (number) => {
+    if (number === undefined) return 'BANK';
+    bankNum = number.split('')[0];
     if (bankNum === undefined) return 'BANK';
     if (bankNum == 3) return 'AMEX';
     if (bankNum == 4) return 'VISA';
@@ -70,10 +80,15 @@ export default CardModal = (props) => {
           <View style={styles.modalView}>
             <KeyboardAvoidingView behavior="position">
               <View style={styles.frontOfCard}>
-                <Text style={{alignSelf: 'flex-end', fontSize: 26, color: 'white'}}>
-                  {detectBank()}
+                <Text
+                  style={{alignSelf: 'flex-end', fontSize: 26, color: 'white'}}>
+                  {props.card
+                    ? detectBank(props.card.card_number)
+                    : detectBank(cardNum)}
                 </Text>
-                <Text style={{color: 'white', fontWeight: 'bold'}}>Name on Card</Text>
+                <Text style={{color: 'white', fontWeight: 'bold'}}>
+                  Name on Card
+                </Text>
                 <TextInput
                   value={nameOnCard}
                   placeholder={props.card ? props.card.name_on_card : null}
@@ -81,29 +96,44 @@ export default CardModal = (props) => {
                   onChangeText={changeName}
                   style={styles.textBox}
                 />
-                <Text style={{color: 'white', fontWeight: 'bold'}}>Card Number</Text>
+                <Text style={{color: 'white', fontWeight: 'bold'}}>
+                  Card Number
+                </Text>
                 <TextInput
                   value={cardNum}
-                  placeholder={props.card ? props.card.card_number : null}
+                  placeholder={
+                    props.card ? formatNumber(props.card.card_number) : null
+                  }
                   autoCompleteType="cc-number"
                   keyboardType="numeric"
                   placeholderTextColor={'black'}
                   onChangeText={changeCardNum}
                   style={styles.textBox}
                 />
-                <Text style={{color: 'white', fontWeight: 'bold'}}>Expiration Date</Text>
+                <Text style={{color: 'white', fontWeight: 'bold'}}>
+                  Expiration Date
+                </Text>
                 <TextInput
                   value={exp}
-                  placeholder={props.card ? props.card.expiration_date : null}
+                  placeholder={props.card ? '**/**' : null}
                   autoCompleteType="cc-exp"
                   placeholderTextColor={'black'}
                   onChangeText={changeExp}
                   style={styles.textBox}
                 />
-                <Text style={{color: 'white', fontWeight: 'bold'}}>CVC Code</Text>
+                <Text style={{color: 'white', fontWeight: 'bold'}}>
+                  CVC Code
+                </Text>
                 <TextInput
                   value={securityNum}
-                  placeholder={props.card ? props.card.security_code : null}
+                  placeholder={
+                    props.card
+                      ? props.card.security_code.length == 3
+                        ? '***'
+                        : '****'
+                      : null
+                  }
+                  autoCompleteType="cc-csc"
                   onChangeText={changeSecurityNum}
                   placeholderTextColor={'black'}
                   keyboardType="numeric"
