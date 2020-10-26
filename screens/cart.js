@@ -128,18 +128,12 @@ const Cart = (props) => {
         .update({
           toros: parseInt(currentUser.toros) + toroTotal(),
         });
-    } else {
-      Alert.alert(
-        'No Credit Card Information Found',
-        'Please signin and update your user information to continue your order',
-        [
-          {
-            text: 'Settings',
-            onPress: useNavigation().navigate('Settings'),
-          },
-        ],
-      );
     }
+
+    Alert.alert(
+      'No Credit Card Information Found',
+      'Please signin and update your user information to continue your order. You can update your profile in the Settings tab below.',
+    );
   };
 
   return props.foodCart.length > 0 ? (
