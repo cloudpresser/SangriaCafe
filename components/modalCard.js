@@ -12,10 +12,19 @@ import {
   Dimensions,
   SafeAreaView,
 } from 'react-native';
+import CheckBox from '@react-native-community/checkbox';
 
 export default ModalCard = (props) => {
   const [qnt, onChangeQnt] = useState('1');
   const [inst, onChangeInst] = useState('');
+  const [Ketchup, pickKetchup] = useState(false);
+  const [Mustard, pickMustard] = useState(false);
+  const [Mayo, pickMayo] = useState(false);
+  const [Aioli, pickAioli] = useState(false);
+  const [Coke, pickCoke] = useState(false);
+  const [Sprite, pickSprite] = useState(false);
+  const [FruitPunch, pickFruitPunch] = useState(false);
+  const [Water, pickWater] = useState(false);
 
   const throwinthebag = (food) => {
     let cartItem = {item: food, quantity: qnt, instruction: inst};
@@ -80,6 +89,90 @@ export default ModalCard = (props) => {
                     borderWidth={0.25}
                     style={{width: screen.width / 1.7, height: 50, padding: 10}}
                   />
+                </View>
+                <View
+                  style={{
+                    margin: 10,
+                    flexDirection: 'row',
+                    justifyContent: 'space-evenly',
+                    alignItems: 'center',
+                    width: screen.width / 1.25,
+                  }}>
+                  <Text style={{color: 'white'}}>Add Drink..</Text>
+                  <View style={{alignItems: 'center'}}>
+                    <CheckBox
+                      boxType="square"
+                      value={Coke}
+                      onValueChange={(newValue) => pickCoke(newValue)}
+                    />
+                    <Text style={{color: 'white'}}>Coke</Text>
+                  </View>
+                  <View style={{alignItems: 'center'}}>
+                    <CheckBox
+                      boxType="square"
+                      value={Sprite}
+                      onValueChange={(newValue) => pickSprite(newValue)}
+                    />
+                    <Text style={{color: 'white'}}>Sprite</Text>
+                  </View>
+                  <View style={{alignItems: 'center'}}>
+                    <CheckBox
+                      boxType="square"
+                      value={FruitPunch}
+                      onValueChange={(newValue) => pickFruitPunch(newValue)}
+                    />
+                    <Text style={{color: 'white'}}>Juice</Text>
+                  </View>
+                  <View style={{alignItems: 'center'}}>
+                    <CheckBox
+                      boxType="square"
+                      value={Water}
+                      onValueChange={(newValue) => pickWater(newValue)}
+                    />
+                    <Text style={{color: 'white'}}>Water</Text>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    margin: 10,
+                    flexDirection: 'row',
+                    justifyContent: 'space-evenly',
+                    alignItems: 'center',
+                    width: screen.width / 1.25,
+                  }}>
+                  <Text style={{color: 'white'}}>Add Sauce..</Text>
+                  <View style={{alignItems: 'center'}}>
+                    <CheckBox
+                      boxType="square"
+                      value={Ketchup}
+                      onValueChange={(newValue) => pickKetchup(newValue)}
+                    />
+                    <Text style={{color: 'white'}}>Ketchup</Text>
+                  </View>
+                  <View style={{alignItems: 'center'}}>
+                    <CheckBox
+                      boxType="square"
+                      value={Mustard}
+                      onValueChange={(newValue) => pickMustard(newValue)}
+                    />
+                    <Text style={{color: 'white'}}>Mustard</Text>
+                  </View>
+                  <View style={{alignItems: 'center'}}>
+                    <CheckBox
+                      boxType="square"
+                      value={Mayo}
+                      onValueChange={(newValue) => pickMayo(newValue)}
+                    />
+                    <Text style={{color: 'white'}}>Mayo</Text>
+                  </View>
+                  <View style={{alignItems: 'center'}}>
+                    <CheckBox
+                      boxType="square"
+                      value={Aioli}
+                      onValueChange={(newValue) => pickAioli(newValue)}
+                    />
+                    <Text style={{color: 'white'}}>Aioli</Text>
+                  </View>
                 </View>
                 <View style={styles.buttons}>
                   <TouchableOpacity onPress={() => throwinthebag(props.food)}>

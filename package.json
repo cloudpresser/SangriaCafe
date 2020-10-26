@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@react-native-community/cameraroll": "^4.0.1",
+    "@react-native-community/checkbox": "^0.5.5",
     "@react-native-community/datetimepicker": "^3.0.4",
     "@react-native-community/geolocation": "^2.0.2",
     "@react-native-community/google-signin": "^4.0.3",
