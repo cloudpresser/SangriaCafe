@@ -103,7 +103,9 @@ const Order = (props) => {
           </View>
 
           <View style={styles.card}>
-            <Text style={{fontWeight: 'bold', fontSize: 20}}>PLATOS FUERTES</Text>
+            <Text style={{fontWeight: 'bold', fontSize: 20}}>
+              PLATOS FUERTES
+            </Text>
             <View style={styles.cardContent}>
               {Menu[1].mainCourses.items.map((food) => {
                 return (

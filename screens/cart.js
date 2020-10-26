@@ -12,6 +12,7 @@ import {
   Switch,
   Alert,
 } from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 
@@ -134,7 +135,7 @@ const Cart = (props) => {
         [
           {
             text: 'Settings',
-            onPress: props.navigation.navigate('Settings'),
+            onPress: useNavigation().navigate('Settings'),
           },
         ],
       );
