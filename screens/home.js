@@ -61,7 +61,7 @@ export default class Home extends React.Component {
               <View>
                 <Text style={styles.storeHours}>LUNCH: 12PM - 4PM</Text>
                 <Text style={styles.storeHours}>DINNER: 4PM - 11PM</Text>
-                <Text style={styles.storeHours}>Bar: 12PM - 2AM</Text>
+                <Text style={styles.storeHours}>BAR: 12PM - 2AM</Text>
                 <Text style={styles.storeHours}>HAPPY HOUR: 3PM-7PM</Text>
               </View>
             </View>
