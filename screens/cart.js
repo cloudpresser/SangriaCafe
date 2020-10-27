@@ -18,7 +18,7 @@ import auth from '@react-native-firebase/auth';
 const Cart = (props) => {
   const [tip, addTip] = useState(0);
   const [orderType, changeOrderType] = useState(5);
-  const [currentUser, setCurrentUser] = useState();
+  const [authUser, setauthUser] = useState();
   const [currentCard, getCard] = useState();
   const [refId, setRefId] = useState();
 
@@ -40,17 +40,19 @@ const Cart = (props) => {
     );
 
   useEffect(() => {
-    if (auth()._user && auth()._user.email) findUserInfo();
+    props.currentUser === null ? null : findUserInfo();
   }, []);
 
   findUserInfo = async () => {
-    let cloudUser = await firestore()
-      .collection('users')
-      .where('email', '==', auth()._user.email)
-      .get();
-    setCurrentUser(cloudUser._docs[0]._data);
-    setRefId(cloudUser._docs[0]._ref._documentPath._parts[1]);
-    checkCardOnFile(); // will remove and place in checkout sequence once up and running
+    if (auth()._user) {
+      let cloudUser = await firestore()
+        .collection('users')
+        .where('email', '==', auth()._user.email)
+        .get();
+      setauthUser(cloudUser._docs[0]._data);
+      setRefId(cloudUser._docs[0]._ref._documentPath._parts[1]);
+      checkCardOnFile(); // will remove and place in checkout sequence once up and running
+    }
   };
 
   checkCardOnFile = async () => {
@@ -71,7 +73,7 @@ const Cart = (props) => {
   };
 
   checkoutButtonPress = async () => {
-    if (currentUser && currentCard) {
+    if (authUser && currentCard) {
       // const sandboxHeaders = {
       //   'Content-Type': 'application/json',
       //   'ISV-ID': 'D-181207-0001',
@@ -97,10 +99,10 @@ const Cart = (props) => {
         EmployeeID: 1000000000000000001,
         OrderType: orderType, // 3=takeout 5=delivery
         GuestCount: 1,
-        CustomerName: currentUser.name,
-        Telephone: currentUser.phoneNumber,
-        Address: currentUser.address,
-        PostalCode: currentUser.postalCode,
+        CustomerName: authUser.name,
+        Telephone: authUser.phoneNumber,
+        Address: authUser.address,
+        PostalCode: authUser.postalCode,
         City: 'Bronx',
         State: 'NY',
         DeliveryCharge: deliveryFee(),
@@ -125,14 +127,14 @@ const Cart = (props) => {
         .collection('users')
         .doc(refId)
         .update({
-          toros: parseInt(currentUser.toros) + toroTotal(),
+          toros: parseInt(authUser.toros) + toroTotal(),
         });
+    } else {
+      Alert.alert(
+        'No Credit Card Information Found',
+        'Please signin and update your user information to continue your order. You can update your profile in the Settings tab below.',
+      );
     }
-
-    Alert.alert(
-      'No Credit Card Information Found',
-      'Please signin and update your user information to continue your order. You can update your profile in the Settings tab below.',
-    );
   };
 
   return props.foodCart.length > 0 ? (

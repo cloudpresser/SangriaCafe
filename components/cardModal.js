@@ -28,7 +28,6 @@ export default CardModal = (props) => {
     if (!cardNum.length || !exp.length || !securityNum.length)
       alert('Missing Information!');
     if (cardNum.length != 16) alert('Not Valid Credit Card');
-    // if ()
     props.cardRef === undefined || null
       ? await firestore().collection('cards').add({
           name_on_card: nameOnCard,

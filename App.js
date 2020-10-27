@@ -10,6 +10,7 @@ import Settings from './screens/settings';
 export default class App extends React.Component {
   state = {
     foodCart: [],
+    currentUser: null,
   };
 
   addItem = (item) => {
@@ -30,6 +31,10 @@ export default class App extends React.Component {
       this.setState({foodCart: this.state.foodCart});
   };
 
+  updateUser = (user) => {
+    this.setState({currentUser: user});
+  };
+
   HomeScreen = () => {
     return <Home />;
   };
@@ -43,13 +48,18 @@ export default class App extends React.Component {
       <Cart
         foodCart={this.state.foodCart}
         removeFromCart={this.removeItem}
-        user={this.state.user}
+        currentUser={this.state.currentUser}
       />
     );
   };
 
   SettingsScreen = () => {
-    return <Settings />;
+    return (
+      <Settings
+        currentUser={this.state.currentUser}
+        updateUser={this.updateUser}
+      />
+    );
   };
 
   render() {

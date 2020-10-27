@@ -97,7 +97,7 @@ export default ModalCard = (props) => {
                     justifyContent: 'center',
                     width: screen.width / 1.25,
                   }}>
-                  <View style={{alignItems: 'center', marginLeft: 5, marginRight: 5}}>
+                  <View style={styles.checkBoxView}>
                     <CheckBox
                       boxType="square"
                       value={Coke}
@@ -112,7 +112,7 @@ export default ModalCard = (props) => {
                     />
                     <Text style={{color: 'white'}}>Coke</Text>
                   </View>
-                  <View style={{alignItems: 'center', marginLeft: 5, marginRight: 5}}>
+                  <View style={styles.checkBoxView}>
                     <CheckBox
                       boxType="square"
                       value={Sprite}
@@ -127,7 +127,7 @@ export default ModalCard = (props) => {
                     />
                     <Text style={{color: 'white'}}>Sprite</Text>
                   </View>
-                  <View style={{alignItems: 'center', marginLeft: 5, marginRight: 5}}>
+                  <View style={styles.checkBoxView}>
                     <CheckBox
                       boxType="square"
                       value={FruitPunch}
@@ -142,7 +142,7 @@ export default ModalCard = (props) => {
                     />
                     <Text style={{color: 'white'}}>Juice</Text>
                   </View>
-                  <View style={{alignItems: 'center', marginLeft: 5, marginRight: 5}}>
+                  <View style={styles.checkBoxView}>
                     <CheckBox
                       boxType="square"
                       value={Water}
@@ -164,7 +164,7 @@ export default ModalCard = (props) => {
                     justifyContent: 'center',
                     width: screen.width / 1.25,
                   }}>
-                  <View style={{alignItems: 'center', marginLeft: 5, marginRight: 5}}>
+                  <View style={styles.checkBoxView}>
                     <CheckBox
                       boxType="square"
                       value={Ketchup}
@@ -172,7 +172,7 @@ export default ModalCard = (props) => {
                     />
                     <Text style={{color: 'white'}}>Ketch.</Text>
                   </View>
-                  <View style={{alignItems: 'center', marginLeft: 5, marginRight: 5}}>
+                  <View style={styles.checkBoxView}>
                     <CheckBox
                       boxType="square"
                       value={Mustard}
@@ -180,7 +180,7 @@ export default ModalCard = (props) => {
                     />
                     <Text style={{color: 'white'}}>Must.</Text>
                   </View>
-                  <View style={{alignItems: 'center', marginLeft: 5, marginRight: 5}}>
+                  <View style={styles.checkBoxView}>
                     <CheckBox
                       boxType="square"
                       value={Mayo}
@@ -188,7 +188,7 @@ export default ModalCard = (props) => {
                     />
                     <Text style={{color: 'white'}}>Mayo</Text>
                   </View>
-                  <View style={{alignItems: 'center', marginLeft: 5, marginRight: 5}}>
+                  <View style={styles.checkBoxView}>
                     <CheckBox
                       boxType="square"
                       value={Aioli}
@@ -269,5 +269,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginRight: 25,
     marginBottom: 10,
+  },
+  checkBoxView: {
+    alignItems: 'center',
+    marginLeft: 5,
+    marginRight: 5,
   },
 });

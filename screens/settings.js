@@ -25,7 +25,7 @@ import {
 import Specials from '../components/specialsCard';
 import CardModal from '../components/cardModal';
 
-const Settings = () => {
+const Settings = (props) => {
   const [initializing, setInitializing] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [authOptionsVisible, toggleOptions] = useState(false);
@@ -67,6 +67,7 @@ const Settings = () => {
           changePostalCode(cloudUser._docs[0]._data.postalCode);
         findCard();
       }
+      props.updateUser(user)
     }
     if (initializing) setInitializing(false);
   };
@@ -207,6 +208,7 @@ const Settings = () => {
     setCloudUser(null);
     getCard();
     getCOF();
+    props.updateUser(null)
   };
 
   openAuthOptions = () => {
