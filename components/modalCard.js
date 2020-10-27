@@ -92,72 +92,95 @@ export default ModalCard = (props) => {
                 </View>
                 <View
                   style={{
-                    margin: 10,
+                    padding: 15,
                     flexDirection: 'row',
-                    justifyContent: 'space-evenly',
-                    alignItems: 'center',
+                    justifyContent: 'center',
                     width: screen.width / 1.25,
                   }}>
-                  <Text style={{color: 'white'}}>Add Drink..</Text>
-                  <View style={{alignItems: 'center'}}>
+                  <View style={{alignItems: 'center', marginLeft: 5, marginRight: 5}}>
                     <CheckBox
                       boxType="square"
                       value={Coke}
-                      onValueChange={(newValue) => pickCoke(newValue)}
+                      onValueChange={(newValue) => {
+                        if (newValue === true) {
+                          pickSprite(false);
+                          pickFruitPunch(false);
+                          pickWater(false);
+                        }
+                        pickCoke(newValue);
+                      }}
                     />
                     <Text style={{color: 'white'}}>Coke</Text>
                   </View>
-                  <View style={{alignItems: 'center'}}>
+                  <View style={{alignItems: 'center', marginLeft: 5, marginRight: 5}}>
                     <CheckBox
                       boxType="square"
                       value={Sprite}
-                      onValueChange={(newValue) => pickSprite(newValue)}
+                      onValueChange={(newValue) => {
+                        if (newValue === true) {
+                          pickCoke(false);
+                          pickFruitPunch(false);
+                          pickWater(false);
+                        }
+                        pickSprite(newValue);
+                      }}
                     />
                     <Text style={{color: 'white'}}>Sprite</Text>
                   </View>
-                  <View style={{alignItems: 'center'}}>
+                  <View style={{alignItems: 'center', marginLeft: 5, marginRight: 5}}>
                     <CheckBox
                       boxType="square"
                       value={FruitPunch}
-                      onValueChange={(newValue) => pickFruitPunch(newValue)}
+                      onValueChange={(newValue) => {
+                        if (newValue === true) {
+                          pickSprite(false);
+                          pickCoke(false);
+                          pickWater(false);
+                        }
+                        pickFruitPunch(newValue);
+                      }}
                     />
                     <Text style={{color: 'white'}}>Juice</Text>
                   </View>
-                  <View style={{alignItems: 'center'}}>
+                  <View style={{alignItems: 'center', marginLeft: 5, marginRight: 5}}>
                     <CheckBox
                       boxType="square"
                       value={Water}
-                      onValueChange={(newValue) => pickWater(newValue)}
+                      onValueChange={(newValue) => {
+                        if (newValue === true) {
+                          pickSprite(false);
+                          pickFruitPunch(false);
+                          pickCoke(false);
+                        }
+                        pickWater(newValue);
+                      }}
                     />
                     <Text style={{color: 'white'}}>Water</Text>
                   </View>
                 </View>
                 <View
                   style={{
-                    margin: 10,
                     flexDirection: 'row',
-                    justifyContent: 'space-evenly',
-                    alignItems: 'center',
+                    justifyContent: 'center',
                     width: screen.width / 1.25,
                   }}>
-                  <Text style={{color: 'white'}}>Add Sauce..</Text>
-                  <View style={{alignItems: 'center'}}>
+                  <View style={{alignItems: 'center', marginLeft: 5, marginRight: 5}}>
                     <CheckBox
                       boxType="square"
                       value={Ketchup}
                       onValueChange={(newValue) => pickKetchup(newValue)}
                     />
-                    <Text style={{color: 'white'}}>Ketchup</Text>
+                    <Text style={{color: 'white'}}>Ketch.</Text>
                   </View>
-                  <View style={{alignItems: 'center'}}>
+                  <View style={{alignItems: 'center', marginLeft: 5, marginRight: 5}}>
                     <CheckBox
                       boxType="square"
                       value={Mustard}
                       onValueChange={(newValue) => pickMustard(newValue)}
                     />
-                    <Text style={{color: 'white'}}>Mustard</Text>
+                    <Text style={{color: 'white'}}>Must.</Text>
                   </View>
-                  <View style={{alignItems: 'center'}}>
+                  <View style={{alignItems: 'center', marginLeft: 5, marginRight: 5}}>
                     <CheckBox
                       boxType="square"
                       value={Mayo}
@@ -165,7 +188,7 @@ export default ModalCard = (props) => {
                     />
                     <Text style={{color: 'white'}}>Mayo</Text>
                   </View>
-                  <View style={{alignItems: 'center'}}>
+                  <View style={{alignItems: 'center', marginLeft: 5, marginRight: 5}}>
                     <CheckBox
                       boxType="square"
                       value={Aioli}
