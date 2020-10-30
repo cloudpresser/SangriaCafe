@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Modal,
   SafeAreaView,
@@ -12,10 +12,23 @@ import {
 } from 'react-native';
 import Menu from '../components/menu';
 import ModalCard from '../components/modalCard';
+import firestore from '@react-native-firebase/firestore';
 
 const Order = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [foodSelected, selectFood] = useState({});
+  const [menu, fullMenu] = useState();
+
+  useEffect(() => {
+    getMenu();
+  }, []);
+
+  const getMenu = async () => {
+    let menu = await firestore().collection('menu').get();
+    menuArray = menu._docs.map((meal) => meal._data);
+    console.log(Object.keys(menuArray[0]));
+    fullMenu(menuArray);
+  };
 
   const handleItemSelect = (food) => {
     return (
@@ -30,6 +43,11 @@ const Order = (props) => {
     );
   };
 
+  checkMapOfMenu = () => {
+    return menu.forEach((food) => food.description);
+  };
+
+  console.log(checkMapOfMenu());
   return (
     <>
       <SafeAreaView>
@@ -102,7 +120,7 @@ const Order = (props) => {
             </View>
           </View>
 
-          <View style={styles.card}>
+          {/* <View style={styles.card}>
             <Text style={{fontWeight: 'bold', fontSize: 20}}>
               PLATOS FUERTES
             </Text>
@@ -339,7 +357,7 @@ const Order = (props) => {
                 );
               })}
             </View>
-          </View>
+          </View> */}
         </ScrollView>
       </SafeAreaView>
     </>

@@ -40,7 +40,7 @@ export default class Home extends React.Component {
           </View>
 
           <Modal
-            animationType="slide"
+            animationType="fade"
             transparent={true}
             visible={this.state.modalVisible}>
             <ToroModal setModalVisible={this.setModalVisible} />
