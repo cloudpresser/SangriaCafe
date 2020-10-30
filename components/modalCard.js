@@ -32,8 +32,6 @@ export default ModalCard = (props) => {
     props.setModalVisible(false);
   };
 
-  console.log(props.food)
-
   return (
     <>
       <SafeAreaView>
