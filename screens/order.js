@@ -38,7 +38,7 @@ const Order = (props) => {
       steaks,
       rices,
       sandwiches,
-      salads
+      salads,
     ];
     fullMenu(menuArray);
   };
@@ -85,50 +85,59 @@ const Order = (props) => {
             <View style={styles.card}>
               {menu.map((course) => {
                 return (
-                  <View>
-                    <Text style={{fontWeight: 'bold', fontSize: 20}}>
-                      COURSE TITLE
-                    </Text>
+                  <View key={course} style={{marginBottom: 10}}>
+                      <Text
+                        style={{
+                          fontWeight: 'bold',
+                          fontSize: 20
+                        }}>
+                        COURSE TITLE
+                      </Text>
                     <View style={styles.cardContent}>
-                    {course.map(food => {
-                      return (
-                        <TouchableOpacity
-                        onPress={() => {
-                          handleItemSelect(food);
-                        }}
-                        key={food[0]}>
-                        <View style={styles.menuItems}>
-                          <View style={styles.menuItemImageContainer}>
-                            <Image
-                              source={{uri: food[1].image}}
-                              style={styles.menuItemImage}
-                            />
-                          </View>
-                          <View style={styles.menuItemDescription}>
-                            <Text
-                              style={{
-                                color: 'white',
-                                fontWeight: 'bold',
-                                fontSize: 15,
+                      {course.map((food) => {
+                        return (
+                          <View key={food[0]}>
+                            <TouchableOpacity
+                              onPress={() => {
+                                handleItemSelect(food);
                               }}>
-                              {food[0]}
-                            </Text>
-                            <Text style={{color: 'white'}}>{food[1].description}</Text>
+                              <View style={styles.menuItems}>
+                                <View style={styles.menuItemImageContainer}>
+                                  <Image
+                                    source={{uri: food[1].image}}
+                                    style={styles.menuItemImage}
+                                  />
+                                </View>
+                                <View style={styles.menuItemDescription}>
+                                  <Text
+                                    style={{
+                                      color: 'white',
+                                      fontWeight: 'bold',
+                                      fontSize: 15,
+                                    }}>
+                                    {food[0]}
+                                  </Text>
+                                  <Text style={{color: 'white'}}>
+                                    {food[1].description}
+                                  </Text>
+                                </View>
+                                <View style={styles.toroContainer}>
+                                  <Image
+                                    source={{
+                                      uri:
+                                        'https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/assets%2Ftoro.png?alt=media&token=240fcdac-2e49-47e7-b3ea-8a2f93d4105e',
+                                    }}
+                                    style={{height: 35, width: 35}}
+                                  />
+                                  <Text style={{fontSize: 16}}>
+                                    {food[1].toros}
+                                  </Text>
+                                </View>
+                              </View>
+                            </TouchableOpacity>
                           </View>
-                          <View style={styles.toroContainer}>
-                            <Image
-                              source={{
-                                uri:
-                                  'https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/assets%2Ftoro.png?alt=media&token=240fcdac-2e49-47e7-b3ea-8a2f93d4105e',
-                              }}
-                              style={{height: 35, width: 35}}
-                            />
-                            <Text style={{fontSize: 16}}>{food[1].toros}</Text>
-                          </View>
-                        </View>
-                      </TouchableOpacity>
-                      )
-                    })}
+                        );
+                      })}
                     </View>
                   </View>
                 );
