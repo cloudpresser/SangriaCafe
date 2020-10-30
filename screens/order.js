@@ -24,11 +24,22 @@ const Order = (props) => {
   }, []);
 
   const getMenu = async () => {
-    const cloudMenu = await firestore().collection('menu').get();
-    const menuArray = [];
-    cloudMenu._docs.forEach((doc) => {
-      menuArray.push(doc);
-    });
+    let cloudMenu = await firestore().collection('menu').get();
+    let steaks = Object.entries(cloudMenu._docs[0]._data);
+    let appetizers = Object.entries(cloudMenu._docs[1]._data);
+    let sides = Object.entries(cloudMenu._docs[2]._data);
+    let salads = Object.entries(cloudMenu._docs[3]._data);
+    let rices = Object.entries(cloudMenu._docs[4]._data);
+    let mainCourse = Object.entries(cloudMenu._docs[5]._data);
+    let sandwiches = Object.entries(cloudMenu._docs[6]._data);
+    const menuArray = [
+      appetizers,
+      mainCourse,
+      steaks,
+      rices,
+      sandwiches,
+      salads
+    ];
     fullMenu(menuArray);
   };
 
@@ -70,55 +81,55 @@ const Order = (props) => {
           alwaysBounceVertical={true}
           showsVerticalScrollIndicator={false}
           contentInset={{top: 0, left: 0, bottom: 110, right: 0}}>
-          {menu.lenght ? (
+          {menu.length ? (
             <View style={styles.card}>
-              {menu.foreach((course) => {
+              {menu.map((course) => {
                 return (
-                  <View key={Object.keys(course)}>
+                  <View>
                     <Text style={{fontWeight: 'bold', fontSize: 20}}>
-                      {course._ref._documentPath._parts[1]}
+                      COURSE TITLE
                     </Text>
-                    {menu._data.map((food) => {
-                      <View style={styles.cardContent}>
+                    <View style={styles.cardContent}>
+                    {course.map(food => {
+                      return (
                         <TouchableOpacity
-                          onPress={() => {
-                            handleItemSelect(food);
-                          }}
-                          key={Object.keys(food)}>
-                          <View style={styles.menuItems}>
-                            <View style={styles.menuItemImageContainer}>
-                              <Image
-                                source={{uri: food.image}}
-                                style={styles.menuItemImage}
-                              />
-                            </View>
-                            <View style={styles.menuItemDescription}>
-                              <Text
-                                style={{
-                                  color: 'white',
-                                  fontWeight: 'bold',
-                                  fontSize: 15,
-                                }}>
-                                {Object.key(food)}
-                              </Text>
-                              <Text style={{color: 'white'}}>
-                                {food.description}
-                              </Text>
-                            </View>
-                            <View style={styles.toroContainer}>
-                              <Image
-                                source={{
-                                  uri:
-                                    'https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/assets%2Ftoro.png?alt=media&token=240fcdac-2e49-47e7-b3ea-8a2f93d4105e',
-                                }}
-                                style={{height: 35, width: 35}}
-                              />
-                              <Text style={{fontSize: 16}}>{food.toros}</Text>
-                            </View>
+                        onPress={() => {
+                          handleItemSelect(food);
+                        }}
+                        key={food[0]}>
+                        <View style={styles.menuItems}>
+                          <View style={styles.menuItemImageContainer}>
+                            <Image
+                              source={{uri: food[1].image}}
+                              style={styles.menuItemImage}
+                            />
                           </View>
-                        </TouchableOpacity>
-                      </View>;
+                          <View style={styles.menuItemDescription}>
+                            <Text
+                              style={{
+                                color: 'white',
+                                fontWeight: 'bold',
+                                fontSize: 15,
+                              }}>
+                              {food[0]}
+                            </Text>
+                            <Text style={{color: 'white'}}>{food[1].description}</Text>
+                          </View>
+                          <View style={styles.toroContainer}>
+                            <Image
+                              source={{
+                                uri:
+                                  'https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/assets%2Ftoro.png?alt=media&token=240fcdac-2e49-47e7-b3ea-8a2f93d4105e',
+                              }}
+                              style={{height: 35, width: 35}}
+                            />
+                            <Text style={{fontSize: 16}}>{food[1].toros}</Text>
+                          </View>
+                        </View>
+                      </TouchableOpacity>
+                      )
                     })}
+                    </View>
                   </View>
                 );
               })}
@@ -133,36 +144,6 @@ const Order = (props) => {
               <ActivityIndicator size="large" color="tomato" />
             </View>
           )}
-
-          {/* {menu.map((food) => {
-                console.log(food)
-                return (
-                  <TouchableOpacity onPress={() => {handleItemSelect(food);}} key={food.name}>
-                    <View style={styles.menuItems}>
-                      <View style={styles.menuItemImageContainer}>
-                        <Image source={{uri: food.details.image}} style={styles.menuItemImage}/>
-                      </View>
-                      <View style={styles.menuItemDescription}>
-                        <Text style={{color: 'white',fontWeight: 'bold',fontSize: 15}}>
-                          {food.name}
-                        </Text>
-                        <Text style={{color: 'white'}}>
-                          {food.details.description}
-                        </Text>
-                      </View>
-                      <View style={styles.toroContainer}>
-                        <Image source={{
-                            uri:
-                              'https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/assets%2Ftoro.png?alt=media&token=240fcdac-2e49-47e7-b3ea-8a2f93d4105e',
-                          }}
-                          style={{height: 35, width: 35}}
-                        />
-                        <Text style={{fontSize: 16}}>{food.details.toros}</Text>
-                      </View>
-                    </View>
-                  </TouchableOpacity>
-                );
-              })} */}
         </ScrollView>
       </SafeAreaView>
     </>

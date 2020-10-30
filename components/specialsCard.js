@@ -5,7 +5,7 @@ import firestore from '@react-native-firebase/firestore';
 export default Specials = () => {
 
   useEffect(() => {
-    firestore().collection(menu).get()
+    firestore().collection('menu').get()
   },[])
 
   return (
