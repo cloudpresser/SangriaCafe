@@ -32,6 +32,8 @@ export default ModalCard = (props) => {
     props.setModalVisible(false);
   };
 
+  console.log(props.food)
+
   return (
     <>
       <SafeAreaView>
@@ -41,20 +43,20 @@ export default ModalCard = (props) => {
               <View style={styles.modalMenuItems}>
                 <View>
                   <Image
-                    source={{uri: props.food.details.image}}
+                    source={{uri: props.food[1].image}}
                     style={styles.modalMenuItemImage}
                   />
                 </View>
                 <View style={styles.modalDescription}>
                   <Text
                     style={{color: 'white', fontWeight: 'bold', fontSize: 18}}>
-                    {props.food.name}
+                    {props.food[0]}
                   </Text>
                   <Text style={{color: 'white'}}>
-                    {props.food.details.description}
+                    {props.food[1].description}
                   </Text>
                   <Text style={{color: 'white'}}>
-                    ${props.food.details.price}
+                    ${props.food[1].price}
                   </Text>
                 </View>
                 <View style={styles.modalToroContainer}>
@@ -65,7 +67,7 @@ export default ModalCard = (props) => {
                     }}
                     style={{height: 35, width: 35}}
                   />
-                  <Text style={{fontSize: 16}}>{props.food.details.toros}</Text>
+                  <Text style={{fontSize: 16}}>{props.food[1].toros}</Text>
                 </View>
                 <View style={styles.inputs}>
                   <TextInput
