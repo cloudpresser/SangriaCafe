@@ -15,7 +15,7 @@ export default class App extends React.Component {
 
   addItem = (item) => {
     foundFood = this.state.foodCart.find(
-      (food) => food.item.name === item.item.name,
+      (food) => food.item[0] === item.item[0],
     );
     foundFood === undefined
       ? this.setState({foodCart: [...this.state.foodCart, item]})
@@ -24,7 +24,7 @@ export default class App extends React.Component {
 
   removeItem = (item) => {
     itemToRemove = this.state.foodCart.find(
-      (food) => food.item.name === item.item.name,
+      (food) => food.item[0] === item.item[0],
     );
     removeThis = this.state.foodCart.indexOf(itemToRemove);
     this.state.foodCart.splice(removeThis, 1) &&
