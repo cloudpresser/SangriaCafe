@@ -10,7 +10,6 @@
 		00E356F31AD99517003FC87E /* SangriaCafeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* SangriaCafeTests.m */; };
 		0EA7E5CFA10C5706E5DB0D2E /* libPods-SangriaCafe.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A3C75F9E5DBD82845B87857 /* libPods-SangriaCafe.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		13B07FBF1A68108700A75B9A /* toro.png in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* toro.png */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		260CF9A0253F81CA0031D242 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 260CF99F253F81CA0031D242 /* main.jsbundle */; };
 		263ADF1A24CF6C20000DBA40 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 263ADF1924CF6C20000DBA40 /* MapKit.framework */; };
@@ -380,7 +379,6 @@
 				264C40E324E44893006001D6 /* Images-2.xcassets in Resources */,
 				268715D124EC322300ABD95D /* GoogleService-Info.plist in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
-				13B07FBF1A68108700A75B9A /* toro.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

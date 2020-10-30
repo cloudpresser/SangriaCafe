@@ -38,18 +38,20 @@ const Cart = (props) => {
     );
 
   useEffect(() => {
-    props.currentUser === null ? null : findUserInfo();
+    if (props.curretUser != null) findUserInfo();
   }, []);
 
   findUserInfo = async () => {
-    if (auth()._user) {
+    if (auth()._user && auth()._user.email) {
       let cloudUser = await firestore()
         .collection('users')
         .where('email', '==', auth()._user.email)
         .get();
-      setauthUser(cloudUser._docs[0]._data);
-      setRefId(cloudUser._docs[0]._ref._documentPath._parts[1]);
-      checkCardOnFile(); // will remove and place in checkout sequence once up and running
+      if (cloudUser && cloudUser._docs) {
+        setauthUser(cloudUser._docs[0]._data);
+        setRefId(cloudUser._docs[0]._ref._documentPath._parts[1]);
+        checkCardOnFile(); // will remove and place in checkout sequence once up and running
+      }
     }
   };
 
