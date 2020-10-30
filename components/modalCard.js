@@ -53,7 +53,7 @@ export default ModalCard = (props) => {
                   <Text style={{color: 'white'}}>
                     {props.food[1].description}
                   </Text>
-                  <Text style={{color: 'white'}}>
+                  <Text style={{color: 'white', fontWeight: 'bold'}}>
                     ${props.food[1].price}
                   </Text>
                 </View>
@@ -244,31 +244,30 @@ const styles = StyleSheet.create({
   modalMenuItems: {
     alignItems: 'center',
     backgroundColor: 'tomato',
-    margin: 5,
     borderRadius: 5,
-    width: screen.width / 1.25,
+    width: screen.width / 1.15,
   },
   modalDescription: {
-    width: screen.width / 1.5,
+    width: screen.width / 1.3,
   },
   modalMenuItemImage: {
     height: screen.height / 2.75,
-    width: screen.width / 1.5,
+    width: screen.width / 1.3,
     borderRadius: 5,
-    margin: 15,
+    marginTop: 15,
+    marginBottom: 10
   },
   inputs: {
     flexDirection: 'row',
   },
   buttons: {
     flexDirection: 'row',
-    marginBottom: 0,
   },
   modalToroContainer: {
     alignSelf: 'flex-end',
     alignItems: 'center',
     marginRight: 25,
-    marginBottom: 10,
+    marginBottom: 5,
   },
   checkBoxView: {
     alignItems: 'center',

@@ -56,6 +56,15 @@ const Order = (props) => {
     );
   };
 
+  const courseTitles = key => {
+    if (key === 0) return 'APPERTIVOS'
+    if (key === 1) return 'PLATOS FUERTES'
+    if (key === 2) return 'ADASO'
+    if (key === 3) return 'ARROCES'
+    if (key === 4) return 'SANDWICHES'
+    if (key === 5) return 'ENSALADAS'
+  }
+
   return (
     <>
       <SafeAreaView>
@@ -91,7 +100,7 @@ const Order = (props) => {
                           fontWeight: 'bold',
                           fontSize: 20
                         }}>
-                        COURSE TITLE
+                          {courseTitles(menu.indexOf(course))}
                       </Text>
                     <View style={styles.cardContent}>
                       {course.map((food) => {
