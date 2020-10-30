@@ -35,10 +35,7 @@ export default Specials = () => {
       <View style={styles.cardContent}>
         <Text style={styles.heading}>SPECIALS</Text>
         <View style={styles.subCard}>
-          <Image
-            source={{uri: menu[0][0][1].image}}
-            style={styles.image}
-          />
+          <Image source={{uri: menu[0][0][1].image}} style={styles.image} />
           <View style={styles.textArea}>
             <Text style={styles.text}>{menu[0][0][0]}</Text>
             <Text style={styles.text}>BUY 2 GET 1 FREE</Text>
@@ -49,16 +46,10 @@ export default Specials = () => {
             <Text style={styles.text}>{menu[4][0][0]}</Text>
             <Text style={styles.text}>+25% TOROS</Text>
           </View>
-          <Image
-            source={{uri: menu[4][0][1].image}}
-            style={styles.image}
-          />
+          <Image source={{uri: menu[4][0][1].image}} style={styles.image} />
         </View>
         <View style={styles.subCard}>
-          <Image
-            source={{uri: menu[1][5][1].image}}
-            style={styles.image}
-          />
+          <Image source={{uri: menu[1][5][1].image}} style={styles.image} />
           <View style={styles.textArea}>
             <Text style={styles.text}>{menu[1][5][0]}</Text>
             <Text style={styles.text}>1 FREE SANGRIA</Text>
@@ -69,10 +60,7 @@ export default Specials = () => {
             <Text style={styles.text}>{menu[5][2][0]}</Text>
             <Text style={styles.text}>HOT NEW ITEM!</Text>
           </View>
-          <Image
-            source={{uri: menu[5][2][1].image}}
-            style={styles.image}
-          />
+          <Image source={{uri: menu[5][2][1].image}} style={styles.image} />
         </View>
       </View>
     </>

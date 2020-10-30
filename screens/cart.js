@@ -25,8 +25,7 @@ const Cart = (props) => {
   const taxRate = 0.08875;
   const subtotal = () =>
     props.foodCart.reduce(
-      (total, food) =>
-        (total += parseInt(food.item.details.price * food.quantity)),
+      (total, food) => (total += parseInt(food.item[1].price * food.quantity)),
       0,
     );
   const deliveryFee = () => (subtotal() < 50 ? 1.99 : 0);
@@ -34,8 +33,7 @@ const Cart = (props) => {
   const total = () => subtotal() + deliveryFee() + salesTax();
   const toroTotal = () =>
     props.foodCart.reduce(
-      (total, food) =>
-        (total += parseInt(food.item.details.toros * food.quantity)),
+      (total, food) => (total += parseInt(food.item[1].toros * food.quantity)),
       0,
     );
 
@@ -111,9 +109,9 @@ const Cart = (props) => {
         SystemPrint: false,
         OrderDetails: props.foodCart.map((food) => {
           return {
-            ItemID: food.item.name,
+            ItemID: food.item[0],
             Qty: food.quantity,
-            UnitPrice: food.item.details.price,
+            UnitPrice: food.item[1].price,
             LineNote: food.instruction ? food.instruction : null,
             CreatedByEmployeeID: 1000000000000000001,
           };
@@ -165,13 +163,13 @@ const Cart = (props) => {
 
           {props.foodCart.map((food) => {
             return (
-              <View style={styles.recieptTheme} key={food.item.name}>
+              <View style={styles.recieptTheme} key={food.item[0]}>
                 <View style={{alignItems: 'flex-start', flexDirection: 'row'}}>
                   <Text>{food.quantity} </Text>
-                  <Text> {food.item.name}</Text>
+                  <Text> {food.item[0]}</Text>
                 </View>
                 <View style={{alignItems: 'flex-end'}}>
-                  <Text>${food.item.details.price * food.quantity}</Text>
+                  <Text>${food.item[1].price * food.quantity}</Text>
                   <View style={{flexDirection: 'row', alignItems: 'center'}}>
                     <Image
                       source={{
@@ -180,7 +178,7 @@ const Cart = (props) => {
                       }}
                       style={{height: 20, width: 20}}
                     />
-                    <Text> {food.item.details.toros * food.quantity}</Text>
+                    <Text> {food.item[1].toros * food.quantity}</Text>
                   </View>
                   <Text>{food.instruction ? food.instruction : null}</Text>
                   <TouchableOpacity onPress={() => props.removeFromCart(food)}>
