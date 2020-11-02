@@ -32,6 +32,15 @@ export default ModalCard = (props) => {
     props.setModalVisible(false);
   };
 
+  const addSoda = () => {
+    if (Coke) props.addToCart({item: 'Coke', quantity: 1, instruction: null})
+    if (Sprite) props.addToCart({item: 'Sprite', quantity: 1, instruction: null})
+    if (FruitPunch) props.addToCart({item: 'Fruit Punch', quantity: 1, instruction: null})
+    if (Water) props.addToCart({item: 'Water', quantity: 1, instruction: null})
+  }
+
+  //begin add drink & sauce process
+
   return (
     <>
       <SafeAreaView>

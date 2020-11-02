@@ -28,9 +28,8 @@ export default class App extends React.Component {
       (food) => food.item[0] === item.item[0],
     );
     removeThis = this.state.foodCart.indexOf(itemToRemove);
-      this.state.foodCart.splice(removeThis, 1) &&
+    this.state.foodCart.splice(removeThis, 1) &&
       this.setState({foodCart: this.state.foodCart});
-    }
   };
 
   updateUser = (user) => {
