@@ -127,7 +127,7 @@ export default class App extends React.Component {
             activeTintColor: 'tomato',
             inactiveTintColor: 'gray',
           }}>
-          <Tab.Screen name="Home" component={this.HomeScreen} />
+          <Tab.Screen name="Home" component={() => this.HomeScreen()} />
           <Tab.Screen name="Menu" component={this.OrderScreen} />
           <Tab.Screen
             name="Cart"

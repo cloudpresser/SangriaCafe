@@ -25,12 +25,6 @@ export default class Home extends React.Component {
     this.setState({modalVisible: visible});
   };
 
-  componentDidUpdate(prevProps) {
-    if (this.props.currentUser !== prevProps.currentUser) {
-      this.fetchData(this.props.currentUser);
-    }
-  }
-
   render() {
     return (
       <>
@@ -92,7 +86,7 @@ export default class Home extends React.Component {
                 Directions
               </Button>
             </View>
-            {this.props.currentUser !== null ? null : (
+            {this.props.currentUser == null ? (
               <View
                 style={{
                   padding: 10,
@@ -109,7 +103,7 @@ export default class Home extends React.Component {
                   Thank you for using the official Sangria Cafe App.
                 </Text>
               </View>
-            )}
+            ) : null}
 
             <View style={{margin: 5}}>
               <Card />
