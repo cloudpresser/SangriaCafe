@@ -29,15 +29,16 @@ export default ModalCard = (props) => {
   const throwinthebag = (food) => {
     let cartItem = {item: food, quantity: qnt, instruction: inst};
     props.addToCart(cartItem);
+    // props.addToCart(drink)
     props.setModalVisible(false);
   };
 
-  const addSoda = () => {
-    if (Coke) props.addToCart({item: 'Coke', quantity: 1, instruction: null})
-    if (Sprite) props.addToCart({item: 'Sprite', quantity: 1, instruction: null})
-    if (FruitPunch) props.addToCart({item: 'Fruit Punch', quantity: 1, instruction: null})
-    if (Water) props.addToCart({item: 'Water', quantity: 1, instruction: null})
-  }
+  // const addSoda = (drink) => {
+  //   if (drink === Coke) props.addToCart({item: ['Coke', {description: 'drink', image:'', price: 5, toros: null}], quantity: 1, instruction: null})
+  //   if (drink === Sprite) props.addToCart({item: ['Sprite', {description: 'drink', image:'', price: 5, toros: null}], quantity: 1, instruction: null})
+  //   if (drink === FruitPunch) props.addToCart({item: ['Fruit Punch', {description: 'drink', image:'', price: 5, toros: null}], quantity: 1, instruction: null})
+  //   if (drink === Water) props.addToCart({item: ['Water', {description: 'drink', image:'', price: 5, toros: null}], quantity: 1, instruction: null})
+  // }
 
   //begin add drink & sauce process
 
@@ -90,7 +91,7 @@ export default ModalCard = (props) => {
                   />
                   <TextInput
                     value={inst}
-                    placeholder={'Special Instructions'}
+                    placeholder={'Special Instructions: (extra sauce, no tomato, etc)'}
                     placeholderTextColor={'white'}
                     onChangeText={onChangeInst}
                     color="white"

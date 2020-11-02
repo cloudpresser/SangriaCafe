@@ -37,7 +37,7 @@ export default class App extends React.Component {
   };
 
   HomeScreen = () => {
-    return <Home />;
+    return <Home currentUser={this.state.currentUser} />;
   };
 
   OrderScreen = () => {

@@ -25,6 +25,12 @@ export default class Home extends React.Component {
     this.setState({modalVisible: visible});
   };
 
+  componentDidUpdate(prevProps) {
+    if (this.props.currentUser !== prevProps.currentUser) {
+      this.fetchData(this.props.currentUser);
+    }
+  }
+
   render() {
     return (
       <>
@@ -86,6 +92,25 @@ export default class Home extends React.Component {
                 Directions
               </Button>
             </View>
+            {this.props.currentUser !== null ? null : (
+              <View
+                style={{
+                  padding: 10,
+                  backgroundColor: 'khaki',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <Text style={{fontSize: 16, fontWeight: '500'}}>
+                  Sign-in to place an order!
+                </Text>
+                <Text style={{textAlign: 'center'}}>
+                  Create or update your profile easily by clicking on the
+                  Settings tab below and follow the instructions on the page.
+                  Thank you for using the official Sangria Cafe App.
+                </Text>
+              </View>
+            )}
+
             <View style={{margin: 5}}>
               <Card />
             </View>
