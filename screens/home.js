@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
   Modal,
 } from 'react-native';
-import {Button} from 'react-native-paper';
+import { Button } from 'react-native-paper';
 import ToroModal from '../components/toroModal';
 import Card from '../components/instaCard';
 import Map from '../components/map';
@@ -22,7 +22,7 @@ export default class Home extends React.Component {
   };
 
   setModalVisible = (visible) => {
-    this.setState({modalVisible: visible});
+    this.setState({ modalVisible: visible });
   };
 
   render() {
@@ -49,7 +49,7 @@ export default class Home extends React.Component {
           <ScrollView
             alwaysBounceVertical={true}
             showsVerticalScrollIndicator={false}
-            contentInset={{top: 0, left: 0, bottom: 115, right: 0}}>
+            contentInset={{ top: 0, left: 0, bottom: 115, right: 0 }}>
             <View style={styles.infoContainer}>
               <Image
                 source={{
@@ -86,7 +86,7 @@ export default class Home extends React.Component {
                 Directions
               </Button>
             </View>
-            {this.props.currentUser == null ? (
+            {this.props.currentUser === null || this.props.currentUser === undefined ? (
               <View
                 style={{
                   padding: 10,
@@ -94,10 +94,10 @@ export default class Home extends React.Component {
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}>
-                <Text style={{fontSize: 16, fontWeight: '500'}}>
+                <Text style={{ fontSize: 16, fontWeight: '500' }}>
                   Sign-in to place an order!
                 </Text>
-                <Text style={{textAlign: 'center'}}>
+                <Text style={{ textAlign: 'center' }}>
                   Create or update your profile easily by clicking on the
                   Settings tab below and follow the instructions on the page.
                   Thank you for using the official Sangria Cafe App.
@@ -105,7 +105,7 @@ export default class Home extends React.Component {
               </View>
             ) : null}
 
-            <View style={{margin: 5}}>
+            <View style={{ margin: 5 }}>
               <Card />
             </View>
             <View>
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 15,
     shadowColor: 'black',
-    shadowOffset: {width: 1, height: 3},
+    shadowOffset: { width: 1, height: 3 },
     shadowOpacity: 1,
     shadowRadius: 1,
     elevation: 2,
