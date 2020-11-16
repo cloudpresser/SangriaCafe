@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Image,
@@ -27,7 +27,7 @@ export default ModalCard = (props) => {
   const [Water, pickWater] = useState(false);
 
   const throwinthebag = (food) => {
-    let cartItem = {item: food, quantity: qnt, instruction: inst};
+    let cartItem = { item: food, quantity: qnt, instruction: inst };
     props.addToCart(cartItem);
     // props.addToCart(drink)
     props.setModalVisible(false);
@@ -51,19 +51,19 @@ export default ModalCard = (props) => {
               <View style={styles.modalMenuItems}>
                 <View>
                   <Image
-                    source={{uri: props.food[1].image}}
+                    source={{ uri: props.food[1].image }}
                     style={styles.modalMenuItemImage}
                   />
                 </View>
                 <View style={styles.modalDescription}>
                   <Text
-                    style={{color: 'white', fontWeight: 'bold', fontSize: 18}}>
+                    style={{ color: 'white', fontWeight: 'bold', fontSize: 18 }}>
                     {props.food[0]}
                   </Text>
-                  <Text style={{color: 'white'}}>
+                  <Text style={{ color: 'white' }}>
                     {props.food[1].description}
                   </Text>
-                  <Text style={{color: 'white', fontWeight: 'bold'}}>
+                  <Text style={{ color: 'white', fontWeight: 'bold' }}>
                     ${props.food[1].price}
                   </Text>
                 </View>
@@ -73,9 +73,9 @@ export default ModalCard = (props) => {
                       uri:
                         'https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/assets%2Ftoro.png?alt=media&token=240fcdac-2e49-47e7-b3ea-8a2f93d4105e',
                     }}
-                    style={{height: 35, width: 35}}
+                    style={{ height: 35, width: 35 }}
                   />
-                  <Text style={{fontSize: 16}}>{props.food[1].toros}</Text>
+                  <Text style={{ fontSize: 16 }}>{props.food[1].toros}</Text>
                 </View>
                 <View style={styles.inputs}>
                   <TextInput
@@ -87,7 +87,7 @@ export default ModalCard = (props) => {
                     color="white"
                     borderColor="white"
                     borderWidth={0.25}
-                    style={{width: 50, height: 50, padding: 10}}
+                    style={{ width: 50, height: 50, padding: 10 }}
                   />
                   <TextInput
                     value={inst}
@@ -97,10 +97,11 @@ export default ModalCard = (props) => {
                     color="white"
                     borderColor="white"
                     borderWidth={0.25}
-                    style={{width: screen.width / 1.7, height: 50, padding: 10}}
+                    style={{ width: screen.width / 1.7, height: 50, padding: 10 }}
                   />
                 </View>
-                <View
+
+                {/* <View
                   style={{
                     padding: 15,
                     flexDirection: 'row',
@@ -120,7 +121,7 @@ export default ModalCard = (props) => {
                         pickCoke(newValue);
                       }}
                     />
-                    <Text style={{color: 'white'}}>Coke</Text>
+                    <Text style={{ color: 'white' }}>Coke</Text>
                   </View>
                   <View style={styles.checkBoxView}>
                     <CheckBox
@@ -135,7 +136,7 @@ export default ModalCard = (props) => {
                         pickSprite(newValue);
                       }}
                     />
-                    <Text style={{color: 'white'}}>Sprite</Text>
+                    <Text style={{ color: 'white' }}>Sprite</Text>
                   </View>
                   <View style={styles.checkBoxView}>
                     <CheckBox
@@ -150,7 +151,7 @@ export default ModalCard = (props) => {
                         pickFruitPunch(newValue);
                       }}
                     />
-                    <Text style={{color: 'white'}}>Juice</Text>
+                    <Text style={{ color: 'white' }}>Juice</Text>
                   </View>
                   <View style={styles.checkBoxView}>
                     <CheckBox
@@ -165,7 +166,7 @@ export default ModalCard = (props) => {
                         pickWater(newValue);
                       }}
                     />
-                    <Text style={{color: 'white'}}>Water</Text>
+                    <Text style={{ color: 'white' }}>Water</Text>
                   </View>
                 </View>
                 <View
@@ -180,7 +181,7 @@ export default ModalCard = (props) => {
                       value={Ketchup}
                       onValueChange={(newValue) => pickKetchup(newValue)}
                     />
-                    <Text style={{color: 'white'}}>Ketch.</Text>
+                    <Text style={{ color: 'white' }}>Ketch.</Text>
                   </View>
                   <View style={styles.checkBoxView}>
                     <CheckBox
@@ -188,7 +189,7 @@ export default ModalCard = (props) => {
                       value={Mustard}
                       onValueChange={(newValue) => pickMustard(newValue)}
                     />
-                    <Text style={{color: 'white'}}>Must.</Text>
+                    <Text style={{ color: 'white' }}>Must.</Text>
                   </View>
                   <View style={styles.checkBoxView}>
                     <CheckBox
@@ -196,7 +197,7 @@ export default ModalCard = (props) => {
                       value={Mayo}
                       onValueChange={(newValue) => pickMayo(newValue)}
                     />
-                    <Text style={{color: 'white'}}>Mayo</Text>
+                    <Text style={{ color: 'white' }}>Mayo</Text>
                   </View>
                   <View style={styles.checkBoxView}>
                     <CheckBox
@@ -204,9 +205,10 @@ export default ModalCard = (props) => {
                       value={Aioli}
                       onValueChange={(newValue) => pickAioli(newValue)}
                     />
-                    <Text style={{color: 'white'}}>Aioli</Text>
+                    <Text style={{ color: 'white' }}>Aioli</Text>
                   </View>
-                </View>
+                </View> */}
+
                 <View style={styles.buttons}>
                   <TouchableOpacity onPress={() => throwinthebag(props.food)}>
                     <Image
@@ -214,7 +216,7 @@ export default ModalCard = (props) => {
                         uri:
                           'https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/assets%2Fadd.png?alt=media&token=f165dd3d-4263-4598-86a9-7a6ee4c0ce9e',
                       }}
-                      style={{margin: 25, height: 35, width: 35}}
+                      style={{ margin: 25, height: 35, width: 35 }}
                     />
                   </TouchableOpacity>
 
@@ -225,7 +227,7 @@ export default ModalCard = (props) => {
                         uri:
                           'https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/assets%2Fclose.png?alt=media&token=8bca3fdf-2f65-4fc8-a8a4-f5eccb3df648',
                       }}
-                      style={{margin: 25, height: 35, width: 35}}
+                      style={{ margin: 25, height: 35, width: 35 }}
                     />
                   </TouchableOpacity>
                 </View>

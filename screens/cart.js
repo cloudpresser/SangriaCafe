@@ -166,26 +166,30 @@ const Cart = (props) => {
           {props.foodCart.map((food) => {
             return (
               <View style={styles.recieptTheme} key={food.item[0]}>
-                <View style={{ flexDirection: 'row' }}>
-                  <Text>{food.quantity} </Text>
-                  <Text> {food.item[0]}</Text>
-                </View>
-                <Text style={styles.subText}>{food.instruction ? food.instruction : null}</Text>
-                <View style={{ alignItems: 'flex-end' }}>
-                  <Text>${food.item[1].price * food.quantity}</Text>
-                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Image
-                      source={{
-                        uri:
-                          'https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/assets%2Ftoro.png?alt=media&token=240fcdac-2e49-47e7-b3ea-8a2f93d4105e',
-                      }}
-                      style={{ height: 20, width: 20 }}
-                    />
-                    <Text> {food.item[1].toros * food.quantity}</Text>
+                <View>
+                  <View style={{ flexDirection: 'row' }}>
+                    <Text>{food.quantity} </Text>
+                    <Text> {food.item[0]}</Text>
                   </View>
-                  <TouchableOpacity onPress={() => props.removeFromCart(food)}>
-                    <Text style={{ color: '#0645AD' }}>Remove</Text>
-                  </TouchableOpacity>
+                  <Text style={styles.subText}>{food.instruction ? food.instruction : null}</Text>
+                </View>
+                <View>
+                  <View style={{ alignItems: 'flex-end' }}>
+                    <Text>${food.item[1].price * food.quantity}</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                      <Image
+                        source={{
+                          uri:
+                            'https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/assets%2Ftoro.png?alt=media&token=240fcdac-2e49-47e7-b3ea-8a2f93d4105e',
+                        }}
+                        style={{ height: 20, width: 20 }}
+                      />
+                      <Text> {food.item[1].toros * food.quantity}</Text>
+                    </View>
+                    <TouchableOpacity onPress={() => props.removeFromCart(food)}>
+                      <Text style={{ color: '#0645AD' }}>Remove</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </View>
             );
@@ -349,6 +353,7 @@ const styles = StyleSheet.create({
     width: screen.width / 1.7,
   },
   recieptTheme: {
+    flexDirection: "row",
     justifyContent: 'space-between',
     padding: 10,
     backgroundColor: 'white',
