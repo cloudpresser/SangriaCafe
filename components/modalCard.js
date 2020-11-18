@@ -17,14 +17,14 @@ import CheckBox from '@react-native-community/checkbox';
 export default ModalCard = (props) => {
   const [qnt, onChangeQnt] = useState('1');
   const [inst, onChangeInst] = useState('');
-  const [Ketchup, pickKetchup] = useState(false);
-  const [Mustard, pickMustard] = useState(false);
-  const [Mayo, pickMayo] = useState(false);
-  const [Aioli, pickAioli] = useState(false);
-  const [Coke, pickCoke] = useState(false);
-  const [Sprite, pickSprite] = useState(false);
-  const [FruitPunch, pickFruitPunch] = useState(false);
-  const [Water, pickWater] = useState(false);
+  // const [Ketchup, pickKetchup] = useState(false);
+  // const [Mustard, pickMustard] = useState(false);
+  // const [Mayo, pickMayo] = useState(false);
+  // const [Aioli, pickAioli] = useState(false);
+  // const [Coke, pickCoke] = useState(false);
+  // const [Sprite, pickSprite] = useState(false);
+  // const [FruitPunch, pickFruitPunch] = useState(false);
+  // const [Water, pickWater] = useState(false);
 
   const throwinthebag = (food) => {
     let cartItem = { item: food, quantity: qnt, instruction: inst };

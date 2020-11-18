@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -13,8 +13,8 @@ import {
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import storage from '@react-native-firebase/storage';
-import {firebaseConfig} from '../Setup';
-import {TextInput, Button} from 'react-native-paper';
+import { firebaseConfig } from '../Setup';
+import { TextInput, Button } from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import {
@@ -77,7 +77,7 @@ const Settings = (props) => {
   });
 
   onGoogleButtonPress = async () => {
-    const {idToken} = await GoogleSignin.signIn();
+    const { idToken } = await GoogleSignin.signIn();
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
     return auth().signInWithCredential(googleCredential);
   };
@@ -137,39 +137,39 @@ const Settings = (props) => {
     cloudUser._docs && cloudUser._docs.length > 0
       ? loginUser(lowerEmail, password)
       : firestore()
-          .collection('users')
-          .add({
-            email: lowerEmail,
-            name: name,
-            phoneNumber: phone,
-            address: address,
-            postalCode: postalCode,
-            toros: 0,
-            toros_spent: 0,
-            image:
-              'https://www.pikpng.com/pngl/m/16-168770_user-iconset-no-profile-picture-icon-circle-clipart.png',
-          })
-          .then(
-            auth()
-              .createUserWithEmailAndPassword(lowerEmail, password)
-              .catch((error) => {
-                if (error.code === 'auth/email-already-in-use') {
-                  alert('That email address is already in use!');
-                }
-                if (error.code === 'auth/invalid-email') {
-                  alert('That email address is invalid!');
-                }
-                if (error.code === 'auth/user-not-found') {
-                  alert('No Account Found');
-                }
-                if (error.code === 'auth/wrong-password') {
-                  alert('Incorrect Account Information Try Again');
-                }
-                if (error.code === 'auth/weak-password') {
-                  alert('Missing or Weak Password');
-                }
-              }),
-          );
+        .collection('users')
+        .add({
+          email: lowerEmail,
+          name: name,
+          phoneNumber: phone,
+          address: address,
+          postalCode: postalCode,
+          toros: 0,
+          toros_spent: 0,
+          image:
+            'https://www.pikpng.com/pngl/m/16-168770_user-iconset-no-profile-picture-icon-circle-clipart.png',
+        })
+        .then(
+          auth()
+            .createUserWithEmailAndPassword(lowerEmail, password)
+            .catch((error) => {
+              if (error.code === 'auth/email-already-in-use') {
+                alert('That email address is already in use!');
+              }
+              if (error.code === 'auth/invalid-email') {
+                alert('That email address is invalid!');
+              }
+              if (error.code === 'auth/user-not-found') {
+                alert('No Account Found');
+              }
+              if (error.code === 'auth/wrong-password') {
+                alert('Incorrect Account Information Try Again');
+              }
+              if (error.code === 'auth/weak-password') {
+                alert('Missing or Weak Password');
+              }
+            }),
+        );
     onAuthStateChanged(auth()._user);
   };
 
@@ -177,7 +177,7 @@ const Settings = (props) => {
     await firestore()
       .collection('users')
       .doc(userCloudRefId)
-      .update({image: imageSource});
+      .update({ image: imageSource });
     onAuthStateChanged(userAuth);
   };
 
@@ -311,14 +311,14 @@ const Settings = (props) => {
                 <View>
                   <TouchableOpacity onPress={() => getImage()}>
                     <Image
-                      source={{uri: userCloud.image}}
-                      style={{height: 90, width: 90, borderRadius: 45}}
+                      source={{ uri: userCloud.image }}
+                      style={{ height: 90, width: 90, borderRadius: 45 }}
                     />
                   </TouchableOpacity>
                 </View>
                 <View style={styles.detailSection}>
                   <Text>{title(userCloud.toros_spent)}</Text>
-                  <Text style={{fontSize: 24, textAlign: 'center'}}>
+                  <Text style={{ fontSize: 24, textAlign: 'center' }}>
                     {userCloud.name}
                   </Text>
                   <View style={styles.toroSection}>
@@ -329,7 +329,7 @@ const Settings = (props) => {
                       }}
                       style={styles.toro}
                     />
-                    <Text style={{fontSize: 24, textAlign: 'center'}}>
+                    <Text style={{ fontSize: 24, textAlign: 'center' }}>
                       {userCloud.toros}
                     </Text>
                   </View>
@@ -338,15 +338,15 @@ const Settings = (props) => {
             </View>
 
             <KeyboardAvoidingView behavior="height">
-              <View style={{justifyContent: 'center', flexDirection: 'row'}}>
+              <View style={{ justifyContent: 'center', flexDirection: 'row' }}>
                 <Button
-                  style={{margin: 5, width: screen.width / 4}}
+                  style={{ margin: 5, width: screen.width / 4 }}
                   color="tomato"
                   onPress={() => handleCardPress()}>
                   Card
                 </Button>
                 <Button
-                  style={{margin: 5, width: screen.width / 4}}
+                  style={{ margin: 5, width: screen.width / 4 }}
                   color="tomato"
                   onPress={
                     updateVisible
@@ -356,7 +356,7 @@ const Settings = (props) => {
                   {updateVisible ? 'Close' : 'Info'}
                 </Button>
                 <Button
-                  style={{margin: 5, width: screen.width / 4}}
+                  style={{ margin: 5, width: screen.width / 4 }}
                   color="tomato"
                   onPress={() => logoff()}>
                   Logoff
@@ -368,7 +368,7 @@ const Settings = (props) => {
                   <ScrollView
                     alwaysBounceVertical={true}
                     showsVerticalScrollIndicator={false}
-                    contentInset={{top: 0, left: 0, bottom: 108, right: 0}}>
+                    contentInset={{ top: 0, left: 0, bottom: 108, right: 0 }}>
                     <Text style={styles.text}>
                       Total Toros Used: {userCloud.toros_spent}
                     </Text>
@@ -409,7 +409,7 @@ const Settings = (props) => {
                     <Button
                       mode="contained"
                       color="tomato"
-                      style={{margin: 10}}
+                      style={{ margin: 10 }}
                       onPress={() => updateUser()}>
                       Update
                     </Button>
@@ -421,145 +421,150 @@ const Settings = (props) => {
                 <ScrollView
                   alwaysBounceVertical={true}
                   showsVerticalScrollIndicator={false}
-                  contentInset={{top: 0, left: 0, bottom: 108, right: 0}}>
+                  contentInset={{ top: 0, left: 0, bottom: 108, right: 0 }}>
                   <Specials />
                 </ScrollView>
               )}
             </KeyboardAvoidingView>
           </View>
         ) : (
-          <View style={styles.userBar}>
-            <Button
-              onPress={() => openAuthOptions()}
-              mode="contained"
-              color="tomato"
-              style={{margin: 10}}>
-              {' '}
-              {loginIsVisible || registerIsVisible ? 'Back' : 'Sign In'}{' '}
-            </Button>
+            <View style={styles.userBar}>
+              <Button
+                onPress={() => openAuthOptions()}
+                mode="contained"
+                color="tomato"
+                style={{ margin: 10 }}>
+                {' '}
+                {loginIsVisible || registerIsVisible ? 'Back' : 'Sign In'}{' '}
+              </Button>
 
-            {authOptionsVisible ||
-            loginIsVisible ||
-            registerIsVisible ? null : (
-              <View style={{alignItems: 'center'}}>
-                <Text>❗️ must be signed in to complete orders ❗️</Text>
-                <Text>& collect Toros to gain new titles</Text>
-              </View>
-            )}
+              {authOptionsVisible ||
+                loginIsVisible ||
+                registerIsVisible ? null : (
+                  <View style={{ alignItems: 'center' }}>
+                    <Text>❗️ must be signed in to complete orders ❗️</Text>
+                    <Text>& collect Toros to gain new titles</Text>
+                  </View>
+                )}
 
-            {authOptionsVisible ? (
-              <View>
-                <Button onPress={() => chooseLogin()} color="tomato">
-                  {' '}
+              {authOptionsVisible ? (
+                <View>
+                  <Button onPress={() => chooseLogin()} color="tomato">
+                    {' '}
                   Already have an account?{' '}
-                </Button>
-                <Button onPress={() => chooseSignIn()} color="tomato">
-                  {' '}
+                  </Button>
+                  <Button onPress={() => chooseSignIn()} color="tomato">
+                    {' '}
                   New account{' '}
-                </Button>
-              </View>
-            ) : null}
+                  </Button>
+                </View>
+              ) : null}
 
-            {loginIsVisible || registerIsVisible ? null : (
-              <ScrollView
-                alwaysBounceVertical={true}
-                showsVerticalScrollIndicator={false}
-                contentInset={{top: 0, left: 0, bottom: 108, right: 0}}>
-                <Specials />
-              </ScrollView>
-            )}
+              {loginIsVisible || registerIsVisible ? null : (
+                <ScrollView
+                  alwaysBounceVertical={true}
+                  showsVerticalScrollIndicator={false}
+                  contentInset={{ top: 0, left: 0, bottom: 108, right: 0 }}>
+                  <Specials />
+                </ScrollView>
+              )}
 
-            {loginIsVisible ? (
-              <View style={styles.container}>
-                <TextInput
-                  placeholder={'email'}
-                  autoCompleteType="email"
-                  onChangeText={changeEmail}
-                  value={email}
-                />
-                <TextInput
-                  placeholder={'password'}
-                  secureTextEntry={true}
-                  onChangeText={changePassword}
-                  value={password}
-                />
-                <Button
-                  style={{marginTop: 5}}
-                  onPress={() => loginUser(email, password)}
-                  color="tomato">
-                  Login
-                </Button>
-                <GoogleSigninButton
-                  style={{width: 192, height: 48, alignSelf: 'center'}}
-                  size={GoogleSigninButton.Size.Wide}
-                  color={GoogleSigninButton.Color.Dark}
-                  onPress={() => signIn()}
-                />
-              </View>
-            ) : null}
-
-            <KeyboardAvoidingView behavior="position">
-              {registerIsVisible ? (
+              {loginIsVisible ? (
                 <View style={styles.container}>
-                  <Text style={styles.text}>Email</Text>
                   <TextInput
                     placeholder={'email'}
                     autoCompleteType="email"
                     onChangeText={changeEmail}
-                    autoCapitalize="none"
                     value={email}
                   />
-                  <Text style={styles.text}>Password</Text>
                   <TextInput
                     placeholder={'password'}
                     secureTextEntry={true}
                     onChangeText={changePassword}
                     value={password}
                   />
-                  <Text style={styles.text}>Name</Text>
-                  <TextInput
-                    placeholder={'name'}
-                    autoCompleteType="name"
-                    onChangeText={changeName}
-                    value={name}
-                  />
-                  <Text style={styles.text}>Phone</Text>
-                  <TextInput
-                    placeholder={'phone number'}
-                    autoCompleteType="tel"
-                    onChangeText={changePhone}
-                    value={phone}
-                  />
-                  <Text style={styles.text}>Address</Text>
-                  <TextInput
-                    placeholder={'address'}
-                    autoCompleteType="street-address"
-                    onChangeText={changeAddress}
-                    value={address}
-                  />
-                  <TextInput
-                    placeholder={'zip code'}
-                    onChangeText={changePostalCode}
-                    value={postalCode}
-                  />
                   <Button
-                    mode="contained"
-                    color="tomato"
-                    style={{margin: 10}}
-                    onPress={() => createUser(email, password)}>
-                    Create New Account
-                  </Button>
+                    style={{ marginTop: 5 }}
+                    onPress={() => loginUser(email, password)}
+                    color="tomato">
+                    Login
+                </Button>
                   <GoogleSigninButton
-                    style={{width: 192, height: 48, alignSelf: 'center'}}
+                    style={{ width: 192, height: 48, alignSelf: 'center' }}
                     size={GoogleSigninButton.Size.Wide}
                     color={GoogleSigninButton.Color.Dark}
                     onPress={() => signIn()}
                   />
                 </View>
               ) : null}
-            </KeyboardAvoidingView>
-          </View>
-        )}
+
+              <KeyboardAvoidingView behavior="position">
+                {registerIsVisible ? (
+                  <ScrollView
+                    alwaysBounceVertical={true}
+                    showsVerticalScrollIndicator={false}
+                    contentInset={{ top: 0, left: 0, bottom: 108, right: 0 }}>
+                    <View style={styles.container}>
+                      <Text style={styles.text}>Email</Text>
+                      <TextInput
+                        placeholder={'email'}
+                        autoCompleteType="email"
+                        onChangeText={changeEmail}
+                        autoCapitalize="none"
+                        value={email}
+                      />
+                      <Text style={styles.text}>Password</Text>
+                      <TextInput
+                        placeholder={'password'}
+                        secureTextEntry={true}
+                        onChangeText={changePassword}
+                        value={password}
+                      />
+                      <Text style={styles.text}>Name</Text>
+                      <TextInput
+                        placeholder={'name'}
+                        autoCompleteType="name"
+                        onChangeText={changeName}
+                        value={name}
+                      />
+                      <Text style={styles.text}>Phone</Text>
+                      <TextInput
+                        placeholder={'phone number'}
+                        autoCompleteType="tel"
+                        onChangeText={changePhone}
+                        value={phone}
+                      />
+                      <Text style={styles.text}>Address</Text>
+                      <TextInput
+                        placeholder={'address'}
+                        autoCompleteType="street-address"
+                        onChangeText={changeAddress}
+                        value={address}
+                      />
+                      <TextInput
+                        placeholder={'zip code'}
+                        onChangeText={changePostalCode}
+                        value={postalCode}
+                      />
+                      <Button
+                        mode="contained"
+                        color="tomato"
+                        style={{ margin: 10 }}
+                        onPress={() => createUser(email, password)}>
+                        Create New Account
+                  </Button>
+                      <GoogleSigninButton
+                        style={{ width: 192, height: 48, alignSelf: 'center' }}
+                        size={GoogleSigninButton.Size.Wide}
+                        color={GoogleSigninButton.Color.Dark}
+                        onPress={() => signIn()}
+                      />
+                    </View>
+                  </ScrollView>
+                ) : null}
+              </KeyboardAvoidingView>
+            </View>
+          )}
       </SafeAreaView>
     </>
   );
