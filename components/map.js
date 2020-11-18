@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import MapView from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import Geolocation from '@react-native-community/geolocation';
-import {StyleSheet, Dimensions, Text} from 'react-native';
-import {mapApi} from '../Setup';
+import { StyleSheet, Dimensions, Text } from 'react-native';
+import { mapApi } from '../Setup';
 
 const Map = () => {
   const [coords, setCoords] = useState([]);
@@ -15,7 +15,7 @@ const Map = () => {
   }, []);
 
   findCoordinates = async () => {
-    Geolocation.setRNConfiguration({authorizationLevel: 'whenInUse'});
+    Geolocation.setRNConfiguration({ authorizationLevel: 'whenInUse' });
     const granted = Geolocation.requestAuthorization;
     if (granted) {
       Geolocation.getCurrentPosition(
@@ -32,7 +32,7 @@ const Map = () => {
           ]);
         },
         (error) => alert(error.message),
-        {enableHighAccuracy: false, timeout: 20000, maximumAge: 10000},
+        { enableHighAccuracy: false, timeout: 20000, maximumAge: 10000 },
       );
     } else {
       Geolocation.requestAuthorization();
@@ -62,7 +62,7 @@ const Map = () => {
         }}
         onLayout={() =>
           mapRef.fitToCoordinates(coords, {
-            edgePadding: {top: 50, right: 50, bottom: 50, left: 50},
+            edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
             animated: true,
           })
         }>
@@ -71,10 +71,10 @@ const Map = () => {
           coordinate={coords && coords[1]}
           title={'Sangria Cafe'}
         />
-        <Text style={{fontWeight: 'bold', fontSize: 18}}>
+        <Text style={{ fontWeight: 'bold', fontSize: 18 }}>
           {(parseFloat(distance) * kmToMConverter).toFixed(2)} miles{' '}
         </Text>
-        <Text style={{fontWeight: 'bold', fontSize: 18}}>
+        <Text style={{ fontWeight: 'bold', fontSize: 18 }}>
           {parseFloat(time).toFixed(0)}min drive
         </Text>
         <MapViewDirections
@@ -91,10 +91,29 @@ const Map = () => {
         />
       </MapView>
     </>
-  ) : null;
+  ) : (
+      <>
+        <MapView
+          initialRegion={{
+            latitude: SangriaLat,
+            longitude: SangriaLong,
+            latitudeDelta: LATITUDE_DELTA,
+            longitudeDelta: LONGITUDE_DELTA,
+          }}
+          style={styles.mapStyle}
+          ref={(ref) => {
+            mapRef = ref;
+          }}>
+          <MapView.Marker
+            coordinate={{latitude: SangriaLat,longitude: SangriaLong}}
+            title={'Sangria Cafe'}
+          />
+        </MapView>
+      </>
+    );
 };
 
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
   mapStyle: {
     padding: 8,
@@ -102,7 +121,7 @@ const styles = StyleSheet.create({
     height: 200,
     flex: 1,
     elevation: 10,
-    shadowOffset: {width: 20, height: 25},
+    shadowOffset: { width: 20, height: 25 },
     shadowColor: 'black',
     marginBottom: 25,
   },
