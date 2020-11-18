@@ -94,37 +94,16 @@ const Map = () => {
   ) : (
       <>
         <MapView
-          initialRegion={{
+          region={{
             latitude: SangriaLat,
             longitude: SangriaLong,
             latitudeDelta: LATITUDE_DELTA,
             longitudeDelta: LONGITUDE_DELTA,
           }}
-          style={styles.mapStyle}
-          ref={(ref) => {
-            mapRef = ref;
-          }}
-          onLayout={() =>
-            mapRef.fitToCoordinates(coords, {
-              edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
-              animated: true,
-            })
-          }>
+          style={styles.mapStyle}>
           <MapView.Marker
             coordinate={{ latitude: SangriaLat, longitude: SangriaLong }}
             title={'Sangria Cafe'}
-          />
-          <MapViewDirections
-            origin={coords && coords.length ? coords[0]: null}
-            destination={coords && coords.length ? coords[1]: null}
-            apikey={mapApi}
-            mode={'DRIVING'}
-            strokeWidth={5}
-            strokeColor="cornflowerblue"
-            onReady={(result) => {
-              getDist(result.distance);
-              getTravelTime(result.duration);
-            }}
           />
         </MapView>
       </>

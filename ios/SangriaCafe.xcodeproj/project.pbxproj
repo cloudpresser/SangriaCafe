@@ -19,6 +19,7 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		C20A50BD294A8B2ABAF922BC /* libPods-SangriaCafe-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D40617BC0A8F8A0417CC1E9E /* libPods-SangriaCafe-tvOSTests.a */; };
 		C90B5E4F2565C34E000571CD /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 263ADF1924CF6C20000DBA40 /* MapKit.framework */; };
+		C96BA34E2565C51200344F5E /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = C96BA34D2565C51200344F5E /* main.jsbundle */; };
 		CD463F5FD547D335339FF516 /* libPods-SangriaCafe-SangriaCafeTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D204D00C93B9E69A784B6FB4 /* libPods-SangriaCafe-SangriaCafeTests.a */; };
 		DB7FF8C500EEE8D03B3B6D85 /* libPods-SangriaCafe.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F0C3E73363FCF5944A4B6DF /* libPods-SangriaCafe.a */; };
 /* End PBXBuildFile section */
@@ -66,6 +67,7 @@
 		B9583574EBD2C782074AD40E /* Pods-SangriaCafe.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SangriaCafe.release.xcconfig"; path = "Target Support Files/Pods-SangriaCafe/Pods-SangriaCafe.release.xcconfig"; sourceTree = "<group>"; };
 		C6C4F65CD54DA8CAE62B24A1 /* Pods-SangriaCafe-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SangriaCafe-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-SangriaCafe-tvOSTests/Pods-SangriaCafe-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		C90B5BEC2562CFA0000571CD /* Sangria Cafe.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = "Sangria Cafe.entitlements"; path = "SangriaCafe/Sangria Cafe.entitlements"; sourceTree = "<group>"; };
+		C96BA34D2565C51200344F5E /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		D204D00C93B9E69A784B6FB4 /* libPods-SangriaCafe-SangriaCafeTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SangriaCafe-SangriaCafeTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D40617BC0A8F8A0417CC1E9E /* libPods-SangriaCafe-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SangriaCafe-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -136,6 +138,7 @@
 		13B07FAE1A68108700A75B9A /* SangriaCafe */ = {
 			isa = PBXGroup;
 			children = (
+				C96BA34D2565C51200344F5E /* main.jsbundle */,
 				C90B5BEC2562CFA0000571CD /* Sangria Cafe.entitlements */,
 				268715D024EC322300ABD95D /* GoogleService-Info.plist */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -358,6 +361,7 @@
 				264C40E324E44893006001D6 /* Images-2.xcassets in Resources */,
 				268715D124EC322300ABD95D /* GoogleService-Info.plist in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				C96BA34E2565C51200344F5E /* main.jsbundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
