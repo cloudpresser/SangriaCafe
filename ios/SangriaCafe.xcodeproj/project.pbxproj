@@ -11,7 +11,6 @@
 		079209DEE5B813E6540E3ABA /* libPods-SangriaCafe-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBB30E54005A6CA197C804C /* libPods-SangriaCafe-tvOS.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		263ADF1A24CF6C20000DBA40 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 263ADF1924CF6C20000DBA40 /* MapKit.framework */; };
 		264C40E324E44893006001D6 /* Images-2.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 264C40E224E44893006001D6 /* Images-2.xcassets */; };
 		268715D124EC322300ABD95D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 268715D024EC322300ABD95D /* GoogleService-Info.plist */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
@@ -19,6 +18,7 @@
 		2DCD954D1E0B4F2C00145EB5 /* SangriaCafeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* SangriaCafeTests.m */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		C20A50BD294A8B2ABAF922BC /* libPods-SangriaCafe-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D40617BC0A8F8A0417CC1E9E /* libPods-SangriaCafe-tvOSTests.a */; };
+		C90B5E4F2565C34E000571CD /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 263ADF1924CF6C20000DBA40 /* MapKit.framework */; };
 		CD463F5FD547D335339FF516 /* libPods-SangriaCafe-SangriaCafeTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D204D00C93B9E69A784B6FB4 /* libPods-SangriaCafe-SangriaCafeTests.a */; };
 		DB7FF8C500EEE8D03B3B6D85 /* libPods-SangriaCafe.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F0C3E73363FCF5944A4B6DF /* libPods-SangriaCafe.a */; };
 /* End PBXBuildFile section */
@@ -39,19 +39,6 @@
 			remoteInfo = "SangriaCafe-tvOS";
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		26FF8D3C24C7412B0091E4EE /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		00E356EE1AD99517003FC87E /* SangriaCafeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SangriaCafeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -98,7 +85,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				263ADF1A24CF6C20000DBA40 /* MapKit.framework in Frameworks */,
+				C90B5E4F2565C34E000571CD /* MapKit.framework in Frameworks */,
 				DB7FF8C500EEE8D03B3B6D85 /* libPods-SangriaCafe.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -257,7 +244,6 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				26FF8D3C24C7412B0091E4EE /* Embed Frameworks */,
 				605D7B680D78365D49DB1923 /* [CP] Copy Pods Resources */,
 				A61D72B12BFA438EE17A76F4 /* [CP-User] [RNFB] Core Configuration */,
 			);
