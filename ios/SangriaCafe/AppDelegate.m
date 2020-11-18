@@ -54,12 +54,13 @@ static void InitializeFlipper(UIApplication *application) {
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
   [self requestPushNotificationPermissions];
+  [[UIApplication sharedApplication] registerForRemoteNotifications];
     [FIRApp configure];
   return YES;
 }
 
 - (BOOL)application:(UIApplication *)application
-             openURL:(NSURL *)url
+            openURL:(NSURL *)url
    sourceApplication:(NSString *)sourceApplication
           annotation:(id)annotation {
    return [[FBSDKApplicationDelegate sharedInstance] application:application
