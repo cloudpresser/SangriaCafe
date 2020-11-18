@@ -47,7 +47,7 @@ const Map = () => {
   const kmToMConverter = 0.621371;
   let mapRef = null;
 
-  return coords.length > 0 ? (
+  return coords && coords.length > 0 ? (
     <>
       <MapView
         initialRegion={{
@@ -100,10 +100,7 @@ const Map = () => {
             latitudeDelta: LATITUDE_DELTA,
             longitudeDelta: LONGITUDE_DELTA,
           }}
-          style={styles.mapStyle}
-          ref={(ref) => {
-            mapRef = ref;
-          }}>
+          style={styles.mapStyle}>
           <MapView.Marker
             coordinate={{latitude: SangriaLat,longitude: SangriaLong}}
             title={'Sangria Cafe'}
