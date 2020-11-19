@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import storage from '@react-native-firebase/storage';
-import { firebaseConfig } from '../Setup';
+import { firebaseConfig, googlePass } from '../Setup';
 import { TextInput, Button } from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
@@ -91,8 +91,8 @@ const Settings = (props) => {
         .where('email', '==', userInfo.user.email)
         .get();
       cloudUser._docs && cloudUser._docs.length > 0
-        ? loginUser(userInfo.user.email, 'password123')
-        : createUser(userInfo.user.email, 'password123');
+        ? loginUser(userInfo.user.email, googlePass)
+        : createUser(userInfo.user.email, googlePass);
       onAuthStateChanged(userInfo.user);
     } catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {

@@ -29,7 +29,7 @@ const Map = () => {
               latitude: 40.86973,
               longitude: -73.82774,
             },
-          ]);
+          ])
         },
         (error) => alert(error.message),
         { enableHighAccuracy: false, timeout: 20000, maximumAge: 10000 },
@@ -37,7 +37,7 @@ const Map = () => {
     } else {
       Geolocation.requestAuthorization();
     }
-  };
+  }
 
   const ASPECT_RATIO = width / height;
   const SangriaLat = 40.86973;
@@ -47,7 +47,7 @@ const Map = () => {
   const kmToMConverter = 0.621371;
   let mapRef = null;
 
-  return coords && coords.length > 0 ? (
+  return coords.length > 0 ? (
     <>
       <MapView
         initialRegion={{
@@ -91,23 +91,7 @@ const Map = () => {
         />
       </MapView>
     </>
-  ) : (
-      <>
-        <MapView
-          region={{
-            latitude: SangriaLat,
-            longitude: SangriaLong,
-            latitudeDelta: LATITUDE_DELTA,
-            longitudeDelta: LONGITUDE_DELTA,
-          }}
-          style={styles.mapStyle}>
-          <MapView.Marker
-            coordinate={{ latitude: SangriaLat, longitude: SangriaLong }}
-            title={'Sangria Cafe'}
-          />
-        </MapView>
-      </>
-    );
+  ) : null;
 };
 
 const { width, height } = Dimensions.get('window');

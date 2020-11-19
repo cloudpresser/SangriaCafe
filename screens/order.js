@@ -27,7 +27,7 @@ const Order = (props) => {
     let cloudMenu = await firestore().collection('menu').get();
     let steaks = Object.entries(cloudMenu._docs[0]._data);
     let appetizers = Object.entries(cloudMenu._docs[1]._data);
-    let sides = Object.entries(cloudMenu._docs[2]._data);
+    // let sides = Object.entries(cloudMenu._docs[2]._data);
     let salads = Object.entries(cloudMenu._docs[3]._data);
     let rices = Object.entries(cloudMenu._docs[4]._data);
     let mainCourse = Object.entries(cloudMenu._docs[5]._data);

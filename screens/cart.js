@@ -38,7 +38,7 @@ const Cart = (props) => {
     );
 
   useEffect(() => {
-    if (props.curretUser != null) findUserInfo();
+    findUserInfo();
   }, []);
 
   findUserInfo = async () => {
@@ -50,18 +50,12 @@ const Cart = (props) => {
       if (cloudUser && cloudUser._docs) {
         setauthUser(cloudUser._docs[0]._data);
         setRefId(cloudUser._docs[0]._ref._documentPath._parts[1]);
-        checkCardOnFile(); // will remove and place in checkout sequence once up and running
       }
     }
   };
 
   checkCardOnFile = async () => {
-    let savedCard = await firestore()
-      .collection('cards')
-      .where('user_id', '==', refId)
-      .get();
-    if (savedCard._docs && savedCard._docs.length > 0)
-      getCard(savedCard._docs[0]._data);
+
   };
 
   tipHandler = (select) => {
@@ -73,28 +67,12 @@ const Cart = (props) => {
   };
 
   checkoutButtonPress = async () => {
-    if (authUser && currentCard) {
-      // const sandboxHeaders = {
-      //   'Content-Type': 'application/json',
-      //   'ISV-ID': 'D-181207-0001',
-      //   'ISV-Key': '480a31cb-03e6-4718-9e16-2d7a27e7af8f',
-      //   'App-Key': '6eeeccfb-dd19-41a3-b2fa-a15586c23e64',
-      //   'App-Version': '1.0.0.0',
-      //   'Store-Sub-ID': '2296-1C2A',
-      //   'Store-App-Token': '72ce5c21-9885-4de8-9f07-7dcc3202e83a',
-      // };
-
-      // const requestOptions = {
-      //   method: 'GET',
-      //   headers: sandboxHeaders,
-      //   redirect: 'follow',
-      // };
-
-      // fetch('https://sandbox.aldelo.io/v1/store', requestOptions)
-      //   .then((response) => response.text())
-      //   .then((result) => console.log(result))
-      //   .catch((error) => console.log('error', error));
-
+    let savedCard = await firestore()
+      .collection('cards')
+      .where('user_id', '==', refId)
+      .get();
+    if (savedCard._docs && savedCard._docs.length > 0) {
+      getCard(savedCard._docs[0]._data);
       const order = {
         EmployeeID: 1000000000000000001,
         OrderType: orderType, // 3=takeout 5=delivery
@@ -129,6 +107,10 @@ const Cart = (props) => {
         .update({
           toros: parseInt(authUser.toros) + toroTotal(),
         });
+      Alert.alert(
+        'Thank You!',
+        `${order}`
+      )
     } else {
       Alert.alert(
         'No Credit Card Information Found',
