@@ -19,8 +19,9 @@ export default class App extends React.Component {
     );
     foundFood === undefined
       ? this.setState({ foodCart: [...this.state.foodCart, item] })
-      : foundFood.quantity++ && this.setState({ foodCart: this.state.foodCart });
-    // expand to include instruction for individual items
+      : foundFood.instruction === item.instruction
+        ? foundFood.quantity++ && this.setState({ foodCart: this.state.foodCart })
+        : this.setState({ foodCart: [...this.state.foodCart, item] })
   };
 
   removeItem = (item) => {
