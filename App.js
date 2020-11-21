@@ -49,6 +49,7 @@ export default class App extends React.Component {
       <Cart
         foodCart={this.state.foodCart}
         removeFromCart={this.removeItem}
+        clearCart={() => this.setState({ foodCart: [] })}
         currentUser={this.state.currentUser}
       />
     );

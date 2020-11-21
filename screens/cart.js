@@ -109,8 +109,16 @@ const Cart = (props) => {
         });
       Alert.alert(
         'Thank You!',
-        `${order}`
+        `Your order is on the way! ETA 45-55 minutes.`,
+        [
+          {
+            text: "Okay",
+            onPress: props.clearCart,
+            style: "cancel"
+          }
+        ],
       )
+
     } else {
       Alert.alert(
         'No Credit Card Information Found',
