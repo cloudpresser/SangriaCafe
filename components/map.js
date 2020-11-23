@@ -11,10 +11,10 @@ const Map = () => {
   const [time, getTravelTime] = useState();
 
   useEffect(() => {
-    coords.length > 0 ? null : findCoordinates();
+    if (coords.length < 1) findCoordinates()
   }, []);
 
-  findCoordinates = async () => {
+  const findCoordinates = async () => {
     Geolocation.setRNConfiguration({ authorizationLevel: 'whenInUse' });
     const granted = Geolocation.requestAuthorization;
     if (granted) {

@@ -155,7 +155,7 @@ const Cart = (props) => {
 
           {props.foodCart.map((food) => {
             return (
-              <View style={styles.recieptTheme} key={food.item[0]}>
+              <View style={styles.recieptTheme} key={food.item[0] + food.instruction}>
                 <View>
                   <View style={{ flexDirection: 'row' }}>
                     <Text>{food.quantity} </Text>
