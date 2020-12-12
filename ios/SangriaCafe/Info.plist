@@ -40,10 +40,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>fb1628602547298886
-</string>
-			</array>
+				<string>fb1628602547298886</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
@@ -54,6 +51,10 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+		<array>
+    		<string>com.EdCache.SangriaCafe</string>
+		</array>
 	<key>FacebookAppID</key>
 	<string>1628602547298886</string>
 	<key>FacebookDisplayName</key>
@@ -67,17 +68,6 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-
-	<key>NSAppTransportSecurity</key>
-    <dict>
-        <key>NSAllowsArbitraryLoads</key>
-        <true/>
-        <key>NSAllowsArbitraryLoadsInWebContent</key>
-        <true/>
-        <key>NSAllowsLocalNetworking</key>
-        <true/>
-    </dict>
-
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -97,7 +87,6 @@
 	<array/>
 	<key>UIBackgroundModes</key>
 	<array>
-		<string>audio</string>
 		<string>fetch</string>
 		<string>location</string>
 		<string>processing</string>
@@ -114,8 +103,6 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
