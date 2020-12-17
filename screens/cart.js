@@ -97,17 +97,20 @@ const Cart = (props) => {
           };
         }),
       };
+      
       firestore().collection('orders').add({
         order: order,
         userId: refId,
       });
+
       firestore()
         .collection('users')
         .doc(refId)
         .update({
           toros: parseInt(authUser.toros) + toroTotal(),
         });
-      Alert.alert(
+      
+        Alert.alert(
         'Thank You!',
         `Your order is on the way! ETA 45-55 minutes.`,
         [

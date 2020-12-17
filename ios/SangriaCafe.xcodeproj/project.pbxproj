@@ -770,7 +770,6 @@
 					"$(PROJECT_DIR)/FacebookSDKs-iOS-4.40.0",
 				);
 				INFOPLIST_FILE = SangriaCafe/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
 				LD_NO_PIE = NO;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -801,7 +800,6 @@
 					"$(PROJECT_DIR)/FacebookSDKs-iOS-4.40.0",
 				);
 				INFOPLIST_FILE = SangriaCafe/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
 				LD_NO_PIE = NO;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
