@@ -72,8 +72,6 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contact
 
-[Cache Technologies](http://cachetechnologies.nyc/)
-
 Ed Hernandez - [Ed@cachetechnologies.nyc](mailto:ed@cachetechnologies.nyc)
 
 Project Link: [https://github.com/edhernandez04/SangriaCafe](https://github.com/edhernandez04/SangriaCafe)
