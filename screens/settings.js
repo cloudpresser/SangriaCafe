@@ -38,6 +38,7 @@ const Settings = (props) => {
   const [name, changeName] = useState('');
   const [phone, changePhone] = useState('');
   const [address, changeAddress] = useState('');
+  const [aptNum, changeAptNum] = useState('')
   const [city, changeCity] = useState('');
   const [state, changeState] = useState('')
   const [postalCode, changePostalCode] = useState('');
@@ -141,6 +142,7 @@ const Settings = (props) => {
           name: name,
           phoneNumber: phone,
           address: address,
+          aptNum: aptNum,
           city: city,
           state: state,
           postalCode: postalCode,
@@ -187,6 +189,7 @@ const Settings = (props) => {
       name: name,
       phoneNumber: phone,
       address: address,
+      aptNum: aptNum,
       city: city,
       state: state,
       postalCode: postalCode
@@ -334,7 +337,7 @@ const Settings = (props) => {
                   <ScrollView
                     alwaysBounceVertical={true}
                     showsVerticalScrollIndicator={false}
-                    contentInset={{ top: 0, left: 0, bottom: 275, right: 0 }}>
+                    contentInset={{ top: 0, left: 0, bottom: 365, right: 0 }}>
                     <Text style={styles.text}>
                       Total Toros Used: {userCloud.toros_spent}
                     </Text>
@@ -366,15 +369,21 @@ const Settings = (props) => {
                       onChangeText={changeAddress}
                       value={address}
                     />
+                    <Text style={styles.text}>Apartment/Suite Number</Text>
+                    <TextInput
+                      placeholder={userCloud.aptNum}
+                      onChangeText={changeAptNum}
+                      value={aptNum}
+                    />
                     <Text style={styles.text}>City</Text>
                     <TextInput
-                      placeholder={'city'}
+                      placeholder={userCloud.city}
                       onChangeText={changeCity}
                       value={city}
                     />
                     <Text style={styles.text}>State</Text>
                     <TextInput
-                      placeholder={'state'}
+                      placeholder={userCloud.state}
                       onChangeText={changeState}
                       value={state}
                     />
@@ -399,7 +408,7 @@ const Settings = (props) => {
                 <ScrollView
                   alwaysBounceVertical={true}
                   showsVerticalScrollIndicator={false}
-                  contentInset={{ top: 0, left: 0, bottom: 275, right: 0 }}>
+                  contentInset={{ top: 0, left: 0, bottom: 365, right: 0 }}>
                   <Specials />
                 </ScrollView>
               )}
@@ -442,7 +451,7 @@ const Settings = (props) => {
                 <ScrollView
                   alwaysBounceVertical={true}
                   showsVerticalScrollIndicator={false}
-                  contentInset={{ top: 0, left: 0, bottom: 275, right: 0 }}>
+                  contentInset={{ top: 0, left: 0, bottom: 365, right: 0 }}>
                   <Specials />
                 </ScrollView>
               )}
@@ -481,7 +490,7 @@ const Settings = (props) => {
                   <ScrollView
                     alwaysBounceVertical={true}
                     showsVerticalScrollIndicator={false}
-                    contentInset={{ top: 0, left: 0, bottom: 275, right: 0 }}>
+                    contentInset={{ top: 0, left: 0, bottom: 365, right: 0 }}>
                     <View style={styles.container}>
                       <Text style={styles.text}>Email</Text>
                       <TextInput
@@ -519,10 +528,15 @@ const Settings = (props) => {
                         onChangeText={changeAddress}
                         value={address}
                       />
+                      <Text style={styles.text}>Apartment/Suite Number</Text>
+                      <TextInput
+                        placeholder={'apartment/suite number'}
+                        onChangeText={changeAptNum}
+                        value={aptNum}
+                      />
                       <Text style={styles.text}>City</Text>
                       <TextInput
                         placeholder={'city'}
-                        autoCompleteType="street-address"
                         onChangeText={changeCity}
                         value={city}
                       />

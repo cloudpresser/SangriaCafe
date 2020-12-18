@@ -111,9 +111,14 @@ const Cart = (props) => {
   deviceCheckoutOption = async () => {
     const items = formatCartForCheckout()
 
+    const shippingMethods = [{
+      amount: deliveryFee(),
+    }]
+
     const options = {
       requiredBillingAddressFields: 'all',
       requiredShippingAddressFields: 'all',
+      shippingMethods,
     }
 
     try {
@@ -124,18 +129,11 @@ const Cart = (props) => {
   }
 
   newCardCheckoutOption = async () => {
-    console.log(authUser)
     const options = {
-      requiredBillingAddressFields: 'full',
+      requiredBillingAddressFields: 'zip',
       prefilledInformation: {
         billingAddress: {
-          name: 'Gunilla Haugeh',
-          line1: 'Canary Place',
-          line2: '3',
-          city: 'Macon',
-          state: 'Georgia',
-          country: 'US',
-          postalCode: '31217',
+          postalCode: authUser.postalCode,
         },
       },
     }

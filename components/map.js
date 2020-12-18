@@ -11,7 +11,7 @@ const Map = () => {
   const [time, getTravelTime] = useState();
 
   useEffect(() => {
-    if (!coords) findCoordinates()
+    findCoordinates()
   }, []);
 
   const findCoordinates = async () => {
