@@ -10,16 +10,16 @@ import {
   TouchableOpacity,
   ScrollView,
   Switch,
-  Alert,
 } from 'react-native';
+import { STRIPE_PUBLISHABLE_KEY, MERCHANT_ID } from '../Setup'
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
+import stripe from 'tipsi-stripe'
 
 const Cart = (props) => {
   const [tip, addTip] = useState(0);
   const [orderType, changeOrderType] = useState(5);
   const [authUser, setauthUser] = useState();
-  const [currentCard, getCard] = useState();
   const [refId, setRefId] = useState();
 
   const taxRate = 0.08875;
@@ -41,6 +41,11 @@ const Cart = (props) => {
     findUserInfo();
   }, []);
 
+  stripe.setOptions({
+    publishableKey: STRIPE_PUBLISHABLE_KEY,
+    merchantId: MERCHANT_ID,
+  })
+
   findUserInfo = async () => {
     if (auth()._user && auth()._user.email) {
       let cloudUser = await firestore()
@@ -54,10 +59,6 @@ const Cart = (props) => {
     }
   };
 
-  checkCardOnFile = async () => {
-
-  };
-
   tipHandler = (select) => {
     addTip(total() * select);
   };
@@ -67,67 +68,7 @@ const Cart = (props) => {
   };
 
   checkoutButtonPress = async () => {
-    let savedCard = await firestore()
-      .collection('cards')
-      .where('user_id', '==', refId)
-      .get();
-    if (savedCard._docs && savedCard._docs.length > 0) {
-      getCard(savedCard._docs[0]._data);
-      const order = {
-        EmployeeID: 1000000000000000001,
-        OrderType: orderType, // 3=takeout 5=delivery
-        GuestCount: 1,
-        CustomerName: authUser.name,
-        Telephone: authUser.phoneNumber,
-        Address: authUser.address,
-        PostalCode: authUser.postalCode,
-        City: 'Bronx',
-        State: 'NY',
-        DeliveryCharge: deliveryFee(),
-        OrderGratuityPercent: (tip / total()) * 100,
-        AutoPrint: false,
-        SystemPrint: false,
-        OrderDetails: props.foodCart.map((food) => {
-          return {
-            ItemID: food.item[0],
-            Qty: food.quantity,
-            UnitPrice: food.item[1].price,
-            LineNote: food.instruction ? food.instruction : null,
-            CreatedByEmployeeID: 1000000000000000001,
-          };
-        }),
-      };
-      
-      firestore().collection('orders').add({
-        order: order,
-        userId: refId,
-      });
 
-      firestore()
-        .collection('users')
-        .doc(refId)
-        .update({
-          toros: parseInt(authUser.toros) + toroTotal(),
-        });
-      
-        Alert.alert(
-        'Thank You!',
-        `Your order is on the way! ETA 45-55 minutes.`,
-        [
-          {
-            text: "Okay",
-            onPress: props.clearCart,
-            style: "cancel"
-          }
-        ],
-      )
-
-    } else {
-      Alert.alert(
-        'No Credit Card Information Found',
-        'Please signin and update your user information to continue your order. You can update your profile in the Settings tab below.',
-      );
-    }
   };
 
   return props.foodCart.length > 0 ? (

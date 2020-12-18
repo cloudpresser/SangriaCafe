@@ -20,6 +20,7 @@
 		C20A50BD294A8B2ABAF922BC /* libPods-SangriaCafe-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D40617BC0A8F8A0417CC1E9E /* libPods-SangriaCafe-tvOSTests.a */; };
 		C90B5E4F2565C34E000571CD /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 263ADF1924CF6C20000DBA40 /* MapKit.framework */; };
 		C96BA34E2565C51200344F5E /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = C96BA34D2565C51200344F5E /* main.jsbundle */; };
+		C975070F258D1C7400024CD3 /* PassKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C975070E258D1C7400024CD3 /* PassKit.framework */; };
 		CD463F5FD547D335339FF516 /* libPods-SangriaCafe-SangriaCafeTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D204D00C93B9E69A784B6FB4 /* libPods-SangriaCafe-SangriaCafeTests.a */; };
 		DB7FF8C500EEE8D03B3B6D85 /* libPods-SangriaCafe.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F0C3E73363FCF5944A4B6DF /* libPods-SangriaCafe.a */; };
 /* End PBXBuildFile section */
@@ -68,6 +69,7 @@
 		C6C4F65CD54DA8CAE62B24A1 /* Pods-SangriaCafe-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SangriaCafe-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-SangriaCafe-tvOSTests/Pods-SangriaCafe-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		C90B5BEC2562CFA0000571CD /* Sangria Cafe.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = "Sangria Cafe.entitlements"; path = "SangriaCafe/Sangria Cafe.entitlements"; sourceTree = "<group>"; };
 		C96BA34D2565C51200344F5E /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
+		C975070E258D1C7400024CD3 /* PassKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PassKit.framework; path = System/Library/Frameworks/PassKit.framework; sourceTree = SDKROOT; };
 		D204D00C93B9E69A784B6FB4 /* libPods-SangriaCafe-SangriaCafeTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SangriaCafe-SangriaCafeTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D40617BC0A8F8A0417CC1E9E /* libPods-SangriaCafe-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SangriaCafe-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -87,6 +89,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C975070F258D1C7400024CD3 /* PassKit.framework in Frameworks */,
 				C90B5E4F2565C34E000571CD /* MapKit.framework in Frameworks */,
 				DB7FF8C500EEE8D03B3B6D85 /* libPods-SangriaCafe.a in Frameworks */,
 			);
@@ -154,6 +157,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C975070E258D1C7400024CD3 /* PassKit.framework */,
 				263ADF1924CF6C20000DBA40 /* MapKit.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
@@ -458,6 +462,7 @@
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/Stripe/Stripe.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/gRPC-C++/gRPCCertificates-Cpp.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -481,6 +486,7 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SimpleLineIcons.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Zocial.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Stripe.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/gRPCCertificates-Cpp.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -568,6 +574,7 @@
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/Stripe/Stripe.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/gRPC-C++/gRPCCertificates-Cpp.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -591,6 +598,7 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SimpleLineIcons.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Zocial.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Stripe.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/gRPCCertificates-Cpp.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
