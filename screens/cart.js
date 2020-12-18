@@ -10,6 +10,8 @@ import {
   TouchableOpacity,
   ScrollView,
   Switch,
+  Alert,
+  Platform
 } from 'react-native';
 import { STRIPE_PUBLISHABLE_KEY, MERCHANT_ID } from '../Setup'
 import firestore from '@react-native-firebase/firestore';
@@ -21,6 +23,15 @@ const Cart = (props) => {
   const [orderType, changeOrderType] = useState(5);
   const [authUser, setauthUser] = useState();
   const [refId, setRefId] = useState();
+  const [loading, isLoading] = useState(false)
+  const [allowed, isAllowed] = useState(false)
+  const [complete, isCompleted] = useState(true)
+  const [status, currentStatus] = useState(null)
+  const [token, setToken] = useState(null)
+  const [amexAvailable, isAmexAvailable] = useState(false)
+  const [discoverAvailable, isDiscoverAvailable] = useState(false)
+  const [masterCardAvailable, isMasterCardAvailable] = useState(false)
+  const [visaAvailable, isVisaAvailable] = useState(false)
 
   const taxRate = 0.08875;
   const subtotal = () =>
@@ -38,7 +49,25 @@ const Cart = (props) => {
     );
 
   useEffect(() => {
-    findUserInfo();
+    isAllowed(stripe.deviceSupportsNativePay())
+
+    isAmexAvailable(stripe.canMakeNativePayPayments({
+      networks: ['american_express'],
+    }))
+
+    isDiscoverAvailable(stripe.canMakeNativePayPayments({
+      networks: ['discover'],
+    }))
+
+    isMasterCardAvailable(stripe.canMakeNativePayPayments({
+      networks: ['master_card'],
+    }))
+
+    isVisaAvailable(stripe.canMakeNativePayPayments({
+      networks: ['visa'],
+    }))
+
+    findUserInfo()
   }, []);
 
   stripe.setOptions({
@@ -67,8 +96,67 @@ const Cart = (props) => {
     orderType === 3 ? changeOrderType(5) : changeOrderType(3) && tipHandler(0);
   };
 
-  checkoutButtonPress = async () => {
+  formatCartForCheckout = () => {
+    const itemList = []
+    props.foodCart.forEach(item => {
+      let newItem = {
+        label: item.item[0],
+        amount: item.item[1].price + '.00'
+      }
+      itemList.push(newItem)
+    })
+    return itemList
+  }
 
+  deviceCheckoutOption = async () => {
+    const items = formatCartForCheckout()
+
+    const options = {
+      requiredBillingAddressFields: 'all',
+      requiredShippingAddressFields: 'all',
+    }
+
+    try {
+      await stripe.paymentRequestWithNativePay(items, options)
+    } catch (error) {
+      stripe.cancelNativePayRequest()
+    }
+  }
+
+  newCardCheckoutOption = async () => {
+    console.log(authUser)
+    const options = {
+      requiredBillingAddressFields: 'full',
+      prefilledInformation: {
+        billingAddress: {
+          name: 'Gunilla Haugeh',
+          line1: 'Canary Place',
+          line2: '3',
+          city: 'Macon',
+          state: 'Georgia',
+          country: 'US',
+          postalCode: '31217',
+        },
+      },
+    }
+    const token = await stripe.paymentRequestWithCardForm(options)
+  }
+
+  checkoutButtonPress = async () => {
+    Alert.alert(
+      'Choose Payment Option',
+      '',
+      [
+        {
+          text: Platform.OS === 'ios' ? 'Pay': 'Android Pay',
+          onPress: () => deviceCheckoutOption()
+        },
+        {
+          text: 'Add Card',
+          onPress: () => newCardCheckoutOption()
+        }
+      ]
+    )
   };
 
   return props.foodCart.length > 0 ? (

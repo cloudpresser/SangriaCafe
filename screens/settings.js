@@ -23,11 +23,9 @@ import {
   statusCodes,
 } from '@react-native-community/google-signin';
 import Specials from '../components/specialsCard';
-import CardModal from '../components/cardModal';
 
 const Settings = (props) => {
   const [initializing, setInitializing] = useState(true);
-  const [modalVisible, setModalVisible] = useState(false);
   const [authOptionsVisible, toggleOptions] = useState(false);
   const [loginIsVisible, toggleLogin] = useState(false);
   const [registerIsVisible, toggleRegister] = useState(false);
@@ -40,9 +38,9 @@ const Settings = (props) => {
   const [name, changeName] = useState('');
   const [phone, changePhone] = useState('');
   const [address, changeAddress] = useState('');
+  const [city, changeCity] = useState('');
+  const [state, changeState] = useState('')
   const [postalCode, changePostalCode] = useState('');
-  const [currentCard, getCard] = useState();
-  const [cardOnFile, getCOF] = useState();
   const [imageSource, setImageSource] = useState();
 
   useEffect(() => {
@@ -64,8 +62,8 @@ const Settings = (props) => {
           changeName(cloudUser._docs[0]._data.name),
           changePhone(cloudUser._docs[0]._data.phoneNumber),
           changeAddress(cloudUser._docs[0]._data.address),
+          changeCity(cloudUser._docs[0]._data.city),
           changePostalCode(cloudUser._docs[0]._data.postalCode);
-        findCard();
       }
       props.updateUser(user)
     }
@@ -143,6 +141,8 @@ const Settings = (props) => {
           name: name,
           phoneNumber: phone,
           address: address,
+          city: city,
+          state: state,
           postalCode: postalCode,
           toros: 0,
           toros_spent: 0,
@@ -187,27 +187,17 @@ const Settings = (props) => {
       name: name,
       phoneNumber: phone,
       address: address,
+      city: city,
+      state: state,
+      postalCode: postalCode
     });
     onAuthStateChanged(userAuth);
-  };
-
-  findCard = async () => {
-    const savedCard = await firestore()
-      .collection('cards')
-      .where('user_id', '==', userCloudRefId)
-      .get();
-    if (savedCard._docs && savedCard._docs.length > 0) {
-      getCard(savedCard._docs[0]._data);
-      getCOF(savedCard._docs[0]._ref._documentPath._parts[1]);
-    }
   };
 
   logoff = () => {
     auth().signOut();
     setUser(null);
     setCloudUser(null);
-    getCard();
-    getCOF();
     props.updateUser(null)
   };
 
@@ -254,17 +244,6 @@ const Settings = (props) => {
     });
   };
 
-  const handleCardPress = () => {
-    return (
-      <CardModal
-        setModalVisible={setModalVisible(true)}
-        card={currentCard}
-        cardRef={cardOnFile}
-        cloudUserId={userCloudRefId}
-      />
-    );
-  };
-
   const matador = 90880;
   const picador = 22720;
   const banderillero = 5680;
@@ -289,15 +268,6 @@ const Settings = (props) => {
             style={styles.logo}
           />
         </View>
-
-        <Modal animationType="fade" transparent={true} visible={modalVisible}>
-          <CardModal
-            setModalVisible={setModalVisible}
-            card={currentCard}
-            cardRef={cardOnFile}
-            cloudUserId={userCloudRefId}
-          />
-        </Modal>
 
         {userCloud && auth()._user ? (
           <View>
@@ -340,23 +310,19 @@ const Settings = (props) => {
             <KeyboardAvoidingView behavior="height">
               <View style={{ justifyContent: 'center', flexDirection: 'row' }}>
                 <Button
-                  style={{ margin: 5, width: screen.width / 4 }}
+                  style={{ margin: 5 }}
                   color="tomato"
-                  onPress={() => handleCardPress()}>
-                  Card
-                </Button>
-                <Button
-                  style={{ margin: 5, width: screen.width / 4 }}
-                  color="tomato"
+                  width={150}
                   onPress={
                     updateVisible
                       ? () => toggleUpdate(false)
                       : () => toggleUpdate(true)
                   }>
-                  {updateVisible ? 'Close' : 'Info'}
+                  {updateVisible ? 'Close' : 'Account'}
                 </Button>
                 <Button
-                  style={{ margin: 5, width: screen.width / 4 }}
+                  style={{ margin: 5 }}
+                  width={150}
                   color="tomato"
                   onPress={() => logoff()}>
                   Logoff
@@ -368,7 +334,7 @@ const Settings = (props) => {
                   <ScrollView
                     alwaysBounceVertical={true}
                     showsVerticalScrollIndicator={false}
-                    contentInset={{ top: 0, left: 0, bottom: 108, right: 0 }}>
+                    contentInset={{ top: 0, left: 0, bottom: 275, right: 0 }}>
                     <Text style={styles.text}>
                       Total Toros Used: {userCloud.toros_spent}
                     </Text>
@@ -400,6 +366,18 @@ const Settings = (props) => {
                       onChangeText={changeAddress}
                       value={address}
                     />
+                    <Text style={styles.text}>City</Text>
+                    <TextInput
+                      placeholder={'city'}
+                      onChangeText={changeCity}
+                      value={city}
+                    />
+                    <Text style={styles.text}>State</Text>
+                    <TextInput
+                      placeholder={'state'}
+                      onChangeText={changeState}
+                      value={state}
+                    />
                     <Text style={styles.text}>Zip Code</Text>
                     <TextInput
                       placeholder={userCloud.postalCode}
@@ -421,7 +399,7 @@ const Settings = (props) => {
                 <ScrollView
                   alwaysBounceVertical={true}
                   showsVerticalScrollIndicator={false}
-                  contentInset={{ top: 0, left: 0, bottom: 108, right: 0 }}>
+                  contentInset={{ top: 0, left: 0, bottom: 275, right: 0 }}>
                   <Specials />
                 </ScrollView>
               )}
@@ -464,7 +442,7 @@ const Settings = (props) => {
                 <ScrollView
                   alwaysBounceVertical={true}
                   showsVerticalScrollIndicator={false}
-                  contentInset={{ top: 0, left: 0, bottom: 108, right: 0 }}>
+                  contentInset={{ top: 0, left: 0, bottom: 275, right: 0 }}>
                   <Specials />
                 </ScrollView>
               )}
@@ -503,7 +481,7 @@ const Settings = (props) => {
                   <ScrollView
                     alwaysBounceVertical={true}
                     showsVerticalScrollIndicator={false}
-                    contentInset={{ top: 0, left: 0, bottom: 108, right: 0 }}>
+                    contentInset={{ top: 0, left: 0, bottom: 275, right: 0 }}>
                     <View style={styles.container}>
                       <Text style={styles.text}>Email</Text>
                       <TextInput
@@ -536,11 +514,25 @@ const Settings = (props) => {
                       />
                       <Text style={styles.text}>Address</Text>
                       <TextInput
-                        placeholder={'address'}
+                        placeholder={'street address'}
                         autoCompleteType="street-address"
                         onChangeText={changeAddress}
                         value={address}
                       />
+                      <Text style={styles.text}>City</Text>
+                      <TextInput
+                        placeholder={'city'}
+                        autoCompleteType="street-address"
+                        onChangeText={changeCity}
+                        value={city}
+                      />
+                      <Text style={styles.text}>State</Text>
+                      <TextInput
+                        placeholder={'state'}
+                        onChangeText={changeState}
+                        value={state}
+                      />
+                      <Text style={styles.text}>Zip Code</Text>
                       <TextInput
                         placeholder={'zip code'}
                         onChangeText={changePostalCode}
@@ -602,7 +594,6 @@ const styles = StyleSheet.create({
   },
   loggedInUserBar: {
     marginTop: 10,
-    marginBottom: 10,
   },
   detailSection: {
     padding: 10,
