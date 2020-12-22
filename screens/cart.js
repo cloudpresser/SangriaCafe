@@ -105,26 +105,49 @@ const Cart = (props) => {
       }
       itemList.push(newItem)
     })
+    if (deliveryFee() > 0) {
+      itemList.push({
+        label: "DELIVERY",
+        amount: deliveryFee()
+      })
+    }
+    itemList.push({
+      label: "TAX",
+      amount: salesTax().toFixed(2)
+    })
+    if (tip > 0) {
+      itemList.push({
+        label: "TIP",
+        amount: tip.toFixed(2)
+      })
+    }
     return itemList
   }
 
   deviceCheckoutOption = async () => {
-    const items = formatCartForCheckout()
-
-    const shippingMethods = [{
-      amount: deliveryFee(),
-    }]
-
-    const options = {
-      requiredBillingAddressFields: 'all',
-      requiredShippingAddressFields: 'all',
-      shippingMethods,
-    }
-
     try {
-      await stripe.paymentRequestWithNativePay(items, options)
+      isLoading(true)
+      currentStatus(null)
+      setToken(null)
+
+      const items = formatCartForCheckout()
+      const token = await stripe.paymentRequestWithNativePay(items)
+
+      isLoading(false)
+      setToken(token)
+
+      console.log(token)
+
+      if (complete) {
+        await stripe.completeNativePayRequest(token)
+        currentStatus('Apple Pay payment completed')
+      } else {
+        await stripe.cancelNativePayRequest(token)
+        currentStatus('Apple Pay payment cenceled')
+      }
     } catch (error) {
-      stripe.cancelNativePayRequest()
+      isLoading(false)
+      currentStatus(`Error: ${error.message}`)
     }
   }
 
@@ -138,6 +161,11 @@ const Cart = (props) => {
       },
     }
     const token = await stripe.paymentRequestWithCardForm(options)
+    if (token) {
+      await firestore().collection('users').doc(userCloudRefId).update({
+        cardToken: token
+      });
+    }
   }
 
   checkoutButtonPress = async () => {
@@ -146,12 +174,16 @@ const Cart = (props) => {
       '',
       [
         {
-          text: Platform.OS === 'ios' ? 'Pay': 'Android Pay',
+          text: Platform.OS === 'ios' ? 'Pay' : 'Android Pay',
           onPress: () => deviceCheckoutOption()
         },
         {
           text: 'Add Card',
           onPress: () => newCardCheckoutOption()
+        },
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancelled')
         }
       ]
     )
