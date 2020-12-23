@@ -310,7 +310,7 @@ const Settings = (props) => {
               </View>
             </View>
 
-            <KeyboardAvoidingView behavior="height">
+            <KeyboardAvoidingView behavior="padding">
               <View style={{ justifyContent: 'center', flexDirection: 'row' }}>
                 <Button
                   style={{ margin: 5 }}
@@ -485,7 +485,7 @@ const Settings = (props) => {
                 </View>
               ) : null}
 
-              <KeyboardAvoidingView behavior="position">
+              <KeyboardAvoidingView behavior="padding">
                 {registerIsVisible ? (
                   <ScrollView
                     alwaysBounceVertical={true}

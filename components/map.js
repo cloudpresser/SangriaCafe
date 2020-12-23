@@ -71,10 +71,10 @@ const Map = () => {
           coordinate={coords && coords[1]}
           title={'Sangria Cafe'}
         />
-        <Text style={{ fontWeight: 'bold', fontSize: 18 }}>
+        <Text style={{ fontWeight: 'bold', fontSize: 18, color: 'tomato' }}>
           {(parseFloat(distance) * kmToMConverter).toFixed(2)} miles{' '}
         </Text>
-        <Text style={{ fontWeight: 'bold', fontSize: 18 }}>
+        <Text style={{ fontWeight: 'bold', fontSize: 18, color: 'tomato' }}>
           {parseFloat(time).toFixed(0)}min drive
         </Text>
         <MapViewDirections

@@ -136,8 +136,6 @@ const Cart = (props) => {
       isLoading(false)
       setToken(token)
 
-      console.log(token)
-
       if (complete) {
         await stripe.completeNativePayRequest(token)
         currentStatus('Apple Pay payment completed')
