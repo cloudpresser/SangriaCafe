@@ -101,6 +101,5 @@ const styles = StyleSheet.create({
   },
   reward: {
     color: 'tomato',
-    marginBottom: 10,
   },
 });

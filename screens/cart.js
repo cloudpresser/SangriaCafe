@@ -23,15 +23,10 @@ const Cart = (props) => {
   const [orderType, changeOrderType] = useState(5);
   const [authUser, setauthUser] = useState();
   const [refId, setRefId] = useState();
-  const [loading, isLoading] = useState(false)
   const [allowed, isAllowed] = useState(false)
   const [complete, isCompleted] = useState(true)
   const [status, currentStatus] = useState(null)
   const [token, setToken] = useState(null)
-  const [amexAvailable, isAmexAvailable] = useState(false)
-  const [discoverAvailable, isDiscoverAvailable] = useState(false)
-  const [masterCardAvailable, isMasterCardAvailable] = useState(false)
-  const [visaAvailable, isVisaAvailable] = useState(false)
 
   const taxRate = 0.08875;
   const subtotal = () =>
@@ -50,24 +45,8 @@ const Cart = (props) => {
 
   useEffect(() => {
     isAllowed(stripe.deviceSupportsNativePay())
-
-    isAmexAvailable(stripe.canMakeNativePayPayments({
-      networks: ['american_express'],
-    }))
-
-    isDiscoverAvailable(stripe.canMakeNativePayPayments({
-      networks: ['discover'],
-    }))
-
-    isMasterCardAvailable(stripe.canMakeNativePayPayments({
-      networks: ['master_card'],
-    }))
-
-    isVisaAvailable(stripe.canMakeNativePayPayments({
-      networks: ['visa'],
-    }))
-
     findUserInfo()
+    formatCartForCheckout()
   }, []);
 
   stripe.setOptions({
@@ -111,29 +90,31 @@ const Cart = (props) => {
         amount: deliveryFee()
       })
     }
-    itemList.push({
-      label: "TAX",
-      amount: salesTax().toFixed(2)
-    })
     if (tip > 0) {
       itemList.push({
         label: "TIP",
         amount: tip.toFixed(2)
       })
     }
+    itemList.push({
+      label: "TAX",
+      amount: salesTax().toFixed(2)
+    })
+    itemList.push({
+      label: 'SNGRIA CFE',
+      amount: total().toFixed(2)
+    })
     return itemList
   }
 
   deviceCheckoutOption = async () => {
     try {
-      isLoading(true)
-      currentStatus(null)
-      setToken(null)
-
       const items = formatCartForCheckout()
-      const token = await stripe.paymentRequestWithNativePay(items)
-
-      isLoading(false)
+      const options = {
+        requiredBillingAddressFields: ['all'],
+        requiredShippingAddressFields: ['phone', 'postal_address'],
+      }
+      const token = await stripe.paymentRequestWithApplePay(items, options)
       setToken(token)
 
       if (complete) {
@@ -144,7 +125,6 @@ const Cart = (props) => {
         currentStatus('Apple Pay payment cenceled')
       }
     } catch (error) {
-      isLoading(false)
       currentStatus(`Error: ${error.message}`)
     }
   }
