@@ -77,39 +77,42 @@ const Cart = (props) => {
 
   formatCartForCheckout = () => {
     const itemList = []
-    props.foodCart.forEach(item => {
-      let newItem = {
-        label: item.item[0],
-        amount: item.item[1].price + '.00'
-      }
-      itemList.push(newItem)
-    })
-    if (deliveryFee() > 0) {
-      itemList.push({
-        label: "DELIVERY",
-        amount: deliveryFee()
-      })
-    }
-    if (tip > 0) {
-      itemList.push({
-        label: "TIP",
-        amount: tip.toFixed(2)
-      })
-    }
-    itemList.push({
-      label: "TAX",
-      amount: salesTax().toFixed(2)
-    })
+    // props.foodCart.forEach(item => {
+    //   let newItem = {
+    //     label: item.item[0],
+    //     amount: item.item[1].price + '.00'
+    //   }
+    //   itemList.push(newItem)
+    // })
+    // if (deliveryFee() > 0) {
+    //   itemList.push({
+    //     label: "DELIVERY",
+    //     amount: deliveryFee()
+    //   })
+    // }
+    // if (tip > 0) {
+    //   itemList.push({
+    //     label: "TIP",
+    //     amount: tip.toFixed(2)
+    //   })
+    // }
+    // itemList.push({
+    //   label: "TAX",
+    //   amount: salesTax().toFixed(2)
+    // })
     itemList.push({
       label: 'SNGRIA CFE',
-      amount: total().toFixed(2)
+      amount: (parseFloat(total()) + parseFloat(tip)).toFixed(2)
     })
     return itemList
   }
 
   deviceCheckoutOption = async () => {
     try {
-      const items = formatCartForCheckout()
+      const items = [{
+        label: 'SNGRIA CFE',
+        amount: (parseFloat(total()) + parseFloat(tip)).toFixed(2)
+      }]
       const options = {
         requiredBillingAddressFields: ['all'],
         requiredShippingAddressFields: ['phone', 'postal_address'],
