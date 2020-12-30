@@ -44,15 +44,14 @@ const Cart = (props) => {
     );
 
   useEffect(() => {
+    stripe.setOptions({
+      publishableKey: STRIPE_PUBLISHABLE_KEY,
+      merchantId: MERCHANT_ID,
+    })
     isAllowed(stripe.deviceSupportsNativePay())
     findUserInfo()
     formatCartForCheckout()
   }, []);
-
-  stripe.setOptions({
-    publishableKey: STRIPE_PUBLISHABLE_KEY,
-    merchantId: MERCHANT_ID,
-  })
 
   findUserInfo = async () => {
     if (auth()._user && auth()._user.email) {
@@ -75,36 +74,58 @@ const Cart = (props) => {
     orderType === 3 ? changeOrderType(5) : changeOrderType(3) && tipHandler(0);
   };
 
-  formatCartForCheckout = () => {
-    const itemList = []
-    // props.foodCart.forEach(item => {
-    //   let newItem = {
-    //     label: item.item[0],
-    //     amount: item.item[1].price + '.00'
-    //   }
-    //   itemList.push(newItem)
-    // })
-    // if (deliveryFee() > 0) {
-    //   itemList.push({
-    //     label: "DELIVERY",
-    //     amount: deliveryFee()
-    //   })
-    // }
-    // if (tip > 0) {
-    //   itemList.push({
-    //     label: "TIP",
-    //     amount: tip.toFixed(2)
-    //   })
-    // }
-    // itemList.push({
-    //   label: "TAX",
-    //   amount: salesTax().toFixed(2)
-    // })
-    itemList.push({
-      label: 'SNGRIA CFE',
-      amount: (parseFloat(total()) + parseFloat(tip)).toFixed(2)
+  // formatCartForCheckout = () => {
+  //   const itemList = []
+  //   props.foodCart.forEach(item => {
+  //     let newItem = {
+  //       label: item.item[0],
+  //       amount: item.item[1].price + '.00'
+  //     }
+  //     itemList.push(newItem)
+  //   })
+  //   if (deliveryFee() > 0) {
+  //     itemList.push({
+  //       label: "DELIVERY",
+  //       amount: deliveryFee()
+  //     })
+  //   }
+  //   if (tip > 0) {
+  //     itemList.push({
+  //       label: "TIP",
+  //       amount: tip.toFixed(2)
+  //     })
+  //   }
+  //   itemList.push({
+  //     label: "TAX",
+  //     amount: salesTax().toFixed(2)
+  //   })
+  //   itemList.push({
+  //     label: 'SNGRIA CFE',
+  //     amount: (parseFloat(total()) + parseFloat(tip)).toFixed(2)
+  //   })
+  //   return itemList
+  // }
+
+  makePayment = async () => {
+    fetch('https://sangriacafe.cloudfunctions.net/payWithStripe', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        amount: ((parseFloat(total()) + parseFloat(tip)) * 100),
+        currency: "usd",
+        token: token
+      }),
     })
-    return itemList
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+      })
+      .catch((error) => {
+        console.error(error);
+      });;
   }
 
   deviceCheckoutOption = async () => {
@@ -118,8 +139,12 @@ const Cart = (props) => {
         requiredShippingAddressFields: ['phone', 'postal_address'],
       }
       const token = await stripe.paymentRequestWithApplePay(items, options)
-      setToken(token)
-
+      if (token) {
+        await firestore().collection('users').doc(userCloudRefId).update({
+          cardToken: token
+        });
+        setToken(token)
+      }
       if (complete) {
         await stripe.completeNativePayRequest(token)
         currentStatus('Apple Pay payment completed')
@@ -134,18 +159,27 @@ const Cart = (props) => {
 
   newCardCheckoutOption = async () => {
     const options = {
-      requiredBillingAddressFields: 'zip',
+      smsAutofillDisabled: true,
+      requiredBillingAddressFields: 'full',
       prefilledInformation: {
         billingAddress: {
+          name: authUser.name,
+          line1: authUser.address,
+          line2: authUser.aptNum,
+          city: authUser.city,
+          state: authUser.state,
+          country: 'United States',
           postalCode: authUser.postalCode,
-        },
-      },
+          email: authUser.email,
+        }
+      }
     }
     const token = await stripe.paymentRequestWithCardForm(options)
     if (token) {
       await firestore().collection('users').doc(userCloudRefId).update({
         cardToken: token
       });
+      setToken(token)
     }
   }
 
