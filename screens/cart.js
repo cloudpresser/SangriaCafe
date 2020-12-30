@@ -50,7 +50,7 @@ const Cart = (props) => {
     })
     isAllowed(stripe.deviceSupportsNativePay())
     findUserInfo()
-    formatCartForCheckout()
+    console.log(token.tokenId)
   }, []);
 
   findUserInfo = async () => {
@@ -107,7 +107,7 @@ const Cart = (props) => {
   // }
 
   makePayment = async () => {
-    fetch('https://sangriacafe.cloudfunctions.net/payWithStripe', {
+    fetch('http://localhost:5001/sangriacafe/us-central1/payWithStripe', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -138,22 +138,11 @@ const Cart = (props) => {
         requiredBillingAddressFields: ['all'],
         requiredShippingAddressFields: ['phone', 'postal_address'],
       }
-      const token = await stripe.paymentRequestWithApplePay(items, options)
-      if (token) {
-        await firestore().collection('users').doc(userCloudRefId).update({
-          cardToken: token
-        });
-        setToken(token)
-      }
-      if (complete) {
-        await stripe.completeNativePayRequest(token)
-        currentStatus('Apple Pay payment completed')
-      } else {
-        await stripe.cancelNativePayRequest(token)
-        currentStatus('Apple Pay payment cenceled')
-      }
+      const newToken = await stripe.paymentRequestWithApplePay(items, options)
+      await firestore().collection('users').doc(refId).update({ cardToken: newToken.tokenId });
+      setToken(newToken)
     } catch (error) {
-      currentStatus(`Error: ${error.message}`)
+      console.log(`Error: ${error.message}`)
     }
   }
 
@@ -174,13 +163,9 @@ const Cart = (props) => {
         }
       }
     }
-    const token = await stripe.paymentRequestWithCardForm(options)
-    if (token) {
-      await firestore().collection('users').doc(userCloudRefId).update({
-        cardToken: token
-      });
-      setToken(token)
-    }
+    const newToken = await stripe.paymentRequestWithCardForm(options)
+    await firestore().collection('users').doc(refId).update({ cardToken: newToken.tokenId });
+    setToken(newToken)
   }
 
   checkoutButtonPress = async () => {
