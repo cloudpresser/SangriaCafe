@@ -323,7 +323,6 @@ const Settings = (props) => {
                   {updateVisible ? 'Close' : 'Account'}
                 </Button>
                 <Button
-                  style={{ margin: 5 }}
                   width={150}
                   color="tomato"
                   onPress={() => logoff()}>

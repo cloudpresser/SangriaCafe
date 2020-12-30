@@ -87,12 +87,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.9,
     shadowRadius: 1,
     alignSelf: 'center',
-    margin: 10,
+    margin: 5,
   },
   cardContent: {
-    padding: 10,
-    borderRadius: 10,
-    margin: 10,
+    padding: 5,
     elevation: 10,
     shadowOffset: {width: 20, height: 25},
     shadowColor: 'black',
@@ -100,7 +98,7 @@ const styles = StyleSheet.create({
   },
   image: {
     height: 80,
-    width: 80,
+    width: 100,
     borderRadius: 10,
   },
   subCard: {

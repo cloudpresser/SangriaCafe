@@ -50,7 +50,6 @@ const Cart = (props) => {
     })
     isAllowed(stripe.deviceSupportsNativePay())
     findUserInfo()
-    console.log(token.tokenId)
   }, []);
 
   findUserInfo = async () => {
@@ -139,10 +138,13 @@ const Cart = (props) => {
         requiredShippingAddressFields: ['phone', 'postal_address'],
       }
       const newToken = await stripe.paymentRequestWithApplePay(items, options)
-      await firestore().collection('users').doc(refId).update({ cardToken: newToken.tokenId });
+      await firestore().collection('users').doc(refId).update({ cardToken: newToken.card.id });
       setToken(newToken)
     } catch (error) {
       console.log(`Error: ${error.message}`)
+    }
+    if (token && token.length) {
+      makePayment()
     }
   }
 
@@ -164,8 +166,11 @@ const Cart = (props) => {
       }
     }
     const newToken = await stripe.paymentRequestWithCardForm(options)
-    await firestore().collection('users').doc(refId).update({ cardToken: newToken.tokenId });
+    await firestore().collection('users').doc(refId).update({ cardToken: newToken.card.id });
     setToken(newToken)
+    if (token && token.length) {
+      makePayment()
+    }
   }
 
   checkoutButtonPress = async () => {
