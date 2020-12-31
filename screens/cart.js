@@ -23,6 +23,7 @@ const Cart = (props) => {
   const [orderType, changeOrderType] = useState(5);
   const [authUser, setauthUser] = useState();
   const [refId, setRefId] = useState();
+  const [customerId, setCustID] = useState()
   const [allowed, isAllowed] = useState(false)
   const [complete, isCompleted] = useState(true)
   const [status, currentStatus] = useState(null)
@@ -73,38 +74,6 @@ const Cart = (props) => {
     orderType === 3 ? changeOrderType(5) : changeOrderType(3) && tipHandler(0);
   };
 
-  // formatCartForCheckout = () => {
-  //   const itemList = []
-  //   props.foodCart.forEach(item => {
-  //     let newItem = {
-  //       label: item.item[0],
-  //       amount: item.item[1].price + '.00'
-  //     }
-  //     itemList.push(newItem)
-  //   })
-  //   if (deliveryFee() > 0) {
-  //     itemList.push({
-  //       label: "DELIVERY",
-  //       amount: deliveryFee()
-  //     })
-  //   }
-  //   if (tip > 0) {
-  //     itemList.push({
-  //       label: "TIP",
-  //       amount: tip.toFixed(2)
-  //     })
-  //   }
-  //   itemList.push({
-  //     label: "TAX",
-  //     amount: salesTax().toFixed(2)
-  //   })
-  //   itemList.push({
-  //     label: 'SNGRIA CFE',
-  //     amount: (parseFloat(total()) + parseFloat(tip)).toFixed(2)
-  //   })
-  //   return itemList
-  // }
-
   makePayment = async () => {
     fetch('http://localhost:5001/sangriacafe/us-central1/payWithStripe', {
       method: 'POST',
@@ -127,7 +96,26 @@ const Cart = (props) => {
       });;
   }
 
+  checkIfCurrentCustomer = async () => {
+    if (authUser.customerId) {
+      let customer = await stripe.customers.retrieve(authUser.customerId);
+      setCustID(customer)
+    } else {
+      let customer = await stripe.customers.create({
+        name: authUser.name,
+        line1: authUser.address,
+        line2: authUser.aptNum,
+        city: authUser.city,
+        state: authUser.state,
+        postalCode: authUser.postalCode,
+        email: authUser.email,
+      });
+      setCustID(customer)
+    }
+  }
+
   deviceCheckoutOption = async () => {
+    await checkIfCurrentCustomer()
     try {
       const items = [{
         label: 'SNGRIA CFE',
@@ -159,14 +147,13 @@ const Cart = (props) => {
           line2: authUser.aptNum,
           city: authUser.city,
           state: authUser.state,
-          country: 'United States',
           postalCode: authUser.postalCode,
           email: authUser.email,
         }
       }
     }
     const newToken = await stripe.paymentRequestWithCardForm(options)
-    await firestore().collection('users').doc(refId).update({ cardToken: newToken.card.id });
+    await firestore().collection('users').doc(refId).update({ customerId: newToken.id });
     setToken(newToken)
     if (token && token.length) {
       makePayment()

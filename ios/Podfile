@@ -30,6 +30,7 @@ target 'SangriaCafe' do
   pod 'FBSDKLoginKit'
   pod 'FBSDKShareKit'
   pod 'FBSDKPlacesKit'
+  pod 'Stripe'
 
   # add the Firebase pod for Google Analytics
   pod 'Firebase/Analytics'

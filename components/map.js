@@ -71,10 +71,10 @@ const Map = () => {
           coordinate={coords && coords[1]}
           title={'Sangria Cafe'}
         />
-        <Text style={{ fontWeight: 'bold', fontSize: 18, color: 'tomato' }}>
+        <Text style={styles.textOnMap}>
           {(parseFloat(distance) * kmToMConverter).toFixed(2)} miles{' '}
         </Text>
-        <Text style={{ fontWeight: 'bold', fontSize: 18, color: 'tomato' }}>
+        <Text style={styles.textOnMap}>
           {parseFloat(time).toFixed(0)}min drive
         </Text>
         <MapViewDirections
@@ -106,6 +106,15 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     marginBottom: 25,
   },
+  textOnMap: {
+    color: 'tomato',
+    fontWeight: 'bold', 
+    fontSize: 18,
+    shadowColor: 'black',
+    shadowOffset: { width: 1, height: 1.5 },
+    shadowOpacity: 0.95,
+    shadowRadius: 0.7,
+  }
 });
 
 export default Map;
