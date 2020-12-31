@@ -110,6 +110,7 @@ const Cart = (props) => {
         postalCode: authUser.postalCode,
         email: authUser.email,
       });
+      await firestore().collection('users').doc(refId).update({ customerId: customer.id });
       setCustID(customer)
     }
   }
@@ -126,12 +127,12 @@ const Cart = (props) => {
         requiredShippingAddressFields: ['phone', 'postal_address'],
       }
       const newToken = await stripe.paymentRequestWithApplePay(items, options)
-      await firestore().collection('users').doc(refId).update({ cardToken: newToken.card.id });
       setToken(newToken)
     } catch (error) {
       console.log(`Error: ${error.message}`)
     }
     if (token && token.length) {
+      console.log(token)
       makePayment()
     }
   }
