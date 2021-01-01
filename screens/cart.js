@@ -49,8 +49,9 @@ const Cart = (props) => {
       publishableKey: STRIPE_PUBLISHABLE_KEY,
       merchantId: MERCHANT_ID,
     })
-    isAllowed(stripe.deviceSupportsNativePay())
+    isAllowed(stripe.canMakeNativePayPayments())
     findUserInfo()
+    console.log(stripe)
   }, []);
 
   findUserInfo = async () => {
@@ -97,26 +98,29 @@ const Cart = (props) => {
   }
 
   checkIfCurrentCustomer = async () => {
-    if (authUser.customerId) {
+    if (authUser && authUser.customerId) {
       let customer = await stripe.customers.retrieve(authUser.customerId);
       setCustID(customer)
+      console.log(customerId)
     } else {
       let customer = await stripe.customers.create({
-        name: authUser.name,
-        line1: authUser.address,
-        line2: authUser.aptNum,
-        city: authUser.city,
-        state: authUser.state,
-        postalCode: authUser.postalCode,
-        email: authUser.email,
+        description: 'My First Test Customer (created for API docs)',
+        // name: authUser.name,
+        // line1: authUser.address,
+        // line2: authUser.aptNum,
+        // city: authUser.city,
+        // state: authUser.state,
+        // postalCode: authUser.postalCode,
+        // email: authUser.email,
       });
       await firestore().collection('users').doc(refId).update({ customerId: customer.id });
       setCustID(customer)
+      console.log(customerId)
     }
   }
 
   deviceCheckoutOption = async () => {
-    await checkIfCurrentCustomer()
+    // await checkIfCurrentCustomer()
     try {
       const items = [{
         label: 'SNGRIA CFE',
