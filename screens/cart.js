@@ -11,23 +11,19 @@ import {
   ScrollView,
   Switch,
   Alert,
-  Platform
+  Platform,
+  Modal
 } from 'react-native';
-import { STRIPE_PUBLISHABLE_KEY, MERCHANT_ID } from '../Setup'
+import CheckOutModal from '../components/checkOutModal'
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
-import stripe from 'tipsi-stripe'
 
 const Cart = (props) => {
   const [tip, addTip] = useState(0);
   const [orderType, changeOrderType] = useState(5);
   const [authUser, setauthUser] = useState();
   const [refId, setRefId] = useState();
-  const [customerId, setCustID] = useState()
-  const [allowed, isAllowed] = useState(false)
-  const [complete, isCompleted] = useState(true)
-  const [status, currentStatus] = useState(null)
-  const [token, setToken] = useState(null)
+  const [modalVisible, setModalVisible] = useState(false);
 
   const taxRate = 0.08875;
   const subtotal = () =>
@@ -45,13 +41,7 @@ const Cart = (props) => {
     );
 
   useEffect(() => {
-    stripe.setOptions({
-      publishableKey: STRIPE_PUBLISHABLE_KEY,
-      merchantId: MERCHANT_ID,
-    })
-    isAllowed(stripe.canMakeNativePayPayments())
     findUserInfo()
-    console.log(stripe)
   }, []);
 
   findUserInfo = async () => {
@@ -72,122 +62,20 @@ const Cart = (props) => {
   };
 
   flipOrderType = () => {
-    orderType === 3 ? changeOrderType(5) : changeOrderType(3) && tipHandler(0);
-  };
-
-  makePayment = async () => {
-    fetch('http://localhost:5001/sangriacafe/us-central1/payWithStripe', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        amount: ((parseFloat(total()) + parseFloat(tip)) * 100),
-        currency: "usd",
-        token: token
-      }),
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson);
-      })
-      .catch((error) => {
-        console.error(error);
-      });;
-  }
-
-  checkIfCurrentCustomer = async () => {
-    if (authUser && authUser.customerId) {
-      let customer = await stripe.customers.retrieve(authUser.customerId);
-      setCustID(customer)
-      console.log(customerId)
-    } else {
-      let customer = await stripe.customers.create({
-        description: 'My First Test Customer (created for API docs)',
-        // name: authUser.name,
-        // line1: authUser.address,
-        // line2: authUser.aptNum,
-        // city: authUser.city,
-        // state: authUser.state,
-        // postalCode: authUser.postalCode,
-        // email: authUser.email,
-      });
-      await firestore().collection('users').doc(refId).update({ customerId: customer.id });
-      setCustID(customer)
-      console.log(customerId)
-    }
-  }
-
-  deviceCheckoutOption = async () => {
-    // await checkIfCurrentCustomer()
-    try {
-      const items = [{
-        label: 'SNGRIA CFE',
-        amount: (parseFloat(total()) + parseFloat(tip)).toFixed(2)
-      }]
-      const options = {
-        requiredBillingAddressFields: ['all'],
-        requiredShippingAddressFields: ['phone', 'postal_address'],
-      }
-      const newToken = await stripe.paymentRequestWithApplePay(items, options)
-      setToken(newToken)
-    } catch (error) {
-      console.log(`Error: ${error.message}`)
-    }
-    if (token && token.length) {
-      console.log(token)
-      makePayment()
-    }
-  }
-
-  newCardCheckoutOption = async () => {
-    const options = {
-      smsAutofillDisabled: true,
-      requiredBillingAddressFields: 'full',
-      prefilledInformation: {
-        billingAddress: {
-          name: authUser.name,
-          line1: authUser.address,
-          line2: authUser.aptNum,
-          city: authUser.city,
-          state: authUser.state,
-          postalCode: authUser.postalCode,
-          email: authUser.email,
-        }
-      }
-    }
-    const newToken = await stripe.paymentRequestWithCardForm(options)
-    await firestore().collection('users').doc(refId).update({ customerId: newToken.id });
-    setToken(newToken)
-    if (token && token.length) {
-      makePayment()
-    }
-  }
-
-  checkoutButtonPress = async () => {
-    Alert.alert(
-      'Choose Payment Option',
-      '',
-      [
-        {
-          text: Platform.OS === 'ios' ? 'Pay' : 'Android Pay',
-          onPress: () => deviceCheckoutOption()
-        },
-        {
-          text: 'Add Card',
-          onPress: () => newCardCheckoutOption()
-        },
-        {
-          text: 'Cancel',
-          onPress: () => console.log('Cancelled')
-        }
-      ]
-    )
+    orderType === 3 ? changeOrderType(5) : changeOrderType(3);
   };
 
   return props.foodCart.length > 0 ? (
     <>
+      <Modal animationType="slide" transparent={false} visible={modalVisible}>
+        <CheckOutModal
+          setModalVisible={setModalVisible}
+          authUser={authUser}
+          refId={refId}
+          total={total()}
+          tip={tip}
+        />
+      </Modal>
       <SafeAreaView>
         <View style={styles.topContainer}>
           <Image
@@ -350,7 +238,7 @@ const Cart = (props) => {
               </>
             ) : null}
 
-            <TouchableOpacity onPress={() => checkoutButtonPress()}>
+            <TouchableOpacity onPress={() => setModalVisible(true)}>
               <View style={styles.checkoutButton}>
                 <Text
                   style={{ color: 'white', fontWeight: 'bold', fontSize: 17 }}>
@@ -363,6 +251,7 @@ const Cart = (props) => {
       </SafeAreaView>
     </>
   ) : (
+      // RENDERS IF CART IS EMPTY
       <>
         <SafeAreaView>
           <View style={styles.topContainer}>
