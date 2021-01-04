@@ -5,9 +5,11 @@ import {
     StyleSheet,
     KeyboardAvoidingView,
     TouchableWithoutFeedback,
+    Platform,
     Dimensions,
     SafeAreaView,
 } from 'react-native';
+import { TextInput, Button } from 'react-native-paper';
 import stripe from 'tipsi-stripe'
 import { STRIPE_PUBLISHABLE_KEY, MERCHANT_ID } from '../Setup'
 
@@ -16,6 +18,10 @@ export default checkOutModal = (props) => {
     console.log(props)
 
     const [customerId, setCustID] = useState()
+    const [paymentOptionsVisible, togglePaymentOptions] = useState(true)
+    const [deliveryAddress, setDeliveryAddress] = useState()
+    const [apartmentNumber, setApartmentNumber] = useState()
+    const [postalCode, setPostalCode] = useState()
     const [allowed, isAllowed] = useState(false)
     const [complete, isCompleted] = useState(true)
     const [status, currentStatus] = useState(null)
@@ -41,7 +47,7 @@ export default checkOutModal = (props) => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                amount: ((parseFloat(props.total) + parseFloat(props.tip)) * 100),
+                amount: props.total + props.tip * 100,
                 currency: "usd",
                 token: token
             }),
@@ -81,7 +87,7 @@ export default checkOutModal = (props) => {
         try {
             const items = [{
                 label: 'SNGRIA CFE',
-                amount: (parseFloat(total()) + parseFloat(tip)).toFixed(2)
+                amount: (parseFloat(props.total) + parseFloat(props.tip)).toFixed(2)
             }]
             const options = {
                 requiredBillingAddressFields: ['all'],
@@ -100,13 +106,13 @@ export default checkOutModal = (props) => {
             requiredBillingAddressFields: 'full',
             prefilledInformation: {
                 billingAddress: {
-                    name: authUser.name,
-                    line1: authUser.address,
-                    line2: authUser.aptNum,
-                    city: authUser.city,
-                    state: authUser.state,
-                    postalCode: authUser.postalCode,
-                    email: authUser.email,
+                    name: props.authUser.name,
+                    line1: props.authUser.address,
+                    line2: props.authUser.aptNum,
+                    city: props.authUser.city,
+                    state: props.authUser.state,
+                    postalCode: props.authUser.postalCode,
+                    email: props.authUser.email,
                 }
             }
         }
@@ -115,57 +121,74 @@ export default checkOutModal = (props) => {
         setToken(newToken)
     }
 
-    return token && token.length ? (
+    return (
         <>
             <SafeAreaView>
                 <TouchableWithoutFeedback onPress={() => cancelCheckout()}>
                     <View style={styles.modalView}>
                         <KeyboardAvoidingView behavior="position">
-                            <View style={styles.modalMenuItems}>
-                                <Text style={styles.tokenWord}>{token}</Text>
+                            {props.orderType === 5 ? <View>
+                                <Text> Deliver to </Text>
+                                <TextInput
+                                    placeholder={props.authUser.name}
+                                    onChangeText={setDeliveryAddress}
+                                    value={deliveryAddress} />
+                                <TextInput
+                                    placeholder={props.authUser.address}
+                                    onChangeText={setDeliveryAddress}
+                                    value={deliveryAddress} />
+                                <TextInput
+                                    placeholder={props.authUser.aptNum}
+                                    onChangeText={setApartmentNumber}
+                                    value={apartmentNumber} />
+                                <TextInput value={'Bronx, NY'} />
+                                <TextInput
+                                    placeholder={props.authUser.postalCode}
+                                    onChangeText={setPostalCode}
+                                    value={postalCode} />
                             </View>
+                                :
+                                <Text>Order for PickUp</Text>}
+                            {paymentOptionsVisible ? (
+                                <View style={styles.modalMenuItems}>
+                                    <Button
+                                        color="tomato"
+                                        onPress={() => deviceCheckoutOption()}>
+                                        {Platform === 'android' ?
+                                            'Android Pay' : 'Pay'}
+                                    </Button>
+                                    <Button
+                                        color="tomato"
+                                        onPress={() => console.log('GET stripe customer')}>
+                                        Saved Card
+                                        </Button>
+                                    <Button
+                                        color="tomato"
+                                        onPress={() => newCardCheckoutOption()}>
+                                        New Card
+                                        </Button>
+                                </View>
+                            ) : null}
                         </KeyboardAvoidingView>
                     </View>
                 </TouchableWithoutFeedback>
             </SafeAreaView>
         </>
-    ) : (
-            <>
-                <SafeAreaView>
-                    <TouchableWithoutFeedback onPress={() => cancelCheckout()}>
-                        <View style={styles.modalView}>
-                            <KeyboardAvoidingView behavior="position">
-                                <View style={styles.modalMenuItems}>
-                                    <Text style={styles.tokenWord}>{props.cardToken}</Text>
-                                </View>
-                            </KeyboardAvoidingView>
-                        </View>
-                    </TouchableWithoutFeedback>
-                </SafeAreaView>
-            </>
-        )
+    )
 };
 
 const screen = Dimensions.get('window');
 const styles = StyleSheet.create({
     modalView: {
         width: screen.width,
-        backgroundColor: 'white',
-        padding: 5,
-        alignItems: 'center',
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
+        padding: 10
     },
     modalMenuItems: {
+        margin: 10,
         alignItems: 'center',
-        backgroundColor: 'tomato',
-        borderRadius: 5,
-        width: screen.width / 1.15,
+        borderRadius: 5
     },
     tokenWord: {
         fontSize: 24,
-    }
+    },
 });

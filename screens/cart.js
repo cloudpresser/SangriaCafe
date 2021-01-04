@@ -10,8 +10,6 @@ import {
   TouchableOpacity,
   ScrollView,
   Switch,
-  Alert,
-  Platform,
   Modal
 } from 'react-native';
 import CheckOutModal from '../components/checkOutModal'
@@ -20,6 +18,7 @@ import auth from '@react-native-firebase/auth';
 
 const Cart = (props) => {
   const [tip, addTip] = useState(0);
+  const [orderStatus, setOrderStatus] = useState();
   const [orderType, changeOrderType] = useState(5);
   const [authUser, setauthUser] = useState();
   const [refId, setRefId] = useState();
@@ -74,6 +73,7 @@ const Cart = (props) => {
           refId={refId}
           total={total()}
           tip={tip}
+          orderType={orderType}
         />
       </Modal>
       <SafeAreaView>
