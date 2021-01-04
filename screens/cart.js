@@ -74,6 +74,9 @@ const Cart = (props) => {
           total={total()}
           tip={tip}
           orderType={orderType}
+          salesTax={salesTax()}
+          deliveryFee={deliveryFee()}
+          subtotal={subtotal()}
         />
       </Modal>
       <SafeAreaView>

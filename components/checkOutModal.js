@@ -1,3 +1,4 @@
+import { useTheme } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
 import {
     Text,
@@ -14,9 +15,6 @@ import stripe from 'tipsi-stripe'
 import { STRIPE_PUBLISHABLE_KEY, MERCHANT_ID } from '../Setup'
 
 export default checkOutModal = (props) => {
-
-    console.log(props)
-
     const [customerId, setCustID] = useState()
     const [paymentOptionsVisible, togglePaymentOptions] = useState(true)
     const [deliveryAddress, setDeliveryAddress] = useState()
@@ -26,6 +24,7 @@ export default checkOutModal = (props) => {
     const [complete, isCompleted] = useState(true)
     const [status, currentStatus] = useState(null)
     const [token, setToken] = useState(null)
+    const [finalCheckoutViewVisible, toggleFinalCheckoutView] = useState(false)
 
     useEffect(() => {
         stripe.setOptions({
@@ -33,6 +32,8 @@ export default checkOutModal = (props) => {
             merchantId: MERCHANT_ID,
         })
         isAllowed(stripe.canMakeNativePayPayments())
+        props
+        // checkIfCurrentCustomer()
     }, []);
 
     cancelCheckout = () => {
@@ -62,19 +63,19 @@ export default checkOutModal = (props) => {
     }
 
     checkIfCurrentCustomer = async () => {
-        if (authUser && authUser.customerId) {
-            let customer = await stripe.customers.retrieve(authUser.customerId);
+        if (props.authUser && props.authUser.customerId) {
+            let customer = await stripe.customers.retrieve(props.authUser.customerId);
             setCustID(customer)
             console.log(customerId)
         } else {
             let customer = await stripe.customers.create({
-                name: authUser.name,
-                line1: authUser.address,
-                line2: authUser.aptNum,
-                city: authUser.city,
-                state: authUser.state,
-                postalCode: authUser.postalCode,
-                email: authUser.email,
+                name: props.authUser.name,
+                line1: props.authUser.address,
+                line2: props.authUser.aptNum,
+                city: props.authUser.city,
+                state: props.authUser.state,
+                postalCode: props.authUser.postalCode,
+                email: props.authUser.email,
             });
             await firestore().collection('users').doc(refId).update({ customerId: customer.id });
             setCustID(customer)
@@ -83,7 +84,6 @@ export default checkOutModal = (props) => {
     }
 
     deviceCheckoutOption = async () => {
-        // await checkIfCurrentCustomer()
         try {
             const items = [{
                 label: 'SNGRIA CFE',
@@ -117,11 +117,10 @@ export default checkOutModal = (props) => {
             }
         }
         const newToken = await stripe.paymentRequestWithCardForm(options)
-        await firestore().collection('users').doc(refId).update({ customerId: newToken.id });
         setToken(newToken)
     }
 
-    return (
+    return !finalCheckoutViewVisible ? (
         <>
             <SafeAreaView>
                 <TouchableWithoutFeedback onPress={() => cancelCheckout()}>
@@ -149,42 +148,65 @@ export default checkOutModal = (props) => {
                             </View>
                                 :
                                 <Text>Order for PickUp</Text>}
-                            {paymentOptionsVisible ? (
-                                <View style={styles.modalMenuItems}>
-                                    <Button
-                                        color="tomato"
-                                        onPress={() => deviceCheckoutOption()}>
-                                        {Platform === 'android' ?
-                                            'Android Pay' : 'Pay'}
-                                    </Button>
-                                    <Button
-                                        color="tomato"
-                                        onPress={() => console.log('GET stripe customer')}>
-                                        Saved Card
-                                        </Button>
-                                    <Button
-                                        color="tomato"
-                                        onPress={() => newCardCheckoutOption()}>
-                                        New Card
-                                        </Button>
-                                </View>
-                            ) : null}
+                            <View>
+                                <Text>Order Details</Text>
+                                <Text>Subtotal: {props.subtotal.toFixed(2)}</Text>
+                                <Text>Delivery Fee: {props.deliveryFee}</Text>
+                                <Text>Tax: {props.salesTax.toFixed(2)}</Text>
+                                {props.tip > 0 ?
+                                    <Text>Tip: {props.tip.toFixed(2)}</Text>
+                                    : null}
+                                <Text>Total: {props.total.toFixed(2)}</Text>
+                                <Button
+                                    width={screen.width}
+                                    color="tomato"
+                                    onPress={() => toggleFinalCheckoutView(true)}>
+                                    Place Order
+                                </Button>
+                            </View>
                         </KeyboardAvoidingView>
                     </View>
                 </TouchableWithoutFeedback>
             </SafeAreaView>
         </>
-    )
+    ) : (
+            <SafeAreaView>
+                <TouchableWithoutFeedback onPress={() => cancelCheckout()}>
+                    <View style={styles.modalMenuItems}>
+                        <Button
+                            color="tomato"
+                            onPress={() => deviceCheckoutOption()}>
+                            {Platform === 'android' ?
+                                'Android Pay' : 'Pay'}
+                        </Button>
+                        <Button
+                            color="tomato"
+                            onPress={() => console.log('GET stripe customer')}>
+                            Saved Card
+                </Button>
+                        <Button
+                            color="tomato"
+                            onPress={() => newCardCheckoutOption()}>
+                            New Card
+                </Button>
+                        <Button
+                            color="tomato"
+                            onPress={() => toggleFinalCheckoutView(false)}>
+                            Back
+                </Button>
+                    </View>
+                </TouchableWithoutFeedback>
+            </SafeAreaView>
+        )
 };
 
 const screen = Dimensions.get('window');
 const styles = StyleSheet.create({
     modalView: {
-        width: screen.width,
-        padding: 10
+        height: screen.height - 100,
+        justifyContent: 'center',
     },
     modalMenuItems: {
-        margin: 10,
         alignItems: 'center',
         borderRadius: 5
     },
