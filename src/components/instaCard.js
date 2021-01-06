@@ -8,7 +8,7 @@ import {
   Linking,
   TouchableOpacity,
 } from 'react-native';
-import {instaToken} from '../Setup';
+import {instaToken} from '../../Setup';
 
 export default Card = () => {
   const [posts, setPosts] = useState([]);

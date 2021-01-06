@@ -3,7 +3,7 @@ import MapView from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import Geolocation from '@react-native-community/geolocation';
 import { StyleSheet, Dimensions, Text } from 'react-native';
-import { mapApi } from '../Setup';
+import { mapApi } from '../../Setup';
 
 const Map = () => {
   const [coords, setCoords] = useState([]);

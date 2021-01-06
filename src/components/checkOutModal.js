@@ -1,4 +1,3 @@
-import { useTheme } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
 import {
     Text,
@@ -12,7 +11,8 @@ import {
 } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import stripe from 'tipsi-stripe'
-import { STRIPE_PUBLISHABLE_KEY, MERCHANT_ID } from '../Setup'
+import { STRIPE_PUBLISHABLE_KEY, MERCHANT_ID } from '../../Setup'
+import PaymentView from './paymentView'
 
 export default checkOutModal = (props) => {
     const [customerId, setCustID] = useState()
@@ -26,41 +26,51 @@ export default checkOutModal = (props) => {
     const [token, setToken] = useState(null)
     const [finalCheckoutViewVisible, toggleFinalCheckoutView] = useState(false)
 
+    const [response, setResponse] = useState()
+    const [makePayment, setMakePayment] = useState(false)
+    const [paymentStatus, setPaymentStatus] = useState('')
+
+    const onCheckStatus = async (paymentResponse) => {
+
+    }
+
+    const paymentUI = () => {
+        
+    }
+
+
     useEffect(() => {
         stripe.setOptions({
             publishableKey: STRIPE_PUBLISHABLE_KEY,
             merchantId: MERCHANT_ID,
         })
-        isAllowed(stripe.canMakeNativePayPayments())
-        props
-        // checkIfCurrentCustomer()
     }, []);
 
     cancelCheckout = () => {
         props.setModalVisible(false);
     }
 
-    makePayment = async () => {
-        fetch('http://localhost:5001/sangriacafe/us-central1/payWithStripe', {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                amount: props.total + props.tip * 100,
-                currency: "usd",
-                token: token
-            }),
-        })
-            .then((response) => response.json())
-            .then((responseJson) => {
-                console.log(responseJson);
-            })
-            .catch((error) => {
-                console.error(error);
-            });;
-    }
+    // makePayment = async () => {
+    //     fetch('http://localhost:5001/sangriacafe/us-central1/payWithStripe', {
+    //         method: 'POST',
+    //         headers: {
+    //             Accept: 'application/json',
+    //             'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify({
+    //             amount: props.total + props.tip * 100,
+    //             currency: "usd",
+    //             token: token
+    //         }),
+    //     })
+    //         .then((response) => response.json())
+    //         .then((responseJson) => {
+    //             console.log(responseJson);
+    //         })
+    //         .catch((error) => {
+    //             console.error(error);
+    //         });;
+    // }
 
     checkIfCurrentCustomer = async () => {
         if (props.authUser && props.authUser.customerId) {
@@ -126,30 +136,31 @@ export default checkOutModal = (props) => {
                 <TouchableWithoutFeedback onPress={() => cancelCheckout()}>
                     <View style={styles.modalView}>
                         <KeyboardAvoidingView behavior="position">
-                            {props.orderType === 5 ? <View>
-                                <Text> Deliver to </Text>
-                                <TextInput
-                                    placeholder={props.authUser.name}
-                                    onChangeText={setDeliveryAddress}
-                                    value={deliveryAddress} />
-                                <TextInput
-                                    placeholder={props.authUser.address}
-                                    onChangeText={setDeliveryAddress}
-                                    value={deliveryAddress} />
-                                <TextInput
-                                    placeholder={props.authUser.aptNum}
-                                    onChangeText={setApartmentNumber}
-                                    value={apartmentNumber} />
-                                <TextInput value={'Bronx, NY'} />
-                                <TextInput
-                                    placeholder={props.authUser.postalCode}
-                                    onChangeText={setPostalCode}
-                                    value={postalCode} />
-                            </View>
-                                :
-                                <Text>Order for PickUp</Text>}
+                            {props.orderType === 5 ?
+                                <View>
+                                    <Text> Deliver to </Text>
+                                    <TextInput
+                                        placeholder={props.authUser.name}
+                                        onChangeText={setDeliveryAddress}
+                                        value={deliveryAddress} />
+                                    <TextInput
+                                        placeholder={props.authUser.address}
+                                        onChangeText={setDeliveryAddress}
+                                        value={deliveryAddress} />
+                                    <TextInput
+                                        placeholder={props.authUser.aptNum}
+                                        onChangeText={setApartmentNumber}
+                                        value={apartmentNumber} />
+                                    <TextInput value={'Bronx, NY'} />
+                                    <TextInput
+                                        placeholder={props.authUser.postalCode}
+                                        onChangeText={setPostalCode}
+                                        value={postalCode} />
+                                </View>
+                                : <Text style={{ fontWeight: 'bold' }}>Order for PickUp</Text>
+                            }
                             <View>
-                                <Text>Order Details</Text>
+                                <Text style={{ fontWeight: 'bold' }}>Order Details</Text>
                                 <Text>Subtotal: {props.subtotal.toFixed(2)}</Text>
                                 <Text>Delivery Fee: {props.deliveryFee}</Text>
                                 <Text>Tax: {props.salesTax.toFixed(2)}</Text>
@@ -170,33 +181,38 @@ export default checkOutModal = (props) => {
             </SafeAreaView>
         </>
     ) : (
-            <SafeAreaView>
-                <TouchableWithoutFeedback onPress={() => cancelCheckout()}>
-                    <View style={styles.modalMenuItems}>
-                        <Button
-                            color="tomato"
-                            onPress={() => deviceCheckoutOption()}>
-                            {Platform === 'android' ?
-                                'Android Pay' : 'Pay'}
-                        </Button>
-                        <Button
-                            color="tomato"
-                            onPress={() => console.log('GET stripe customer')}>
-                            Saved Card
-                </Button>
-                        <Button
-                            color="tomato"
-                            onPress={() => newCardCheckoutOption()}>
-                            New Card
-                </Button>
-                        <Button
-                            color="tomato"
-                            onPress={() => toggleFinalCheckoutView(false)}>
-                            Back
-                </Button>
-                    </View>
-                </TouchableWithoutFeedback>
-            </SafeAreaView>
+        <PaymentView 
+            onCheckStatus={onCheckStatus}
+            // product={cartDescription}
+            // amount={props.total}
+        />
+        // <SafeAreaView>
+            //     <TouchableWithoutFeedback onPress={() => cancelCheckout()}>
+            //         <View style={styles.modalMenuItems}>
+            //             <Button
+            //                 color="tomato"
+            //                 onPress={() => deviceCheckoutOption()}>
+            //                 {Platform === 'android' ?
+            //                     'Android Pay' : 'Pay'}
+            //             </Button>
+            //             <Button
+            //                 color="tomato"
+            //                 onPress={() => console.log('GET stripe customer')}>
+            //                 Saved Card
+            //     </Button>
+            //             <Button
+            //                 color="tomato"
+            //                 onPress={() => newCardCheckoutOption()}>
+            //                 New Card
+            //     </Button>
+            //             <Button
+            //                 color="tomato"
+            //                 onPress={() => toggleFinalCheckoutView(false)}>
+            //                 Back
+            //     </Button>
+            //         </View>
+            //     </TouchableWithoutFeedback>
+            // </SafeAreaView>
         )
 };
 

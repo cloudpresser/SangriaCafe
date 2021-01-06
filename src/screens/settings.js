@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import storage from '@react-native-firebase/storage';
-import { firebaseConfig, googlePass } from '../Setup';
+import { firebaseConfig, googlePass } from '../../Setup';
 import { TextInput, Button } from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
