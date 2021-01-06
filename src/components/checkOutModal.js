@@ -12,32 +12,42 @@ import {
 import { TextInput, Button } from 'react-native-paper';
 import stripe from 'tipsi-stripe'
 import { STRIPE_PUBLISHABLE_KEY, MERCHANT_ID } from '../../Setup'
-import PaymentView from './paymentView'
+import { WebView } from 'react-native-webview'
 
 export default checkOutModal = (props) => {
-    const [customerId, setCustID] = useState()
     const [paymentOptionsVisible, togglePaymentOptions] = useState(true)
+    const [customerId, setCustID] = useState()
+
     const [deliveryAddress, setDeliveryAddress] = useState()
     const [apartmentNumber, setApartmentNumber] = useState()
     const [postalCode, setPostalCode] = useState()
-    const [allowed, isAllowed] = useState(false)
+
+    const [paymentView, togglePaymentView] = useState(false)
+
+    const [response, setResponse] = useState()
+    const [paymentStatus, setPaymentStatus] = useState('')
     const [complete, isCompleted] = useState(true)
     const [status, currentStatus] = useState(null)
     const [token, setToken] = useState(null)
-    const [finalCheckoutViewVisible, toggleFinalCheckoutView] = useState(false)
-
-    const [response, setResponse] = useState()
-    const [makePayment, setMakePayment] = useState(false)
-    const [paymentStatus, setPaymentStatus] = useState('')
 
     const onCheckStatus = async (paymentResponse) => {
 
     }
 
-    const paymentUI = () => {
-        
-    }
+    const htmlContent = `
+        <h1>Card Page</h1>
+    `;
 
+    const injectedJavaScript = `(function(){
+        window.postMessage = function(data){
+            window.ReactNativeWebView.postMessage(data);
+        };
+    })()`;
+
+    const onMessage = (event) => {
+        const { data } = event.nativeEvent;
+        console.log(data)
+    }
 
     useEffect(() => {
         stripe.setOptions({
@@ -50,27 +60,27 @@ export default checkOutModal = (props) => {
         props.setModalVisible(false);
     }
 
-    // makePayment = async () => {
-    //     fetch('http://localhost:5001/sangriacafe/us-central1/payWithStripe', {
-    //         method: 'POST',
-    //         headers: {
-    //             Accept: 'application/json',
-    //             'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify({
-    //             amount: props.total + props.tip * 100,
-    //             currency: "usd",
-    //             token: token
-    //         }),
-    //     })
-    //         .then((response) => response.json())
-    //         .then((responseJson) => {
-    //             console.log(responseJson);
-    //         })
-    //         .catch((error) => {
-    //             console.error(error);
-    //         });;
-    // }
+    makePayment = async () => {
+        fetch('http://localhost:5001/sangriacafe/us-central1/payWithStripe', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                amount: props.total + props.tip * 100,
+                currency: "usd",
+                token: token
+            }),
+        })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                console.log(responseJson);
+            })
+            .catch((error) => {
+                console.error(error);
+            });;
+    }
 
     checkIfCurrentCustomer = async () => {
         if (props.authUser && props.authUser.customerId) {
@@ -130,7 +140,7 @@ export default checkOutModal = (props) => {
         setToken(newToken)
     }
 
-    return !finalCheckoutViewVisible ? (
+    return !paymentView ? (
         <>
             <SafeAreaView>
                 <TouchableWithoutFeedback onPress={() => cancelCheckout()}>
@@ -171,7 +181,7 @@ export default checkOutModal = (props) => {
                                 <Button
                                     width={screen.width}
                                     color="tomato"
-                                    onPress={() => toggleFinalCheckoutView(true)}>
+                                    onPress={() => togglePaymentView(true)}>
                                     Place Order
                                 </Button>
                             </View>
@@ -181,38 +191,14 @@ export default checkOutModal = (props) => {
             </SafeAreaView>
         </>
     ) : (
-        <PaymentView 
-            onCheckStatus={onCheckStatus}
-            // product={cartDescription}
-            // amount={props.total}
-        />
-        // <SafeAreaView>
-            //     <TouchableWithoutFeedback onPress={() => cancelCheckout()}>
-            //         <View style={styles.modalMenuItems}>
-            //             <Button
-            //                 color="tomato"
-            //                 onPress={() => deviceCheckoutOption()}>
-            //                 {Platform === 'android' ?
-            //                     'Android Pay' : 'Pay'}
-            //             </Button>
-            //             <Button
-            //                 color="tomato"
-            //                 onPress={() => console.log('GET stripe customer')}>
-            //                 Saved Card
-            //     </Button>
-            //             <Button
-            //                 color="tomato"
-            //                 onPress={() => newCardCheckoutOption()}>
-            //                 New Card
-            //     </Button>
-            //             <Button
-            //                 color="tomato"
-            //                 onPress={() => toggleFinalCheckoutView(false)}>
-            //                 Back
-            //     </Button>
-            //         </View>
-            //     </TouchableWithoutFeedback>
-            // </SafeAreaView>
+            <WebView
+                javaScriptEnabled={true}
+                style={{ flex: 1 }}
+                originWhitelist={['*']}
+                source={{ html: htmlContent }}
+                injectedJavaScript={injectedJavaScript}
+                onMessage={onMessage}
+            />
         )
 };
 
