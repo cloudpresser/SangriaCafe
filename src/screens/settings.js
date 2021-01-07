@@ -24,7 +24,6 @@ import {
 import Specials from '../components/specialsCard';
 
 const Settings = (props) => {
-  const [initializing, setInitializing] = useState(true);
   const [authOptionsVisible, toggleOptions] = useState(false);
   const [loginIsVisible, toggleLogin] = useState(false);
   const [registerIsVisible, toggleRegister] = useState(false);
@@ -67,7 +66,6 @@ const Settings = (props) => {
       }
       props.updateUser(user)
     }
-    if (initializing) setInitializing(false);
   };
 
   GoogleSignin.configure({
@@ -82,7 +80,6 @@ const Settings = (props) => {
 
   signIn = async () => {
     try {
-      await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       const cloudUser = firestore()
         .collection('users')
@@ -148,7 +145,7 @@ const Settings = (props) => {
           toros: 0,
           toros_spent: 0,
           image:
-            'https://www.pikpng.com/pngl/m/16-168770_user-iconset-no-profile-picture-icon-circle-clipart.png',
+            'https://firebasestorage.googleapis.com/v0/b/sangriacafe.appspot.com/o/assets%2Fno_photo_photo.png?alt=media&token=b181c6f4-63b3-4c68-9126-dc510983fc64',
         })
         .then(
           auth()
@@ -237,8 +234,7 @@ const Settings = (props) => {
       } else {
         const source = decodeURI(response.uri);
         const reference = storage().ref(source);
-        const pathToFile = source;
-        await reference.putFile(pathToFile);
+        await reference.putFile(source);
         const url = await storage().ref(source).getDownloadURL();
         setImageSource(url);
         updateImage();
@@ -339,54 +335,62 @@ const Settings = (props) => {
                     <Text style={styles.text}>
                       Total Toros Used: {userCloud.toros_spent}
                     </Text>
-                    <Text style={styles.text}>Email</Text>
                     <TextInput
+                      mode='outlined'
+                      label="Email"
                       placeholder={userAuth.email}
                       autoCompleteType="email"
                       autoCapitalize="none"
                       onChangeText={changeEmail}
                       value={email}
                     />
-                    <Text style={styles.text}>Name</Text>
                     <TextInput
+                      mode='outlined'
+                      label="Full Name"
                       placeholder={userAuth.displayName}
                       autoCompleteType="name"
                       onChangeText={changeName}
                       value={name}
                     />
-                    <Text style={styles.text}>Phone</Text>
                     <TextInput
+                      mode='outlined'
+                      label="Phone Number"
                       placeholder={userCloud.phoneNumber}
                       onChangeText={changePhone}
                       value={phone}
                     />
-                    <Text style={styles.text}>Address</Text>
                     <TextInput
+                      mode='outlined'
+                      label="Street Address"
                       placeholder={userCloud.address}
                       autoCompleteType="street-address"
                       onChangeText={changeAddress}
                       value={address}
                     />
-                    <Text style={styles.text}>Apartment/Suite Number</Text>
                     <TextInput
+                      mode='outlined'
+                      label='Apt Number (optional)'
                       placeholder={userCloud.aptNum}
                       onChangeText={changeAptNum}
                       value={aptNum}
                     />
-                    <Text style={styles.text}>City</Text>
                     <TextInput
+                      mode='outlined'
+                      label="City"
                       placeholder={userCloud.city}
                       onChangeText={changeCity}
                       value={city}
                     />
-                    <Text style={styles.text}>State</Text>
                     <TextInput
+                      mode='outlined'
+                      label="State"
                       placeholder={userCloud.state}
                       onChangeText={changeState}
                       value={state}
                     />
-                    <Text style={styles.text}>Zip Code</Text>
                     <TextInput
+                      mode='outlined'
+                      label="Zip Code"
                       placeholder={userCloud.postalCode}
                       onChangeText={changePostalCode}
                       value={postalCode}
@@ -457,19 +461,23 @@ const Settings = (props) => {
               {loginIsVisible ? (
                 <View style={styles.container}>
                   <TextInput
-                    placeholder={'email'}
+                    mode='outlined'
+                    label="Email"
                     autoCompleteType="email"
                     onChangeText={changeEmail}
                     value={email}
                   />
                   <TextInput
-                    placeholder={'password'}
+                    mode='outlined'
+                    label="Password"
                     secureTextEntry={true}
                     onChangeText={changePassword}
                     value={password}
                   />
                   <Button
-                    style={{ marginTop: 5 }}
+                    mode="contained"
+                    color="tomato"
+                    style={{ margin: 10 }}
                     onPress={() => loginUser(email, password)}
                     color="tomato">
                     Login
@@ -490,63 +498,55 @@ const Settings = (props) => {
                     showsVerticalScrollIndicator={false}
                     contentInset={{ top: 0, left: 0, bottom: 365, right: 0 }}>
                     <View style={styles.container}>
-                      <Text style={styles.text}>Email</Text>
                       <TextInput
-                        placeholder={'email'}
+                        mode='outlined'
+                        label="Email"
                         autoCompleteType="email"
-                        onChangeText={changeEmail}
                         autoCapitalize="none"
+                        onChangeText={changeEmail}
                         value={email}
                       />
-                      <Text style={styles.text}>Password</Text>
                       <TextInput
-                        placeholder={'password'}
-                        secureTextEntry={true}
-                        onChangeText={changePassword}
-                        value={password}
-                      />
-                      <Text style={styles.text}>Name</Text>
-                      <TextInput
-                        placeholder={'name'}
+                        mode='outlined'
+                        label="Full Name"
                         autoCompleteType="name"
                         onChangeText={changeName}
                         value={name}
                       />
-                      <Text style={styles.text}>Phone</Text>
                       <TextInput
-                        placeholder={'phone number'}
-                        autoCompleteType="tel"
+                        mode='outlined'
+                        label="Phone Number"
                         onChangeText={changePhone}
                         value={phone}
                       />
-                      <Text style={styles.text}>Address</Text>
                       <TextInput
-                        placeholder={'street address'}
+                        mode='outlined'
+                        label="Street Address"
                         autoCompleteType="street-address"
                         onChangeText={changeAddress}
                         value={address}
                       />
-                      <Text style={styles.text}>Apartment/Suite Number</Text>
                       <TextInput
-                        placeholder={'apartment/suite number'}
+                        mode='outlined'
+                        label='Apt Number (optional)'
                         onChangeText={changeAptNum}
                         value={aptNum}
                       />
-                      <Text style={styles.text}>City</Text>
                       <TextInput
-                        placeholder={'city'}
+                        mode='outlined'
+                        label="City"
                         onChangeText={changeCity}
                         value={city}
                       />
-                      <Text style={styles.text}>State</Text>
                       <TextInput
-                        placeholder={'state'}
+                        mode='outlined'
+                        label="State"
                         onChangeText={changeState}
                         value={state}
                       />
-                      <Text style={styles.text}>Zip Code</Text>
                       <TextInput
-                        placeholder={'zip code'}
+                        mode='outlined'
+                        label="Zip Code"
                         onChangeText={changePostalCode}
                         value={postalCode}
                       />
@@ -556,7 +556,7 @@ const Settings = (props) => {
                         style={{ margin: 10 }}
                         onPress={() => createUser(email, password)}>
                         Create New Account
-                  </Button>
+                      </Button>
                       <GoogleSigninButton
                         style={{ width: 192, height: 48, alignSelf: 'center' }}
                         size={GoogleSigninButton.Size.Wide}

@@ -8,6 +8,7 @@ import {
     Platform,
     Dimensions,
     SafeAreaView,
+    TouchableOpacity,
 } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import stripe from 'tipsi-stripe'
@@ -30,24 +31,24 @@ export default checkOutModal = (props) => {
     const [status, currentStatus] = useState(null)
     const [token, setToken] = useState(null)
 
-    const onCheckStatus = async (paymentResponse) => {
+    // const onCheckStatus = async (paymentResponse) => {
 
-    }
+    // }
 
-    const htmlContent = `
-        <h1>Card Page</h1>
-    `;
+    // const htmlContent = `
+    //     <h1>Card Page</h1>
+    // `;
 
-    const injectedJavaScript = `(function(){
-        window.postMessage = function(data){
-            window.ReactNativeWebView.postMessage(data);
-        };
-    })()`;
+    // const injectedJavaScript = `(function(){
+    //     window.postMessage = function(data){
+    //         window.ReactNativeWebView.postMessage(data);
+    //     };
+    // })()`;
 
-    const onMessage = (event) => {
-        const { data } = event.nativeEvent;
-        console.log(data)
-    }
+    // const onMessage = (event) => {
+    //     const { data } = event.nativeEvent;
+    //     console.log(data)
+    // }
 
     useEffect(() => {
         stripe.setOptions({
@@ -191,14 +192,38 @@ export default checkOutModal = (props) => {
             </SafeAreaView>
         </>
     ) : (
-            <WebView
-                javaScriptEnabled={true}
-                style={{ flex: 1 }}
-                originWhitelist={['*']}
-                source={{ html: htmlContent }}
-                injectedJavaScript={injectedJavaScript}
-                onMessage={onMessage}
-            />
+            // <WebView
+            //     javaScriptEnabled={true}
+            //     style={{ flex: 1 }}
+            //     originWhitelist={['*']}
+            //     source={{ html: htmlContent }}
+            //     injectedJavaScript={injectedJavaScript}
+            //     onMessage={onMessage}
+            // />
+            <>
+                <SafeAreaView>
+                    <TouchableOpacity onPress={() => deviceCheckoutOption()}>
+                        <View>
+                            <Text>{Platform.OS === 'ios' ? 'APPLE' : 'ANDROID'} PAY</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={console.log('HOW TO SAVE A CARD?')}>
+                        <View>
+                            <Text>SAVED CARD</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => newCardCheckoutOption()}>
+                        <View>
+                            <Text>ADD NEW CARD</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => togglePaymentView(false)}>
+                        <View>
+                            <Text>BACK</Text>
+                        </View>
+                    </TouchableOpacity>
+                </SafeAreaView>
+            </>
         )
 };
 

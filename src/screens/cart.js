@@ -10,7 +10,8 @@ import {
   TouchableOpacity,
   ScrollView,
   Switch,
-  Modal
+  Modal,
+  Alert
 } from 'react-native';
 import CheckOutModal from '../components/checkOutModal'
 import firestore from '@react-native-firebase/firestore';
@@ -63,6 +64,14 @@ const Cart = (props) => {
   flipOrderType = () => {
     orderType === 3 ? changeOrderType(5) : changeOrderType(3);
   };
+
+  checkoutButtonPress = () => {
+    if (authUser !== undefined) {
+      setModalVisible(true)
+    } else {
+      Alert.alert('Please Signin to Order')
+    }
+  }
 
   return props.foodCart.length > 0 ? (
     <>
@@ -241,7 +250,7 @@ const Cart = (props) => {
               </>
             ) : null}
 
-            <TouchableOpacity onPress={() => setModalVisible(true)}>
+            <TouchableOpacity onPress={() => checkoutButtonPress()}>
               <View style={styles.checkoutButton}>
                 <Text
                   style={{ color: 'white', fontWeight: 'bold', fontSize: 17 }}>
@@ -254,7 +263,6 @@ const Cart = (props) => {
       </SafeAreaView>
     </>
   ) : (
-      // RENDERS IF CART IS EMPTY
       <>
         <SafeAreaView>
           <View style={styles.topContainer}>
