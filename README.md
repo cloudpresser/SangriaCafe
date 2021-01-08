@@ -24,7 +24,7 @@
 ## Table of Contents
 
 - [About the Project](#about-the-project)
-  - [Built With](#built-with)
+- [Built With](#built-with)
 - [Usage](#usage)
 - [Contributing](#contributing)
 - [License](#license)
@@ -73,8 +73,6 @@ Distributed under the MIT License. See `LICENSE` for more information.
 ## Contact
 
 Ed Hernandez - [Ed@cachetechnologies.nyc](mailto:ed@cachetechnologies.nyc)
-
-Project Link: [https://github.com/edhernandez04/SangriaCafe](https://github.com/edhernandez04/SangriaCafe)
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
