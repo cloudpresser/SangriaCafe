@@ -266,7 +266,7 @@ const Settings = (props) => {
             style={styles.logo}
           />
         </View>
-
+        {/* IF USER LOGGED IN - DISPLAY ACCOUNT INFO */}
         {userCloud && auth()._user ? (
           <View>
             <View style={styles.loggedInUserBar}>
@@ -326,6 +326,7 @@ const Settings = (props) => {
                 </Button>
               </View>
 
+              {/* IF USER LOGGED IN - DISPLAY UPDATE PROFILE FORMS - ONPRESS OF ACCOUNT BUTTON */}
               {updateVisible ? (
                 <View style={styles.container}>
                   <ScrollView
@@ -398,22 +399,20 @@ const Settings = (props) => {
                     <Button
                       mode="contained"
                       color="tomato"
-                      style={{ margin: 10 }}
+                      style={{ margin: 10, width: screen.width / 2.1, alignSelf: 'center' }}
                       onPress={() => updateUser()}>
                       Update
                     </Button>
                   </ScrollView>
                 </View>
-              ) : null}
-
-              {updateVisible ? null : (
-                <ScrollView
-                  alwaysBounceVertical={true}
-                  showsVerticalScrollIndicator={false}
-                  contentInset={{ top: 0, left: 0, bottom: 365, right: 0 }}>
-                  <Specials />
-                </ScrollView>
-              )}
+              ) : (
+                  <ScrollView
+                    alwaysBounceVertical={true}
+                    showsVerticalScrollIndicator={false}
+                    contentInset={{ top: 0, left: 0, bottom: 365, right: 0 }}>
+                    <Specials />
+                  </ScrollView>
+                )}
             </KeyboardAvoidingView>
           </View>
         ) : (
@@ -477,7 +476,7 @@ const Settings = (props) => {
                   <Button
                     mode="contained"
                     color="tomato"
-                    style={{ margin: 10 }}
+                    style={{ margin: 10, width: screen.width / 2.1, alignSelf: 'center' }}
                     onPress={() => loginUser(email, password)}
                     color="tomato">
                     Login
@@ -553,9 +552,9 @@ const Settings = (props) => {
                       <Button
                         mode="contained"
                         color="tomato"
-                        style={{ margin: 10 }}
+                        style={{ margin: 10, width: screen.width / 2.1, alignSelf: 'center' }}
                         onPress={() => createUser(email, password)}>
-                        Create New Account
+                        Register
                       </Button>
                       <GoogleSigninButton
                         style={{ width: 192, height: 48, alignSelf: 'center' }}

@@ -75,7 +75,7 @@ const Cart = (props) => {
 
   return props.foodCart.length > 0 ? (
     <>
-      <Modal animationType="slide" transparent={false} visible={modalVisible}>
+      <Modal animationType="fade" transparent={true} visible={modalVisible}>
         <CheckOutModal
           setModalVisible={setModalVisible}
           authUser={authUser}

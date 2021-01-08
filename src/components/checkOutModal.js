@@ -16,14 +16,12 @@ import { STRIPE_PUBLISHABLE_KEY, MERCHANT_ID } from '../../Setup'
 import { WebView } from 'react-native-webview'
 
 export default checkOutModal = (props) => {
-    const [paymentOptionsVisible, togglePaymentOptions] = useState(true)
+    const [paymentOptionsVisible, togglePaymentOptions] = useState(false)
     const [customerId, setCustID] = useState()
 
     const [deliveryAddress, setDeliveryAddress] = useState()
     const [apartmentNumber, setApartmentNumber] = useState()
     const [postalCode, setPostalCode] = useState()
-
-    const [paymentView, togglePaymentView] = useState(false)
 
     const [response, setResponse] = useState()
     const [paymentStatus, setPaymentStatus] = useState('')
@@ -55,6 +53,10 @@ export default checkOutModal = (props) => {
             publishableKey: STRIPE_PUBLISHABLE_KEY,
             merchantId: MERCHANT_ID,
         })
+        setDeliveryAddress(props.authUser.address)
+        setApartmentNumber(props.authUser.aptNum)
+        setPostalCode(props.authUser.postalCode)
+        console.log(token)
     }, []);
 
     cancelCheckout = () => {
@@ -141,97 +143,136 @@ export default checkOutModal = (props) => {
         setToken(newToken)
     }
 
-    return !paymentView ? (
+    return (
         <>
             <SafeAreaView>
                 <TouchableWithoutFeedback onPress={() => cancelCheckout()}>
                     <View style={styles.modalView}>
-                        <KeyboardAvoidingView behavior="position">
-                            {props.orderType === 5 ?
+                        <View style={{ backgroundColor: 'white', padding: 10, borderRadius: 10 }}>
+                            <KeyboardAvoidingView behavior="position">
+                                {props.orderType === 5 ?
+                                    <View>
+                                        <Text style={{ margin: 5, fontWeight: 'bold' }}> Deliver to </Text>
+                                        <TextInput
+                                            mode='outlined'
+                                            label='Street Address'
+                                            onChangeText={setDeliveryAddress}
+                                            value={deliveryAddress} />
+                                        <TextInput
+                                            mode='outlined'
+                                            label='Apt Number'
+                                            onChangeText={setApartmentNumber}
+                                            value={apartmentNumber} />
+                                        <TextInput mode='outlined' label='City, State' value={'Bronx, NY'} />
+                                        <TextInput
+                                            mode='outlined'
+                                            label='Zip Code'
+                                            onChangeText={setPostalCode}
+                                            value={postalCode} />
+                                    </View>
+                                    : <Text style={{ margin: 5, fontWeight: 'bold' }}>Order for PickUp</Text>
+                                }
                                 <View>
-                                    <Text> Deliver to </Text>
-                                    <TextInput
-                                        placeholder={props.authUser.name}
-                                        onChangeText={setDeliveryAddress}
-                                        value={deliveryAddress} />
-                                    <TextInput
-                                        placeholder={props.authUser.address}
-                                        onChangeText={setDeliveryAddress}
-                                        value={deliveryAddress} />
-                                    <TextInput
-                                        placeholder={props.authUser.aptNum}
-                                        onChangeText={setApartmentNumber}
-                                        value={apartmentNumber} />
-                                    <TextInput value={'Bronx, NY'} />
-                                    <TextInput
-                                        placeholder={props.authUser.postalCode}
-                                        onChangeText={setPostalCode}
-                                        value={postalCode} />
+                                    <View style={{ padding: 20 }}>
+                                        <View
+                                            style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
+                                            <Text>Subtotal:</Text>
+                                            <Text>${props.subtotal.toFixed(2)}</Text>
+                                        </View>
+                                        <View
+                                            style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
+                                            <Text>Delivery Fee:</Text>
+                                            <Text>{props.deliveryFee === 0 ? 'FREE' : '$' + 1.99}</Text>
+                                        </View>
+                                        <View
+                                            style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
+                                            <Text>Tax:</Text>
+                                            <Text>${props.salesTax.toFixed(2)}</Text>
+                                        </View>
+                                        <View
+                                            style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
+                                            <Text>Total:</Text>
+                                            <Text>${props.total.toFixed(2)}</Text>
+                                        </View>
+                                    </View>
+                                    {paymentOptionsVisible ? null :
+                                        <Button
+                                            color="tomato"
+                                            onPress={() => togglePaymentOptions(true)}>
+                                            Payment Options
+                                        </Button>}
                                 </View>
-                                : <Text style={{ fontWeight: 'bold' }}>Order for PickUp</Text>
-                            }
-                            <View>
-                                <Text style={{ fontWeight: 'bold' }}>Order Details</Text>
-                                <Text>Subtotal: {props.subtotal.toFixed(2)}</Text>
-                                <Text>Delivery Fee: {props.deliveryFee}</Text>
-                                <Text>Tax: {props.salesTax.toFixed(2)}</Text>
-                                {props.tip > 0 ?
-                                    <Text>Tip: {props.tip.toFixed(2)}</Text>
-                                    : null}
-                                <Text>Total: {props.total.toFixed(2)}</Text>
-                                <Button
-                                    width={screen.width}
-                                    color="tomato"
-                                    onPress={() => togglePaymentView(true)}>
-                                    Place Order
-                                </Button>
-                            </View>
-                        </KeyboardAvoidingView>
+                            </KeyboardAvoidingView>
+                            {paymentOptionsVisible ? (
+                                // <WebView
+                                //     javaScriptEnabled={true}
+                                //     style={{ flex: 1 }}
+                                //     originWhitelist={['*']}
+                                //     source={{ html: htmlContent }}
+                                //     injectedJavaScript={injectedJavaScript}
+                                //     onMessage={onMessage}
+                                // />
+                                <View style={styles.paymentOptionContainer}>
+                                    <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                                        <Button
+                                            labelStyle={{
+                                                color: "white",
+                                                fontSize: 12,
+                                            }}
+                                            width={screen.width / 3.5}
+                                            mode='contained'
+                                            color="tomato"
+                                            onPress={() => deviceCheckoutOption()}
+                                        >
+                                            {Platform.OS === 'ios' ? '' : 'ANDROID'} PAY
+                                    </Button>
+                                        {props.authUser.customerId ? <Button
+                                            labelStyle={{
+                                                color: "white",
+                                                fontSize: 12,
+                                            }}
+                                            width={screen.width / 3.5}
+                                            mode='contained'
+                                            color="tomato"
+                                            onPress={console.log('HOW TO SAVE A CARD?')}>
+                                            SAVED CARD
+                                    </Button> : null}
+                                        <Button
+                                            labelStyle={{
+                                                color: "white",
+                                                fontSize: 12,
+                                            }}
+                                            width={screen.width / 3.5}
+                                            mode='contained'
+                                            color="tomato"
+                                            onPress={() => newCardCheckoutOption()}>
+                                            NEW CARD
+                                    </Button>
+                                    </View>
+                                    <View>
+                                        <Button
+                                            color="tomato"
+                                            onPress={() => togglePaymentOptions(false)}>
+                                            Hide
+                                            </Button>
+                                    </View>
+                                </View>
+                            ) : null}
+                        </View>
                     </View>
                 </TouchableWithoutFeedback>
             </SafeAreaView>
         </>
-    ) : (
-            // <WebView
-            //     javaScriptEnabled={true}
-            //     style={{ flex: 1 }}
-            //     originWhitelist={['*']}
-            //     source={{ html: htmlContent }}
-            //     injectedJavaScript={injectedJavaScript}
-            //     onMessage={onMessage}
-            // />
-            <>
-                <SafeAreaView>
-                    <TouchableOpacity onPress={() => deviceCheckoutOption()}>
-                        <View>
-                            <Text>{Platform.OS === 'ios' ? 'APPLE' : 'ANDROID'} PAY</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={console.log('HOW TO SAVE A CARD?')}>
-                        <View>
-                            <Text>SAVED CARD</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => newCardCheckoutOption()}>
-                        <View>
-                            <Text>ADD NEW CARD</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => togglePaymentView(false)}>
-                        <View>
-                            <Text>BACK</Text>
-                        </View>
-                    </TouchableOpacity>
-                </SafeAreaView>
-            </>
-        )
+    )
 };
 
 const screen = Dimensions.get('window');
 const styles = StyleSheet.create({
     modalView: {
-        height: screen.height - 100,
+        height: screen.height,
         justifyContent: 'center',
+        padding: 10,
+        backgroundColor: 'rgba(0,0,0,0.5)',
     },
     modalMenuItems: {
         alignItems: 'center',
@@ -240,4 +281,7 @@ const styles = StyleSheet.create({
     tokenWord: {
         fontSize: 24,
     },
+    paymentOptionContainer: {
+
+    }
 });
