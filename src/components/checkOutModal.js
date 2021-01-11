@@ -189,10 +189,15 @@ export default checkOutModal = (props) => {
                                             <Text>Tax:</Text>
                                             <Text>${props.salesTax.toFixed(2)}</Text>
                                         </View>
+                                        {props.tip > 0 ? (<View
+                                            style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
+                                            <Text>Tip:</Text>
+                                            <Text>${props.tip.toFixed(2)}</Text>
+                                        </View>) : null}
                                         <View
                                             style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
                                             <Text>Total:</Text>
-                                            <Text>${props.total.toFixed(2)}</Text>
+                                            <Text>${(props.total + props.tip).toFixed(2)}</Text>
                                         </View>
                                     </View>
                                     {paymentOptionsVisible ? null :

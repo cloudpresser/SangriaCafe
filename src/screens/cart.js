@@ -62,7 +62,12 @@ const Cart = (props) => {
   };
 
   flipOrderType = () => {
-    orderType === 3 ? changeOrderType(5) : changeOrderType(3);
+    if (orderType === 3) {
+      changeOrderType(5)
+    } else {
+      addTip(0)
+      changeOrderType(3);
+    }
   };
 
   checkoutButtonPress = () => {
